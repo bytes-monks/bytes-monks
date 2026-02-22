@@ -3,17 +3,16 @@ import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 
 const sponsors = [
-  { name: 'TechFlow', logo: 'TF' },
-  { name: 'DataSphere', logo: 'DS' },
-  { name: 'CloudNine', logo: 'C9' },
-  { name: 'QuantumAI', logo: 'QA' },
-  { name: 'NexGen', logo: 'NG' },
-  { name: 'ByteCraft', logo: 'BC' },
-  { name: 'SynapseLabs', logo: 'SL' },
-  { name: 'OrbitTech', logo: 'OT' },
-  { name: 'VectorX', logo: 'VX' },
-  { name: 'MetaCore', logo: 'MC' },
+  { name: 'Rakam AI', logo: 'RA', url: 'https://rakam.ai/' },
+  { name: 'DM Nova', logo: 'DM', url: 'https://dmnova.tech/' },
+  { name: 'Khotoua', logo: 'KH', url: 'https://khotoua.com/' },
+  { name: 'Jetfi Systems', logo: 'JS', url: 'https://jetfisystems.de/' },
+  { name: 'NLKit', logo: 'NK', url: 'https://www.nlkit.com/' },
+  { name: 'elBaladiya.tn', logo: 'EB', url: 'https://elbaladiya.tn/home' },
+  { name: 'AI Xperts', logo: 'AX', url: 'https://www.ai-xperts.io/' },
 ];
+
+const sponsorsReversed = [...sponsors].reverse();
 
 export default function Sponsors() {
   const ref = useRef(null);
@@ -59,9 +58,12 @@ export default function Sponsors() {
               }}
             >
               {[...sponsors, ...sponsors].map((sponsor, index) => (
-                <div
+                <a
                   key={index}
-                  className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group cursor-pointer min-w-[160px] md:min-w-[200px]"
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group min-w-[160px] md:min-w-[200px] block no-underline"
                 >
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-primary/20 to-accent-purple/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -73,7 +75,7 @@ export default function Sponsors() {
                       {sponsor.name}
                     </span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -85,10 +87,13 @@ export default function Sponsors() {
                 animationPlayState: isPaused ? 'paused' : 'running',
               }}
             >
-              {[...sponsors.reverse(), ...sponsors].map((sponsor, index) => (
-                <div
+              {[...sponsorsReversed, ...sponsorsReversed].map((sponsor, index) => (
+                <a
                   key={index}
-                  className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group cursor-pointer min-w-[160px] md:min-w-[200px]"
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group min-w-[160px] md:min-w-[200px] block no-underline"
                 >
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-accent-blue/20 to-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -100,7 +105,7 @@ export default function Sponsors() {
                       {sponsor.name}
                     </span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
