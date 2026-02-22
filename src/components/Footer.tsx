@@ -51,7 +51,7 @@ export default function Footer() {
                 <Mail className="w-5 h-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/bytes-monks/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-dark-100 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary transition-colors"
@@ -59,7 +59,7 @@ export default function Footer() {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/bytes-monks"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-dark-100 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary transition-colors"
