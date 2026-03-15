@@ -1,0 +1,17 @@
+{
+  "name": "Bytes Monks",
+  "short_name": "Bytes Monks",
+  "description": "Engineering Digital Excellence — scalable software, AI systems, and high-performance digital products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
