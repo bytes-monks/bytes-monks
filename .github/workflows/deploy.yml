@@ -35,8 +35,6 @@ jobs:
         env:
           BASE_URL: /
 
-      - name: Create CNAME
-        run: echo "bytesmonks.com" > ./dist/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
