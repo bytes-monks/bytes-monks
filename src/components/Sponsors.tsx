@@ -3,13 +3,13 @@ import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 
 const sponsors = [
-  { name: 'Rakam AI', logo: 'RA', url: 'https://rakam.ai/' },
-  { name: 'DM Nova', logo: 'DM', url: 'https://dmnova.tech/' },
-  { name: 'Khotoua', logo: 'KH', url: 'https://khotoua.com/' },
-  { name: 'Jetfi Systems', logo: 'JS', url: 'https://jetfisystems.de/' },
-  { name: 'NLKit', logo: 'NK', url: 'https://www.nlkit.com/' },
-  { name: 'elBaladiya.tn', logo: 'EB', url: 'https://elbaladiya.tn/home' },
-  { name: 'AI Xperts', logo: 'AX', url: 'https://www.ai-xperts.io/' },
+  { name: 'Rakam AI',      logo: 'RA', image: '/logos/rakam_ai.jfif',  url: 'https://rakam.ai/' },
+  { name: 'DM Nova',       logo: 'DM', image: '/logos/dmnova.jfif',    url: 'https://dmnova.tech/' },
+  { name: 'Khotoua',       logo: 'KH', image: '/logos/khotoua.png',    url: 'https://khotoua.com/' },
+  { name: 'Jetfi Systems', logo: 'JS', image: null,                    url: 'https://jetfisystems.de/' },
+  { name: 'NLKit',         logo: 'NK', image: null,                    url: 'https://www.nlkit.com/' },
+  { name: 'elBaladiya.tn', logo: 'EB', image: null,                    url: 'https://elbaladiya.tn/home' },
+  { name: 'AI Xperts',     logo: 'AX', image: '/logos/ai_xperts.avif', url: 'https://www.ai-xperts.io/' },
 ];
 
 const sponsorsReversed = [...sponsors].reverse();
@@ -66,10 +66,18 @@ export default function Sponsors() {
                   className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group min-w-[160px] md:min-w-[200px] block no-underline"
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-primary/20 to-accent-purple/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-xl md:text-2xl font-bold gradient-text">
-                        {sponsor.logo}
-                      </span>
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                      {sponsor.image ? (
+                        <img
+                          src={sponsor.image}
+                          alt={sponsor.name}
+                          className="w-full h-full object-contain p-1.5"
+                        />
+                      ) : (
+                        <span className="text-xl md:text-2xl font-bold gradient-text">
+                          {sponsor.logo}
+                        </span>
+                      )}
                     </div>
                     <span className="text-gray-300 font-medium text-sm md:text-base group-hover:text-white transition-colors">
                       {sponsor.name}
@@ -96,10 +104,18 @@ export default function Sponsors() {
                   className="flex-shrink-0 glass rounded-2xl p-6 md:p-8 hover:border-primary/40 transition-all duration-300 group min-w-[160px] md:min-w-[200px] block no-underline"
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-accent-blue/20 to-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-xl md:text-2xl font-bold gradient-text">
-                        {sponsor.logo}
-                      </span>
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                      {sponsor.image ? (
+                        <img
+                          src={sponsor.image}
+                          alt={sponsor.name}
+                          className="w-full h-full object-contain p-1.5"
+                        />
+                      ) : (
+                        <span className="text-xl md:text-2xl font-bold gradient-text">
+                          {sponsor.logo}
+                        </span>
+                      )}
                     </div>
                     <span className="text-gray-300 font-medium text-sm md:text-base group-hover:text-white transition-colors">
                       {sponsor.name}
