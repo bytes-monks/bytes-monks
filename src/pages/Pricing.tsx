@@ -16,6 +16,12 @@ import {
   BadgeCheck,
   CreditCard,
   RefreshCw,
+  Brain,
+  GitBranch,
+  MonitorDot,
+  MessageSquare,
+  ExternalLink,
+  Gauge,
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -53,6 +59,26 @@ interface RetainerPlan {
 interface FaqItem {
   q: string;
   a: string;
+}
+
+interface SaasTier {
+  name: string;
+  price: string;
+  unit: string;
+  highlight: boolean;
+}
+
+interface SaasProduct {
+  name: string;
+  tagline: string;
+  description: string;
+  model: 'Subscription' | 'Usage-based' | 'Subscription + Usage';
+  modelColor: string;
+  icon: React.ElementType;
+  gradient: string;
+  tiers: SaasTier[];
+  freeTrial: string | null;
+  url: string;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -181,10 +207,81 @@ const retainerPlans: RetainerPlan[] = [
   },
 ];
 
+const saasProducts: SaasProduct[] = [
+  {
+    name: 'HireAI',
+    tagline: 'AI-Powered Recruitment Automation',
+    description:
+      'Automatically screen, rank, and match candidates to job descriptions using large language models. Integrates with your existing ATS in minutes.',
+    model: 'Subscription + Usage',
+    modelColor: 'text-violet-400 bg-violet-400/10',
+    icon: Brain,
+    gradient: 'from-violet-500 to-purple-600',
+    freeTrial: '14-day free trial',
+    url: '#',
+    tiers: [
+      { name: 'Free',     price: '$0',   unit: '50 CV scans / mo',       highlight: false },
+      { name: 'Pro',      price: '$49',  unit: '500 scans / mo',         highlight: true  },
+      { name: 'Business', price: '$149', unit: 'Unlimited + API access', highlight: false },
+    ],
+  },
+  {
+    name: 'PipelineOS',
+    tagline: 'Visual Data Pipeline Builder',
+    description:
+      'Drag-and-drop interface to build, schedule, and monitor ETL/ELT data pipelines across any cloud. No infrastructure setup required.',
+    model: 'Usage-based',
+    modelColor: 'text-cyan-400 bg-cyan-400/10',
+    icon: GitBranch,
+    gradient: 'from-cyan-500 to-teal-500',
+    freeTrial: '1,000 free runs on signup',
+    url: '#',
+    tiers: [
+      { name: 'Pay-as-you-go', price: '$0.03',  unit: 'per pipeline run',              highlight: false },
+      { name: 'Growth',        price: '$79',    unit: '/ mo — 3,000 runs included',    highlight: true  },
+      { name: 'Enterprise',    price: 'Custom', unit: 'unlimited runs + dedicated SLA', highlight: false },
+    ],
+  },
+  {
+    name: 'DeployMate',
+    tagline: 'One-Click Cloud Deployment & Monitoring',
+    description:
+      'Push code and go live in seconds. DeployMate handles containerisation, SSL, custom domains, auto-scaling, and real-time uptime monitoring.',
+    model: 'Subscription',
+    modelColor: 'text-orange-400 bg-orange-400/10',
+    icon: MonitorDot,
+    gradient: 'from-orange-500 to-pink-500',
+    freeTrial: '14-day free trial',
+    url: '#',
+    tiers: [
+      { name: 'Starter', price: '$29',  unit: '/ mo — 3 projects',       highlight: false },
+      { name: 'Pro',     price: '$79',  unit: '/ mo — 15 projects',      highlight: true  },
+      { name: 'Team',    price: '$199', unit: '/ mo — unlimited projects', highlight: false },
+    ],
+  },
+  {
+    name: 'ChatBase',
+    tagline: 'Custom AI Chatbot Builder',
+    description:
+      'Train a GPT-powered chatbot on your own documents, website, or database. Embed it anywhere with one line of code — no ML expertise needed.',
+    model: 'Subscription + Usage',
+    modelColor: 'text-blue-400 bg-blue-400/10',
+    icon: MessageSquare,
+    gradient: 'from-blue-500 to-cyan-500',
+    freeTrial: '7-day free trial',
+    url: '#',
+    tiers: [
+      { name: 'Basic',    price: '$39',  unit: '/ mo — 1 bot, 1k chats',    highlight: false },
+      { name: 'Pro',      price: '$99',  unit: '/ mo — 5 bots, 10k chats',  highlight: true  },
+      { name: 'Scale',    price: '$299', unit: '/ mo — unlimited bots',      highlight: false },
+    ],
+  },
+];
+
 const faqs: FaqItem[] = [
   {
     q: 'How does billing work?',
-    a: 'All plans are billed monthly or annually in advance. Payments are processed securely by Paddle, our merchant of record. You will receive a tax-compliant invoice automatically after each payment.',
+    a: 'All plans are billed monthly or annually in advance. You will receive a tax-compliant invoice automatically after each payment.',
   },
   {
     q: 'Can I switch plans at any time?',
@@ -200,7 +297,7 @@ const faqs: FaqItem[] = [
   },
   {
     q: 'Who handles my payment data?',
-    a: 'Bytes Monks never stores your payment card details. All payment processing is handled by Paddle (paddle.com), a PCI-DSS Level 1 certified payment provider. Paddle acts as our merchant of record and issues your invoice.',
+    a: 'Bytes Monks never stores your payment card details. All payment processing is handled by a PCI-DSS Level 1 certified payment provider. You will receive a compliant invoice after every payment.',
   },
   {
     q: 'Are prices inclusive of tax?',
@@ -260,8 +357,10 @@ export default function Pricing() {
   const [annual, setAnnual] = useState(false);
   const platformRef = useRef(null);
   const retainerRef = useRef(null);
+  const saasRef = useRef(null);
   const platformInView = useInView(platformRef, { once: true, margin: '-80px' });
   const retainerInView = useInView(retainerRef, { once: true, margin: '-80px' });
+  const saasInView = useInView(saasRef, { once: true, margin: '-80px' });
 
   return (
     <div className="bg-dark min-h-screen">
@@ -454,7 +553,7 @@ export default function Pricing() {
           >
             <span className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-primary" /> No setup fees</span>
             <span className="flex items-center gap-2"><RefreshCw className="w-4 h-4 text-primary" /> Cancel any time</span>
-            <span className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-primary" /> Payments by Paddle — VAT invoices included</span>
+            <span className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-primary" /> Secure payments — VAT invoices included</span>
           </motion.div>
         </div>
       </section>
@@ -554,6 +653,117 @@ export default function Pricing() {
         </div>
       </section>
 
+      {/* ── SaaS Products ── */}
+      <section className="py-16 md:py-24 px-4 md:px-8 bg-dark-200 relative" ref={saasRef}>
+        <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
+        <div className="container-custom relative z-10">
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={saasInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="mb-12"
+          >
+            <span className="text-primary font-medium text-sm block mb-3">Live Products</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
+              Our Running SaaS Projects
+            </h2>
+            <p className="text-gray-400 max-w-xl">
+              Beyond client work, we build and operate our own products. Each runs its own
+              subscription or usage-based pricing — pick the plan that fits your team.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {saasProducts.map((product, i) => (
+              <motion.div
+                key={product.name}
+                initial={{ opacity: 0, y: 30 }}
+                animate={saasInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="glass rounded-2xl p-7 flex flex-col hover:border-primary/30 transition-all duration-300"
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${product.gradient} flex items-center justify-center flex-shrink-0`}>
+                      <product.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-white text-lg leading-tight">{product.name}</p>
+                      <p className="text-gray-500 text-xs">{product.tagline}</p>
+                    </div>
+                  </div>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${product.modelColor}`}>
+                    {product.model}
+                  </span>
+                </div>
+
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">{product.description}</p>
+
+                {/* Tiers */}
+                <div className="grid grid-cols-3 gap-2 mb-5">
+                  {product.tiers.map((tier) => (
+                    <div
+                      key={tier.name}
+                      className={`rounded-xl px-3 py-3 text-center transition-all ${
+                        tier.highlight
+                          ? 'bg-gradient-to-b from-primary/20 to-accent-purple/10 border border-primary/30'
+                          : 'bg-dark-100 border border-gray-800'
+                      }`}
+                    >
+                      <p className={`text-xs font-medium mb-1 ${tier.highlight ? 'text-primary' : 'text-gray-500'}`}>
+                        {tier.name}
+                      </p>
+                      <p className="font-display font-bold text-white text-lg leading-none mb-1">
+                        {tier.price}
+                      </p>
+                      <p className="text-gray-600 text-[11px] leading-tight">{tier.unit}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer row */}
+                <div className="flex items-center justify-between gap-3 mt-auto pt-2">
+                  {product.freeTrial ? (
+                    <span className="flex items-center gap-1.5 text-green-400 text-xs">
+                      <Gauge className="w-3.5 h-3.5" />
+                      {product.freeTrial}
+                    </span>
+                  ) : (
+                    <span />
+                  )}
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={product.url}
+                      className="flex items-center gap-1 text-gray-500 hover:text-white transition-colors text-xs"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      Learn more
+                    </a>
+                    <a
+                      href={product.url}
+                      className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 bg-gradient-to-r ${product.gradient} text-white hover:opacity-90 hover:shadow-lg`}
+                    >
+                      Get Started
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={saasInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-8 text-sm text-gray-600"
+          >
+            Subscriptions can be managed and cancelled from your product dashboard at any time.
+          </motion.p>
+        </div>
+      </section>
+
       {/* ── Billing clarity strip ── */}
       <section className="py-14 px-4 md:px-8 bg-dark-200 border-y border-gray-800">
         <div className="container-custom">
@@ -561,13 +771,13 @@ export default function Pricing() {
             {[
               {
                 icon: CreditCard,
-                title: 'Secure Payments by Paddle',
-                body: 'All transactions are processed by Paddle, a PCI-DSS Level 1 certified merchant of record. Your card data never touches our servers.',
+                title: 'Secure Payments',
+                body: 'All transactions are processed by a PCI-DSS Level 1 certified payment provider. Your card data never touches our servers.',
               },
               {
                 icon: BadgeCheck,
                 title: 'Tax-Compliant Invoicing',
-                body: 'Paddle automatically calculates and remits VAT, GST, and sales tax based on your location. You receive a fully compliant invoice after every payment.',
+                body: 'VAT, GST, and sales tax are calculated based on your location. You receive a fully compliant invoice after every payment.',
               },
               {
                 icon: RefreshCw,
