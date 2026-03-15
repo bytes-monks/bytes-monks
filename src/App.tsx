@@ -10,6 +10,7 @@ import Sponsors from './components/Sponsors';
 import CTA from './components/CTA';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CookieConsent from './components/CookieConsent';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <CTA />
       <Contact />
       <Footer />
+      <CookieConsent />
     </div>
   );
 }
