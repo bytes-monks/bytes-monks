@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+
+const FORM_ENDPOINT = 'https://formgrid.dev/api/f/jjl2cap8';
 
 const projectTypes = [
   'AI / Machine Learning',
@@ -16,7 +18,7 @@ const projectTypes = [
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -24,10 +26,20 @@ export default function Contact() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+    setStatus('loading');
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error('Request failed');
+      setStatus('success');
+    } catch {
+      setStatus('error');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -64,7 +76,7 @@ export default function Contact() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="max-w-2xl mx-auto"
         >
-          {isSubmitted ? (
+          {status === 'success' ? (
             <div className="glass rounded-2xl p-12 text-center">
               <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-8 h-8 text-white" />
@@ -146,11 +158,28 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full btn-primary flex items-center justify-center gap-2 group"
+                  disabled={status === 'loading'}
+                  className="w-full btn-primary flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send Message
-                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  {status === 'loading' ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </button>
+
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 text-red-400 text-sm mt-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    Something went wrong. Please try again or email us directly.
+                  </div>
+                )}
               </div>
             </form>
           )}

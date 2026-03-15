@@ -1,4 +1,5 @@
 import { Mail, Linkedin, Github, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -38,6 +39,11 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link to="/pricing" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Pricing
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -76,12 +82,15 @@ export default function Footer() {
             <Heart className="w-4 h-4 text-red-500 fill-red-500" /> for excellence.
           </div>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-gray-500 hover:text-white transition-colors">
+            <Link to="/privacy" className="text-gray-500 hover:text-white transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="text-gray-500 hover:text-white transition-colors">
+            </Link>
+            <Link to="/terms" className="text-gray-500 hover:text-white transition-colors">
               Terms of Service
-            </a>
+            </Link>
+            <Link to="/refund" className="text-gray-500 hover:text-white transition-colors">
+              Refund Policy
+            </Link>
           </div>
         </div>
       </div>

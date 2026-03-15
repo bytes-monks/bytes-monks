@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Services', href: '#services' },
   { name: 'Process', href: '#process' },
   { name: 'Work', href: '#portfolio' },
+  { name: 'Pricing', href: '/pricing', external: true },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -44,16 +46,27 @@ export default function Navigation() {
         </a>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-gray-300 hover:text-white transition-colors relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent-purple group-hover:w-full transition-all duration-300" />
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-gray-300 hover:text-white transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent-purple group-hover:w-full transition-all duration-300" />
+              </Link>
+            ) : (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-gray-300 hover:text-white transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent-purple group-hover:w-full transition-all duration-300" />
+              </a>
+            )
+          )}
         </div>
 
         <div className="hidden md:block">
@@ -79,7 +92,17 @@ export default function Navigation() {
             className="md:hidden glass mt-4 mx-4 rounded-xl overflow-hidden"
           >
             <div className="py-4 px-6 flex flex-col gap-4">
-              {navLinks.map((link) => (
+              {navLinks.map((link) =>
+                link.external ? (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-gray-300 hover:text-white transition-colors py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
                 <a
                   key={link.name}
                   href={link.href}
