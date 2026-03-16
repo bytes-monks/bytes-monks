@@ -4,6 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- GitHub Pages SPA: restore path that was encoded by 404.html -->
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var path = params.get('p');
+        if (path) {
+          var query = params.get('q');
+          var url =
+            window.location.protocol +
+            '//' +
+            window.location.host +
+            '/' +
+            decodeURIComponent(path) +
+            (query ? '?' + decodeURIComponent(query) : '') +
+            window.location.hash;
+          window.history.replaceState(null, '', url);
+        }
+      })();
+    </script>
+
     <!-- Primary Meta Tags -->
     <title>Bytes Monks | Engineering Digital Excellence</title>
     <meta name="title" content="Bytes Monks | Engineering Digital Excellence" />

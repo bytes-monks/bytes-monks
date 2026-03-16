@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bytes Monks</title>
+    <script>
+      // GitHub Pages SPA redirect
+      // Encodes the full path + query + hash into the redirect URL so the
+      // main index.html can restore it after React mounts.
+      var location = window.location;
+      var path = location.pathname.slice(1); // strip leading /
+      var redirect =
+        location.protocol +
+        '//' +
+        location.hostname +
+        (location.port ? ':' + location.port : '') +
+        '/?p=' +
+        encodeURIComponent(path) +
+        (location.search ? '&q=' + encodeURIComponent(location.search.slice(1)) : '') +
+        location.hash;
+      location.replace(redirect);
+    </script>
+  </head>
+  <body></body>
+</html>
