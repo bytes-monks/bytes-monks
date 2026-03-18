@@ -51,7 +51,7 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Connect</h4>
             <div className="flex gap-4">
               <a
-                href="mailto:hello@bytesmonks.com"
+                href="mailto:contact@bytesmonks.com"
                 className="w-10 h-10 rounded-lg bg-dark-100 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary transition-colors"
               >
                 <Mail className="w-5 h-5" />

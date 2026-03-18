@@ -62,7 +62,7 @@ const sections = [
   {
     title: 'Contact',
     content:
-      'To exercise any of your rights or for questions about this Privacy Policy, email us at hello@bytesmonks.com.',
+      'To exercise any of your rights or for questions about this Privacy Policy, email us at contact@bytesmonks.com.',
   },
 ];
 

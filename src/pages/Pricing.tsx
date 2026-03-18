@@ -309,7 +309,7 @@ const faqs: FaqItem[] = [
   },
   {
     q: 'Do you offer custom enterprise pricing?',
-    a: 'Yes. For large teams, custom infrastructure requirements, or multi-year contracts, contact us at hello@bytesmonks.com to discuss a tailored plan.',
+    a: 'Yes. For large teams, custom infrastructure requirements, or multi-year contracts, contact us at contact@bytesmonks.com to discuss a tailored plan.',
   },
 ];
 

@@ -38,12 +38,12 @@ const sections = [
   {
     title: 'Dispute Resolution',
     content:
-      'Before requesting a refund, we encourage clients to contact us at hello@bytesmonks.com to discuss concerns. Most issues can be resolved through open communication. If a resolution cannot be reached, both parties agree to attempt mediation before pursuing formal legal action.',
+      'Before requesting a refund, we encourage clients to contact us at contact@bytesmonks.com to discuss concerns. Most issues can be resolved through open communication. If a resolution cannot be reached, both parties agree to attempt mediation before pursuing formal legal action.',
   },
   {
     title: 'How to Request a Refund',
     content:
-      'Send a written refund request to hello@bytesmonks.com with your project name, invoice number, and reason for the request. We will acknowledge your request within 2 business days and aim to resolve it within 10 business days.',
+      'Send a written refund request to contact@bytesmonks.com with your project name, invoice number, and reason for the request. We will acknowledge your request within 2 business days and aim to resolve it within 10 business days.',
   },
   {
     title: 'Refund Method',
@@ -58,7 +58,7 @@ const sections = [
   {
     title: 'Contact',
     content:
-      'For refund enquiries or billing questions, reach us at hello@bytesmonks.com.',
+      'For refund enquiries or billing questions, reach us at contact@bytesmonks.com.',
   },
 ];
 

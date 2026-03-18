@@ -53,7 +53,7 @@ const sections = [
   {
     title: 'Contact',
     content:
-      'For questions about these Terms of Service, contact us at hello@bytesmonks.com.',
+      'For questions about these Terms of Service, contact us at contact@bytesmonks.com.',
   },
 ];
 
