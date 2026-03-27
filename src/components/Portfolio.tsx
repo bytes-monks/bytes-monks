@@ -1,34 +1,34 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowUpRight, Users, BarChart3, Cog } from 'lucide-react';
+import { ArrowUpRight, Cloud, GraduationCap, Bot } from 'lucide-react';
 
 const caseStudies = [
   {
-    title: 'AI Recruitment Platform',
-    category: 'AI / SaaS',
-    icon: Users,
-    problem: 'Manual resume screening was slow and biased, leading to poor hiring decisions.',
-    solution: 'Built an AI-powered CV-job matching system using vector embeddings and LLM analysis.',
-    impact: '80% reduction in screening time, 3x improvement in candidate quality scores.',
+    title: 'Cloud Infrastructure Migration',
+    category: 'DevOps / Cloud',
+    icon: Cloud,
+    problem: 'Legacy infrastructure on OVH lacked scalability, resilience, and modern deployment capabilities, putting production reliability at risk.',
+    solution: 'Migrated the entire infrastructure to Azure with automated scalability, a robust backup process, and CI/CD pipelines via GitHub Actions for seamless multi-environment deployments. Also migrated the production database to PostgreSQL with query optimizations.',
+    impact: 'Up to 80% improvement in database query performance, zero-downtime deployments across environments, and a fully automated, resilient cloud infrastructure.',
     gradient: 'from-violet-500 to-purple-600',
   },
   {
-    title: 'SaaS Analytics Dashboard',
-    category: 'Data / Web App',
-    icon: BarChart3,
-    problem: 'Fragmented data across multiple tools made business insights impossible.',
-    solution: 'Unified analytics platform with real-time dashboards and predictive insights.',
-    impact: '40% faster decision-making, $2M+ in identified cost savings.',
+    title: 'Children Education Platform',
+    category: 'EdTech / Full-Stack',
+    icon: GraduationCap,
+    problem: 'A growing children\'s education application needed reliable infrastructure, a secure admin control panel, and a scalable game backend to support its expanding user base.',
+    solution: 'Designed and maintained the full cloud infrastructure, implemented automated backup processes, built a comprehensive administration and control panel, and developed and maintained the game\'s backend systems.',
+    impact: 'Stable, scalable platform supporting continuous growth, with full operational visibility through the admin panel and reliable game experiences for young learners.',
     gradient: 'from-blue-500 to-cyan-500',
   },
   {
-    title: 'Enterprise Automation System',
-    category: 'DevOps / Automation',
-    icon: Cog,
-    problem: 'Manual workflows causing delays and errors in critical business processes.',
-    solution: 'End-to-end automation with AI-powered exception handling and monitoring.',
-    impact: '95% automation rate, 60% reduction in operational costs.',
+    title: 'AI Co-Pilot & Expert Agent',
+    category: 'AI / SaaS',
+    icon: Bot,
+    problem: 'Users needed a personalized AI assistant capable of reasoning over their own unique knowledge bases, with integrated payments, transcription, and analytics — all delivered reliably.',
+    solution: 'Designed and implemented an AI Co-Pilot functioning as an expert agent over users\' custom knowledge databases. Delivered CI/CD pipelines, automated database backups, a transcription service, online payment integration, and an analytics module.',
+    impact: 'A fully production-ready AI platform with end-to-end automation, enabling users to interact with their own knowledge through a powerful, reliable, and extensible agent.',
     gradient: 'from-orange-500 to-pink-500',
   },
 ];
