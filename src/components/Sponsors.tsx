@@ -2,9 +2,9 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const sponsors = [
-  { name: 'Rakam AI',      logo: 'RA', image: '/logos/rakam_ai.jfif',  url: 'https://rakam.ai/' },
-  { name: 'DM Nova',       logo: 'DM', image: '/logos/dmnova.jfif',    url: 'https://dmnova.tech/' },
-  { name: 'Khotoua',       logo: 'KH', image: '/logos/khotoua.png',    url: 'https://khotoua.com/' },
+  { name: 'Rakam AI',      logo: 'RA', image: '/logos/rakam_ai.webp',  url: 'https://rakam.ai/' },
+  { name: 'DM Nova',       logo: 'DM', image: '/logos/dmnova.webp',    url: 'https://dmnova.tech/' },
+  { name: 'Khotoua',       logo: 'KH', image: '/logos/khotoua.webp',   url: 'https://khotoua.com/' },
   { name: 'Jetfi Systems', logo: 'JS', image: null,                    url: 'https://jetfisystems.de/' },
   { name: 'NLKit',         logo: 'NK', image: null,                    url: 'https://www.nlkit.com/' },
   { name: 'elBaladiya.tn', logo: 'EB', image: null,                    url: 'https://elbaladiya.tn/home' },
