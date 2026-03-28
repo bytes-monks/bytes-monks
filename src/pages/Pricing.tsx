@@ -235,8 +235,8 @@ const saasProducts: SaasProduct[] = [
     freeTrial: 'Free forever for your first form',
     url: 'https://formguard.bytesmonks.com',
     tiers: [
-      { name: 'Free',  price: '$0',   unit: '1 form, 100 submissions / mo', highlight: false },
-      { name: 'Pro',   price: '$12',  unit: '/ mo — 10 forms, unlimited',   highlight: true  },
+      { name: 'Free',  price: '$0',   unit: '1 form, 100 submissions / mo',  highlight: false },
+      { name: 'Pro',   price: '$12',  unit: '/ mo — 10 forms, unlimited',    highlight: true  },
       { name: 'Team',  price: '$29',  unit: '/ mo — unlimited + team access', highlight: false },
     ],
   },
@@ -279,23 +279,57 @@ const faqs: FaqItem[] = [
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  inView,
+}: {
+  eyebrow: string;
+  title: React.ReactNode;
+  subtitle?: string;
+  inView: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7 }}
+      className="mb-12"
+    >
+      <div className="flex items-center gap-3 mb-5">
+        <span className="w-8 h-px bg-primary" />
+        <span className="text-primary text-xs tracking-widest uppercase font-medium">{eyebrow}</span>
+      </div>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">{title}</h2>
+        {subtitle && (
+          <p className="text-gray-600 max-w-md text-sm">{subtitle}</p>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 function FaqRow({ item, index }: { item: FaqItem; index: number }) {
   const [open, setOpen] = useState(false);
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="border-b border-gray-800 last:border-0"
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="border-b border-gray-800/50 last:border-0"
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-5 text-left gap-4"
+        className="w-full flex items-center justify-between py-5 text-left gap-4 group"
       >
-        <span className="text-white font-medium text-sm md:text-base">{item.q}</span>
+        <span className="text-gray-300 group-hover:text-white transition-colors font-medium text-sm md:text-base">
+          {item.q}
+        </span>
         <ChevronDown
-          className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-600 flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-primary' : ''}`}
         />
       </button>
       <AnimatePresence initial={false}>
@@ -304,10 +338,10 @@ function FaqRow({ item, index }: { item: FaqItem; index: number }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.22 }}
             className="overflow-hidden"
           >
-            <p className="text-gray-400 text-sm leading-relaxed pb-5">{item.a}</p>
+            <p className="text-gray-500 text-sm leading-relaxed pb-5">{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -329,23 +363,22 @@ export default function Pricing() {
   return (
     <div className="bg-dark min-h-screen">
 
-      {/* ── Nav bar ── */}
-      <div className="border-b border-gray-800 bg-dark-200 sticky top-0 z-40 backdrop-blur-md">
-        <div className="container-custom px-4 md:px-8 py-5 flex items-center justify-between">
+      {/* ── Sticky nav ── */}
+      <div className="border-b border-gray-800/60 bg-dark-200/80 backdrop-blur-md sticky top-0 z-40">
+        <div className="container-custom px-4 md:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="relative w-9 h-9">
-              <div className="absolute inset-0 rounded-full border-2 border-primary" />
-              <div className="absolute inset-2 rounded-full border border-accent-purple" />
-              <div className="absolute inset-[9px] rounded-full bg-gradient-to-r from-primary to-accent-purple" />
+            <div className="relative w-7 h-7">
+              <div className="absolute inset-0 rounded-full border border-primary/60" />
+              <div className="absolute inset-[4px] rounded-full bg-gradient-to-br from-primary to-accent-purple" />
             </div>
-            <span className="font-display text-lg font-bold">
+            <span className="font-display text-base font-bold">
               <span className="text-white">Bytes</span>
               <span className="gradient-text">Monks</span>
             </span>
           </Link>
           <Link
             to="/"
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+            className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
@@ -355,50 +388,63 @@ export default function Pricing() {
 
       {/* ── Hero ── */}
       <div className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-r from-primary/10 to-accent-purple/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-r from-primary/8 to-accent-purple/8 rounded-full blur-3xl" />
         </div>
-        <div className="container-custom px-4 md:px-8 relative z-10 text-center">
+        <div className="container-custom px-4 md:px-8 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-primary font-medium text-sm mb-4 block">Transparent Pricing</span>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              Simple Plans,{' '}
-              <span className="gradient-text">Real Value</span>
-            </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-              Two product lines — a fully managed SaaS infrastructure platform and
-              flexible IT service retainers. No surprises, no lock-in.
-            </p>
+            <div className="flex items-center gap-3 mb-8">
+              <span className="w-8 h-px bg-primary" />
+              <span className="text-primary text-xs tracking-widest uppercase font-medium">Transparent Pricing</span>
+            </div>
+            <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-end">
+              <div>
+                <h1
+                  className="font-display font-bold leading-tight mb-5"
+                  style={{ fontSize: 'clamp(40px, 6vw, 80px)' }}
+                >
+                  Simple Plans,{' '}
+                  <span className="gradient-text">Real Value</span>
+                </h1>
+                <p className="text-gray-500 text-lg max-w-xl leading-relaxed">
+                  Two product lines — a fully managed SaaS infrastructure platform and
+                  flexible IT service retainers. No surprises, no lock-in.
+                </p>
+              </div>
 
-            {/* Billing toggle */}
-            <div className="inline-flex items-center gap-3 glass rounded-full px-2 py-2">
-              <button
-                onClick={() => setAnnual(false)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  !annual
-                    ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow-lg'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setAnnual(true)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                  annual
-                    ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow-lg'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Annual
-                <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-semibold">
-                  Save 17%
-                </span>
-              </button>
+              {/* Billing toggle */}
+              <div className="flex-shrink-0">
+                <p className="text-xs text-gray-600 uppercase tracking-widest mb-3 text-center">Billing cycle</p>
+                <div className="inline-flex items-center gap-1 glass rounded-xl p-1 border border-gray-800/60">
+                  <button
+                    onClick={() => setAnnual(false)}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      !annual
+                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow'
+                        : 'text-gray-500 hover:text-white'
+                    }`}
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    onClick={() => setAnnual(true)}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                      annual
+                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow'
+                        : 'text-gray-500 hover:text-white'
+                    }`}
+                  >
+                    Annual
+                    <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-md font-semibold">
+                      −17%
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -407,98 +453,88 @@ export default function Pricing() {
       {/* ── Platform plans ── */}
       <section className="py-16 md:py-24 px-4 md:px-8 bg-dark-200" ref={platformRef}>
         <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={platformInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7 }}
-            className="mb-12"
-          >
-            <span className="text-primary font-medium text-sm block mb-3">SaaS Running Platform</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-              Managed Infrastructure Plans
-            </h2>
-            <p className="text-gray-400 max-w-xl">
-              We host, monitor, and operate your application infrastructure so you can focus on building product.
-            </p>
-          </motion.div>
+          <SectionHeader
+            eyebrow="SaaS Running Platform"
+            title="Managed Infrastructure Plans"
+            subtitle="We host, monitor, and operate your application infrastructure so you can focus on building product."
+            inView={platformInView}
+          />
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-5 mb-8">
             {platformPlans.map((plan, i) => (
               <motion.div
                 key={plan.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 28 }}
                 animate={platformInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
                 className="relative"
               >
                 {plan.highlight && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <span className="bg-gradient-to-r from-primary to-accent-purple text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                    <span className="bg-gradient-to-r from-primary to-accent-purple text-white text-xs font-bold px-4 py-1.5 rounded-full shadow whitespace-nowrap">
                       {plan.badge}
                     </span>
                   </div>
                 )}
                 <div
-                  className={`glass rounded-2xl p-7 h-full flex flex-col transition-all duration-300 hover:border-primary/30 ${
-                    plan.highlight ? 'border border-primary/40 shadow-lg shadow-primary/10' : ''
+                  className={`glass rounded-2xl p-7 h-full flex flex-col transition-all duration-300 ${
+                    plan.highlight
+                      ? 'border border-primary/40 shadow-lg shadow-primary/10'
+                      : 'hover:border-gray-700'
                   }`}
                 >
-                  {/* Icon + name */}
                   <div className="flex items-center gap-3 mb-5">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
                       <plan.icon className="w-5 h-5 text-white" />
                     </div>
                     <div>
                       <p className="font-display font-bold text-white">{plan.name}</p>
-                      <p className="text-gray-500 text-xs">{plan.description}</p>
+                      <p className="text-gray-600 text-xs">{plan.description}</p>
                     </div>
                   </div>
 
-                  {/* Price */}
                   <div className="mb-6">
                     <div className="flex items-end gap-1">
-                      <span className="text-gray-400 text-lg">$</span>
+                      <span className="text-gray-600 text-base">$</span>
                       <motion.span
                         key={annual ? 'annual' : 'monthly'}
-                        initial={{ opacity: 0, y: -8 }}
+                        initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="font-display text-5xl font-bold text-white"
                       >
                         {annual ? plan.annualPrice : plan.monthlyPrice}
                       </motion.span>
-                      <span className="text-gray-500 text-sm mb-1">/ mo</span>
+                      <span className="text-gray-600 text-sm mb-1">/ mo</span>
                     </div>
                     {annual && (
                       <p className="text-green-400 text-xs mt-1">
-                        Billed annually — ${plan.annualPrice * 12} / year
+                        Billed annually — ${plan.annualPrice * 12} / yr
                       </p>
                     )}
                   </div>
 
-                  {/* Features */}
                   <ul className="space-y-3 flex-1 mb-7">
                     {plan.features.map((f, j) => (
-                      <li key={j} className="flex items-center gap-3 text-sm">
+                      <li key={j} className="flex items-start gap-3 text-sm">
                         {f.included ? (
-                          <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                          <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
                         ) : (
-                          <Minus className="w-4 h-4 text-gray-700 flex-shrink-0" />
+                          <Minus className="w-4 h-4 text-gray-800 flex-shrink-0 mt-0.5" />
                         )}
-                        <span className={f.included ? 'text-gray-300' : 'text-gray-600'}>
+                        <span className={f.included ? 'text-gray-300' : 'text-gray-700'}>
                           {f.text}
                         </span>
                       </li>
                     ))}
                   </ul>
 
-                  {/* CTA */}
                   <a
                     href="#contact"
-                    onClick={() => window.location.href = '/'}
-                    className={`w-full text-center py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                    onClick={() => { window.location.href = '/'; }}
+                    className={`w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                       plan.highlight
-                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/30'
-                        : 'border border-gray-700 text-gray-300 hover:border-primary/50 hover:text-white'
+                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20'
+                        : 'border border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white'
                     }`}
                   >
                     {plan.cta}
@@ -508,16 +544,15 @@ export default function Pricing() {
             ))}
           </div>
 
-          {/* Platform notes */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={platformInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-8 flex flex-wrap gap-6 text-sm text-gray-500"
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="flex flex-wrap gap-6 text-xs text-gray-600"
           >
-            <span className="flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-primary" /> No setup fees</span>
-            <span className="flex items-center gap-2"><RefreshCw className="w-4 h-4 text-primary" /> Cancel any time</span>
-            <span className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-primary" /> Secure payments — VAT invoices included</span>
+            <span className="flex items-center gap-2"><BadgeCheck className="w-3.5 h-3.5 text-primary" /> No setup fees</span>
+            <span className="flex items-center gap-2"><RefreshCw className="w-3.5 h-3.5 text-primary" /> Cancel any time</span>
+            <span className="flex items-center gap-2"><CreditCard className="w-3.5 h-3.5 text-primary" /> Secure payments — VAT invoices included</span>
           </motion.div>
         </div>
       </section>
@@ -526,77 +561,71 @@ export default function Pricing() {
       <section className="py-16 md:py-24 px-4 md:px-8 bg-dark relative" ref={retainerRef}>
         <div className="absolute inset-0 bg-gradient-radial from-accent-purple/5 via-transparent to-transparent" />
         <div className="container-custom relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={retainerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7 }}
-            className="mb-12"
-          >
-            <span className="text-primary font-medium text-sm block mb-3">IT Services</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-              Engineering Retainers
-            </h2>
-            <p className="text-gray-400 max-w-xl">
-              Dedicated engineering hours billed monthly. Scope the work you need, pause or cancel with 14 days' notice.
-            </p>
-          </motion.div>
+          <SectionHeader
+            eyebrow="IT Services"
+            title="Engineering Retainers"
+            subtitle="Dedicated engineering hours billed monthly. Scope the work you need, pause or cancel with 14 days' notice."
+            inView={retainerInView}
+          />
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-5">
             {retainerPlans.map((plan, i) => (
               <motion.div
                 key={plan.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 28 }}
                 animate={retainerInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                className={`glass rounded-2xl p-7 flex flex-col transition-all duration-300 hover:border-primary/30 ${
-                  plan.highlight ? 'border border-primary/40 shadow-lg shadow-primary/10' : ''
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className={`glass rounded-2xl p-7 flex flex-col transition-all duration-300 ${
+                  plan.highlight
+                    ? 'border border-primary/40 shadow-lg shadow-primary/10'
+                    : 'hover:border-gray-700'
                 }`}
               >
                 <div className="flex items-center gap-3 mb-5">
-                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
                     <plan.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="font-display font-bold text-white">{plan.name}</p>
-                    <p className="text-xs text-gray-500">{plan.hours}</p>
+                    <p className="text-gray-600 text-xs">{plan.hours}</p>
                   </div>
                 </div>
 
-                <p className="text-gray-400 text-sm mb-5 leading-relaxed">{plan.description}</p>
+                <p className="text-gray-500 text-sm mb-6 leading-relaxed">{plan.description}</p>
 
                 <div className="mb-6">
                   <div className="flex items-end gap-1">
-                    <span className="text-gray-400 text-lg">$</span>
+                    <span className="text-gray-600 text-base">$</span>
                     <span className="font-display text-5xl font-bold text-white">
                       {plan.price.toLocaleString()}
                     </span>
-                    <span className="text-gray-500 text-sm mb-1">/ mo</span>
+                    <span className="text-gray-600 text-sm mb-1">/ mo</span>
                   </div>
-                  <p className="text-gray-600 text-xs mt-1">Billed monthly · cancel with 14 days' notice</p>
+                  <p className="text-gray-700 text-xs mt-1">Billed monthly · cancel with 14 days' notice</p>
                 </div>
 
-                {/* Services list */}
                 <ul className="space-y-3 flex-1 mb-6">
                   {plan.services.map((s, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-gray-300">
+                    <li key={j} className="flex items-start gap-3 text-sm text-gray-400">
                       <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
                       {s}
                     </li>
                   ))}
                 </ul>
 
-                {/* SLA badge */}
-                <div className="mb-6 flex items-center gap-2 bg-dark-100 rounded-lg px-4 py-2.5 border border-gray-800">
+                <div className="mb-6 flex items-center gap-2 bg-dark rounded-lg px-4 py-3 border border-gray-800/60">
                   <Shield className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-gray-400 text-xs">Response SLA: <span className="text-white font-medium">{plan.sla}</span></span>
+                  <span className="text-gray-500 text-xs">
+                    Response SLA: <span className="text-white font-medium">{plan.sla}</span>
+                  </span>
                 </div>
 
                 <Link
                   to="/#contact"
-                  className={`w-full text-center py-3 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  className={`w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                     plan.highlight
-                      ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/30'
-                      : 'border border-gray-700 text-gray-300 hover:border-primary/50 hover:text-white'
+                      ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20'
+                      : 'border border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white'
                   }`}
                 >
                   Get Started
@@ -608,11 +637,12 @@ export default function Pricing() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={retainerInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-6 text-sm text-gray-600"
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="mt-6 text-sm text-gray-700"
           >
             Need a custom scope or a one-off project?{' '}
-            <Link to="/#contact" className="text-primary hover:underline">Talk to us</Link> — we'll put together a tailored proposal.
+            <Link to="/#contact" className="text-primary hover:text-primary-light transition-colors">Talk to us</Link>{' '}
+            — we'll put together a tailored proposal.
           </motion.p>
         </div>
       </section>
@@ -621,33 +651,22 @@ export default function Pricing() {
       <section className="py-16 md:py-24 px-4 md:px-8 bg-dark-200 relative" ref={saasRef}>
         <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
         <div className="container-custom relative z-10">
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={saasInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7 }}
-            className="mb-12"
-          >
-            <span className="text-primary font-medium text-sm block mb-3">Live Products</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-3">
-              Our Running SaaS Projects
-            </h2>
-            <p className="text-gray-400 max-w-xl">
-              Beyond client work, we build and operate our own products. Each runs its own
-              subscription or usage-based pricing — pick the plan that fits your team.
-            </p>
-          </motion.div>
+          <SectionHeader
+            eyebrow="Live Products"
+            title="Our Running SaaS Projects"
+            subtitle="Beyond client work, we build and operate our own products — each with transparent, usage-based or subscription pricing."
+            inView={saasInView}
+          />
 
           <div className="grid md:grid-cols-2 gap-6">
             {saasProducts.map((product, i) => (
               <motion.div
                 key={product.name}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 28 }}
                 animate={saasInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="glass rounded-2xl p-7 flex flex-col hover:border-primary/30 transition-all duration-300"
+                className="glass rounded-2xl p-7 flex flex-col hover:border-gray-700 transition-all duration-300"
               >
-                {/* Header */}
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${product.gradient} flex items-center justify-center flex-shrink-0`}>
@@ -655,39 +674,35 @@ export default function Pricing() {
                     </div>
                     <div>
                       <p className="font-display font-bold text-white text-lg leading-tight">{product.name}</p>
-                      <p className="text-gray-500 text-xs">{product.tagline}</p>
+                      <p className="text-gray-600 text-xs">{product.tagline}</p>
                     </div>
                   </div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${product.modelColor}`}>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg flex-shrink-0 ${product.modelColor}`}>
                     {product.model}
                   </span>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">{product.description}</p>
+                <p className="text-gray-500 text-sm leading-relaxed mb-6">{product.description}</p>
 
-                {/* Tiers */}
                 <div className="grid grid-cols-3 gap-2 mb-5">
                   {product.tiers.map((tier) => (
                     <div
                       key={tier.name}
-                      className={`rounded-xl px-3 py-3 text-center transition-all ${
+                      className={`rounded-xl px-3 py-3 text-center ${
                         tier.highlight
                           ? 'bg-gradient-to-b from-primary/20 to-accent-purple/10 border border-primary/30'
-                          : 'bg-dark-100 border border-gray-800'
+                          : 'bg-dark border border-gray-800'
                       }`}
                     >
-                      <p className={`text-xs font-medium mb-1 ${tier.highlight ? 'text-primary' : 'text-gray-500'}`}>
+                      <p className={`text-xs font-medium mb-1 ${tier.highlight ? 'text-primary' : 'text-gray-600'}`}>
                         {tier.name}
                       </p>
-                      <p className="font-display font-bold text-white text-lg leading-none mb-1">
-                        {tier.price}
-                      </p>
-                      <p className="text-gray-600 text-[11px] leading-tight">{tier.unit}</p>
+                      <p className="font-display font-bold text-white text-lg leading-none mb-1">{tier.price}</p>
+                      <p className="text-gray-700 text-[11px] leading-tight">{tier.unit}</p>
                     </div>
                   ))}
                 </div>
 
-                {/* Footer row */}
                 <div className="flex items-center justify-between gap-3 mt-auto pt-2">
                   {product.freeTrial ? (
                     <span className="flex items-center gap-1.5 text-green-400 text-xs">
@@ -700,7 +715,7 @@ export default function Pricing() {
                   <div className="flex items-center gap-3">
                     <a
                       href={product.url}
-                      className="flex items-center gap-1 text-gray-500 hover:text-white transition-colors text-xs"
+                      className="flex items-center gap-1 text-gray-600 hover:text-white transition-colors text-xs"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       Learn more
@@ -716,52 +731,45 @@ export default function Pricing() {
               </motion.div>
             ))}
           </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={saasInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-8 text-sm text-gray-600"
-          >
-            Subscriptions can be managed and cancelled from your product dashboard at any time.
-          </motion.p>
         </div>
       </section>
 
-      {/* ── Billing clarity strip ── */}
-      <section className="py-14 px-4 md:px-8 bg-dark-200 border-y border-gray-800">
+      {/* ── Billing trust strip ── */}
+      <section className="py-12 px-4 md:px-8 bg-dark border-y border-gray-800/40">
         <div className="container-custom">
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-800/40">
             {[
               {
                 icon: CreditCard,
                 title: 'Secure Payments',
-                body: 'All transactions are processed by a PCI-DSS Level 1 certified payment provider. Your card data never touches our servers.',
+                body: 'PCI-DSS Level 1 certified processing. Your card data never touches our servers.',
               },
               {
                 icon: BadgeCheck,
                 title: 'Tax-Compliant Invoicing',
-                body: 'VAT, GST, and sales tax are calculated based on your location. You receive a fully compliant invoice after every payment.',
+                body: 'VAT, GST, and sales tax calculated by location. Compliant invoice after every payment.',
               },
               {
                 icon: RefreshCw,
                 title: 'Flexible Cancellation',
-                body: 'Cancel your subscription at any time from your billing dashboard. You keep access until the end of the current paid period — no questions asked.',
+                body: 'Cancel any time from your billing dashboard. Access continues until the period ends.',
               },
             ].map((item, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center gap-3"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="flex items-start gap-4 py-8 sm:px-8 first:pl-0 last:pr-0"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary to-accent-purple flex items-center justify-center mb-1">
-                  <item.icon className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-5 h-5 text-primary" />
                 </div>
-                <p className="font-semibold text-white text-sm">{item.title}</p>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.body}</p>
+                <div>
+                  <p className="font-semibold text-white text-sm mb-1">{item.title}</p>
+                  <p className="text-gray-600 text-xs leading-relaxed">{item.body}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -776,15 +784,16 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-12 text-center"
+            className="mb-12"
           >
-            <span className="text-primary font-medium text-sm block mb-3">FAQ</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
-              Common Questions
-            </h2>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="w-8 h-px bg-primary" />
+              <span className="text-primary text-xs tracking-widest uppercase font-medium">FAQ</span>
+            </div>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Common Questions</h2>
           </motion.div>
 
-          <div className="max-w-2xl mx-auto glass rounded-2xl px-6 md:px-8 divide-y-0">
+          <div className="max-w-3xl">
             {faqs.map((item, i) => (
               <FaqRow key={i} item={item} index={i} />
             ))}
@@ -792,38 +801,42 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="py-20 px-4 md:px-8 bg-dark-200 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-primary/15 to-accent-purple/15 rounded-full blur-3xl" />
+      {/* ── Bottom CTA ── */}
+      <section className="py-16 md:py-20 px-4 md:px-8 bg-dark-200 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-primary/12 to-accent-purple/12 rounded-full blur-3xl" />
         </div>
-        <div className="container-custom relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4">
-              Not sure which plan fits?
-            </h2>
-            <p className="text-gray-400 mb-8 max-w-lg mx-auto">
-              Book a free 30-minute strategy call and we'll recommend the right combination for your stage and budget.
-            </p>
-            <Link
-              to="/#contact"
-              className="btn-primary inline-flex items-center gap-2 group"
-            >
-              Book a Free Call
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+        <div className="container-custom relative z-10">
+          <div className="glass rounded-3xl border border-gray-800/60 overflow-hidden">
+            <div className="grid md:grid-cols-[1fr_auto] gap-0 items-stretch">
+              <div className="p-10 md:p-14">
+                <p className="text-xs text-gray-600 uppercase tracking-widest font-medium mb-5">Not sure which plan fits?</p>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                  Book a free 30-minute<br />
+                  <span className="gradient-text">strategy call.</span>
+                </h2>
+                <p className="text-gray-500 max-w-lg leading-relaxed">
+                  We'll recommend the right combination for your stage and budget — no commitment required.
+                </p>
+              </div>
+              <div className="bg-dark-100/50 border-l border-gray-800/60 p-10 md:p-12 flex flex-col justify-center gap-4 min-w-[260px]">
+                <Link
+                  to="/#contact"
+                  className="btn-primary inline-flex items-center justify-center gap-2 group"
+                >
+                  Book a Free Call
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <p className="text-xs text-gray-700 text-center">24h response · No obligation</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── Footer strip ── */}
-      <div className="border-t border-gray-800 py-8 px-4 md:px-8">
-        <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <div className="border-t border-gray-800/40 py-8 px-4 md:px-8">
+        <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-700">
           <span>© {new Date().getFullYear()} Bytes Monks. All rights reserved.</span>
           <div className="flex flex-wrap justify-center gap-6">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>

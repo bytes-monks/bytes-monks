@@ -1,25 +1,30 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const testimonials = [
   {
-    quote: "Bytes Monks transformed our hiring process with their AI system. The technical depth and business understanding they bring is exceptional.",
-    author: "Sarah Chen",
-    role: "CTO, TalentFlow",
-    company: "TalentFlow",
+    quote:
+      'Bytes Monks transformed our hiring process with their AI system. The technical depth and business understanding they bring is exceptional.',
+    author: 'Sarah Chen',
+    role: 'CTO',
+    company: 'TalentFlow',
+    index: '01',
   },
   {
-    quote: "Working with them felt like having a true technical partner. They delivered our platform on time and exceeded every expectation.",
-    author: "Marcus Williams",
-    role: "Founder, DataSync",
-    company: "DataSync",
+    quote:
+      'Working with them felt like having a true technical partner. They delivered our platform on time and exceeded every expectation.',
+    author: 'Marcus Williams',
+    role: 'Founder',
+    company: 'DataSync',
+    index: '02',
   },
   {
-    quote: "The quality of code and architecture they produced set a new standard for our engineering team. Highly recommend.",
-    author: "Elena Rodriguez",
-    role: "VP Engineering, Nexus",
-    company: "Nexus",
+    quote:
+      'The quality of code and architecture they produced set a new standard for our engineering team. Highly recommend.',
+    author: 'Elena Rodriguez',
+    role: 'VP Engineering',
+    company: 'Nexus',
+    index: '03',
   },
 ];
 
@@ -30,46 +35,61 @@ export default function Testimonials() {
   return (
     <section className="section-padding bg-dark-200 relative">
       <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
-      
+
       <div className="container-custom relative z-10" ref={ref}>
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 36 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className="text-primary font-medium mb-4 block">Testimonials</span>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-8 h-px bg-primary" />
+            <span className="text-primary text-xs tracking-widest uppercase font-medium">Testimonials</span>
+          </div>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
             What Our{' '}
             <span className="gradient-text">Clients Say</span>
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
+        {/* Testimonials — editorial list with dividers */}
+        <div className="divide-y divide-gray-800/50">
+          {testimonials.map((t, index) => (
             <motion.div
-              key={testimonial.author}
-              initial={{ opacity: 0, y: 30 }}
+              key={t.author}
+              initial={{ opacity: 0, y: 22 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="glass rounded-2xl p-8 hover:border-primary/30 transition-all duration-300 relative"
+              transition={{ duration: 0.6, delay: index * 0.14 }}
+              className="group"
             >
-              <div className="absolute top-6 left-6 text-6xl font-display text-primary/10 font-bold">
-                "
-              </div>
-              
-              <div className="relative">
-                <p className="text-gray-300 leading-relaxed mb-6 italic">
-                  "{testimonial.quote}"
-                </p>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent-purple flex items-center justify-center text-white font-bold">
-                    {testimonial.author.split(' ').map(n => n[0]).join('')}
+              <div className="grid md:grid-cols-[80px_1fr_200px] gap-6 md:gap-10 items-start py-10 md:py-12">
+
+                {/* Index */}
+                <div className="font-display text-4xl font-bold text-gray-800/60 group-hover:text-gray-700 transition-colors leading-none select-none">
+                  {t.index}
+                </div>
+
+                {/* Quote */}
+                <div>
+                  <div className="font-display text-5xl text-primary/20 leading-none mb-2 select-none">"</div>
+                  <p className="text-gray-300 text-lg md:text-xl leading-relaxed group-hover:text-white transition-colors">
+                    {t.quote}
+                  </p>
+                </div>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 md:flex-col md:items-start md:pt-8">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                    {t.author.split(' ').map((n) => n[0]).join('')}
                   </div>
                   <div>
-                    <div className="font-semibold text-white">{testimonial.author}</div>
-                    <div className="text-gray-400 text-sm">{testimonial.role}</div>
+                    <div className="font-semibold text-white text-sm">{t.author}</div>
+                    <div className="text-gray-600 text-xs mt-0.5">
+                      {t.role}, {t.company}
+                    </div>
                   </div>
                 </div>
               </div>

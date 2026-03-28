@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Code2, Brain, Database, Rocket } from 'lucide-react';
 
-const highlights = [
-  { icon: Code2, title: 'Clean Architecture', desc: 'Structured, maintainable codebases' },
-  { icon: Brain, title: 'AI-Powered Solutions', desc: 'Intelligent automation & insights' },
-  { icon: Database, title: 'Scalable Systems', desc: 'Built to grow with your business' },
-  { icon: Rocket, title: 'Product Focus', desc: 'User-centric development approach' },
+const stats = [
+  { value: '50+', label: 'Projects Delivered' },
+  { value: '100%', label: 'Client Satisfaction' },
+  { value: '24/7', label: 'Support Available' },
+  { value: '5+', label: 'Years Experience' },
 ];
 
 export default function About() {
@@ -16,75 +15,74 @@ export default function About() {
 
   return (
     <section id="about" className="section-padding bg-dark relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark via-dark-100/30 to-dark" />
-      
       <div className="container-custom relative z-10" ref={ref}>
+
+        {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-14"
         >
-          <span className="text-primary font-medium mb-4 block">About Us</span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Discipline. Precision.{' '}
-            <span className="gradient-text">Mastery.</span>
-          </h2>
-          <p className="text-gray-400 max-w-3xl mx-auto text-lg leading-relaxed">
-            Bytes Monks is a software & AI engineering company focused on building
-            scalable, clean, and intelligent systems. We combine technical excellence
-            with strategic thinking to deliver solutions that drive real business value.
-          </p>
+          <span className="w-8 h-px bg-primary" />
+          <span className="text-primary text-xs tracking-widest uppercase font-medium">About Us</span>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {highlights.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 group"
+        {/* Split: bold headline left, text right */}
+        <div className="grid lg:grid-cols-2 gap-16 items-end mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.85, delay: 0.1 }}
+          >
+            <h2
+              className="font-display font-bold leading-[0.92] tracking-tight"
+              style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-accent-purple/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <item.icon className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-display text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-400 text-sm">{item.desc}</p>
-            </motion.div>
-          ))}
+              <span className="block text-white">Discipline.</span>
+              <span className="block text-white">Precision.</span>
+              <span className="block gradient-text">Mastery.</span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="pb-2 space-y-5"
+          >
+            <p className="text-gray-400 text-lg leading-relaxed">
+              Bytes Monks is a software &amp; AI engineering company focused on
+              building scalable, clean, and intelligent systems. We combine
+              technical excellence with strategic thinking to deliver solutions
+              that drive real business value.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              We don't just build software — we become your long-term technical
+              partners. From initial architecture to ongoing optimization, every
+              decision is made with your product's growth in mind.
+            </p>
+          </motion.div>
         </div>
 
+        {/* Stats strip */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-16 glass rounded-2xl p-8 md:p-12"
+          className="grid grid-cols-2 md:grid-cols-4 border border-gray-800/60 rounded-2xl overflow-hidden divide-x divide-y md:divide-y-0 divide-gray-800/60"
         >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">
-                Long-term Technical Partnerships
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                We don't just build software—we become your technical partners.
-                From initial architecture to ongoing optimization, we're committed
-                to your product's success at every stage of growth.
-              </p>
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-dark-100/40 px-8 py-10 text-center hover:bg-dark-100/70 transition-colors"
+            >
+              <div className="font-display text-4xl md:text-5xl font-bold gradient-text mb-2">
+                {stat.value}
+              </div>
+              <div className="text-gray-600 text-sm tracking-wide">{stat.label}</div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {['50+', '100%', '24/7', '5+'].map((stat, i) => (
-                <div key={i} className="text-center p-4 rounded-xl bg-dark/50">
-                  <div className="font-display text-3xl md:text-4xl font-bold gradient-text mb-1">
-                    {stat}
-                  </div>
-                  <div className="text-gray-500 text-sm">
-                    {['Projects Delivered', 'Client Satisfaction', 'Support Available', 'Years Experience'][i]}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </motion.div>
       </div>
     </section>
