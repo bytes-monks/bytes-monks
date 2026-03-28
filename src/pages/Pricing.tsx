@@ -216,7 +216,7 @@ const saasProducts: SaasProduct[] = [
     icon: Wand2,
     gradient: 'from-amber-500 to-orange-500',
     freeTrial: '10 free AI credits on signup',
-    url: 'https://genify.app',
+    url: 'https://genify.bytesmonks.com',
     tiers: [
       { name: 'Free',    price: '$0',    unit: 'unlimited file conversions', highlight: false },
       { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits',      highlight: false },
@@ -233,7 +233,7 @@ const saasProducts: SaasProduct[] = [
     icon: FileInput,
     gradient: 'from-emerald-500 to-teal-500',
     freeTrial: 'Free forever for your first form',
-    url: '#',
+    url: 'https://formguard.bytesmonks.com',
     tiers: [
       { name: 'Free',  price: '$0',   unit: '1 form, 100 submissions / mo', highlight: false },
       { name: 'Pro',   price: '$12',  unit: '/ mo — 10 forms, unlimited',   highlight: true  },
