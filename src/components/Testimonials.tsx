@@ -4,26 +4,29 @@ import { motion, useInView } from 'framer-motion';
 const testimonials = [
   {
     quote:
-      'Bytes Monks transformed our hiring process with their AI system. The technical depth and business understanding they bring is exceptional.',
-    author: 'Sarah Chen',
-    role: 'CTO',
-    company: 'TalentFlow',
+      'Bytes Monks Handles all of our infrastructure. The technical depth and business understanding they bring is exceptional.',
+    author: 'Iheb Lourimi',
+    role: 'CEO',
+    company: 'DM Nova',
+    photo: '/clients/iheb_lourimi.jfif',
     index: '01',
   },
   {
     quote:
       'Working with them felt like having a true technical partner. They delivered our platform on time and exceeded every expectation.',
-    author: 'Marcus Williams',
-    role: 'Founder',
-    company: 'DataSync',
+    author: 'Seif Esslam Bensib',
+    role: 'Lead Game Developer',
+    company: 'Khotoua',
+    photo: null,
     index: '02',
   },
   {
     quote:
       'The quality of code and architecture they produced set a new standard for our engineering team. Highly recommend.',
-    author: 'Elena Rodriguez',
-    role: 'VP Engineering',
-    company: 'Nexus',
+    author: 'Mootaz Zemmel',
+    role: 'Software Engineer',
+    company: 'Elbaladya.tn',
+    photo: '/clients/mootaz_zemmel.jfif',
     index: '03',
   },
 ];
@@ -82,9 +85,17 @@ export default function Testimonials() {
 
                 {/* Author */}
                 <div className="flex items-center gap-3 md:flex-col md:items-start md:pt-8">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                    {t.author.split(' ').map((n) => n[0]).join('')}
-                  </div>
+                  {t.photo ? (
+                    <img
+                      src={t.photo}
+                      alt={t.author}
+                      className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                      {t.author.split(' ').map((n) => n[0]).join('')}
+                    </div>
+                  )}
                   <div>
                     <div className="font-semibold text-white text-sm">{t.author}</div>
                     <div className="text-gray-600 text-xs mt-0.5">
