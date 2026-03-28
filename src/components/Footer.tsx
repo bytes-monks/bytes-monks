@@ -44,6 +44,11 @@ export default function Footer() {
                   Pricing
                 </Link>
               </li>
+              <li>
+                <Link to="/hiring" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  We're Hiring
+                </Link>
+              </li>
             </ul>
           </div>
 

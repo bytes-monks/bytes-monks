@@ -9,6 +9,7 @@ const navLinks = [
   { name: 'Process', href: '#process' },
   { name: 'Work', href: '#portfolio' },
   { name: 'Pricing', href: '/pricing', external: true },
+  { name: "We're Hiring", href: '/hiring', external: true },
   { name: 'Contact', href: '#contact' },
 ];
 
