@@ -3,17 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, X } from 'lucide-react';
 
 const CONSENT_KEY = 'bm_cookie_consent';
+const GA_ID = 'G-J4PKM3BBT1';
 
-type ConsentValue = 'granted' | 'denied';
+function loadGtag() {
+  if (typeof window.gtag === 'function') return;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(...args: unknown[]) { window.dataLayer.push(args); };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID);
 
-function updateGtagConsent(value: ConsentValue) {
-  if (typeof window.gtag !== 'function') return;
-  window.gtag('consent', 'update', {
-    analytics_storage: value,
-    ad_storage: value,
-    ad_user_data: value,
-    ad_personalization: value,
-  });
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(script);
 }
 
 export default function CookieConsent() {
@@ -23,20 +25,19 @@ export default function CookieConsent() {
     const stored = localStorage.getItem(CONSENT_KEY);
     if (!stored) {
       setVisible(true);
-    } else {
-      updateGtagConsent(stored as ConsentValue);
+    } else if (stored === 'granted') {
+      loadGtag();
     }
   }, []);
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, 'granted');
-    updateGtagConsent('granted');
+    loadGtag();
     setVisible(false);
   }
 
   function decline() {
     localStorage.setItem(CONSENT_KEY, 'denied');
-    updateGtagConsent('denied');
     setVisible(false);
   }
 
