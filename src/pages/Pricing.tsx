@@ -224,7 +224,7 @@ const saasProducts: SaasProduct[] = [
     ],
   },
   {
-    name: 'FormGuard',
+    name: 'Form Temple',
     tagline: 'Serverless Form Backend & Spam Protection',
     description:
       'Generate secure API endpoints for any HTML form in seconds — no backend required. Built-in spam protection, file uploads, webhook notifications, and a submission analytics dashboard.',
@@ -233,7 +233,7 @@ const saasProducts: SaasProduct[] = [
     icon: FileInput,
     gradient: 'from-emerald-500 to-teal-500',
     freeTrial: 'Free forever for your first form',
-    url: 'https://formguard.bytesmonks.com',
+    url: 'https://formtemple.bytesmonks.com',
     tiers: [
       { name: 'Free',  price: '$0',   unit: '1 form, 100 submissions / mo',  highlight: false },
       { name: 'Pro',   price: '$12',  unit: '/ mo — 10 forms, unlimited',    highlight: true  },

@@ -52,7 +52,7 @@ const jobs: JobOffer[] = [
     gradient: 'from-pink-500 to-rose-500',
     tagline: 'Shape our voice online and grow a community around what we build.',
     about:
-      'Bytes Monks is looking for a creative and driven Social Media Manager Intern to own our presence across LinkedIn, Twitter/X, and Instagram. You will craft content that showcases our products (Genify, FormGuard) and our agency work, engage our community, and help us grow from a niche dev studio into a recognisable tech brand.',
+      'Bytes Monks is looking for a creative and driven Social Media Manager Intern to own our presence across LinkedIn, Twitter/X, and Instagram. You will craft content that showcases our products (Genify, Form Temple) and our agency work, engage our community, and help us grow from a niche dev studio into a recognisable tech brand.',
     responsibilities: [
       'Plan and publish 4–6 posts per week across LinkedIn, Twitter/X, and Instagram',
       'Write engaging copy that bridges technical topics with a broader audience',
