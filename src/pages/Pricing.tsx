@@ -70,13 +70,15 @@ interface SaasProduct {
   name: string;
   tagline: string;
   description: string;
-  model: 'Subscription' | 'Usage-based' | 'Subscription + Usage';
+  model: 'Subscription' | 'Usage-based' | 'Subscription + Usage' | 'Free to Play';
   modelColor: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
+  logoImg?: string;
   gradient: string;
   tiers: SaasTier[];
   freeTrial: string | null;
   url: string;
+  cta?: string;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -221,6 +223,22 @@ const saasProducts: SaasProduct[] = [
       { name: 'Free',    price: '$0',    unit: 'unlimited file conversions', highlight: false },
       { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits',      highlight: false },
       { name: 'Pro',     price: '$9.99', unit: '/ mo — 300 AI credits',      highlight: true  },
+    ],
+  },
+  {
+    name: 'Cosmo Eats Stars',
+    tagline: 'One-Touch Arcade Survival Game',
+    description:
+      'Pilot a neon spacecraft through a thickening asteroid field, consuming glowing stars for energy. The more stars you devour, the faster the chaos — master precise maneuvers, collect rare Supernova orbs to go invincible, and chase the high score.',
+    model: 'Free to Play',
+    modelColor: 'text-violet-400 bg-violet-400/10',
+    logoImg: '/logos/cosmoeatsstars.webp',
+    gradient: 'from-violet-500 to-indigo-600',
+    freeTrial: null,
+    url: 'https://play.google.com/store/apps/details?id=com.bytesmonks.CosmoEatStar',
+    cta: 'Play Now',
+    tiers: [
+      { name: 'Free', price: '$0', unit: 'Full game — no paywalls', highlight: true },
     ],
   },
   {
@@ -669,8 +687,14 @@ export default function Pricing() {
               >
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${product.gradient} flex items-center justify-center flex-shrink-0`}>
-                      <product.icon className="w-5 h-5 text-white" />
+                    <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0">
+                      {product.logoImg ? (
+                        <img src={product.logoImg} alt={product.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className={`w-full h-full bg-gradient-to-r ${product.gradient} flex items-center justify-center`}>
+                          {(() => { const Icon = product.icon; return Icon ? <Icon className="w-5 h-5 text-white" /> : null; })()}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <p className="font-display font-bold text-white text-lg leading-tight">{product.name}</p>
@@ -684,7 +708,7 @@ export default function Pricing() {
 
                 <p className="text-gray-500 text-sm leading-relaxed mb-6">{product.description}</p>
 
-                <div className="grid grid-cols-3 gap-2 mb-5">
+                <div className={`grid gap-2 mb-5 ${product.tiers.length === 1 ? 'grid-cols-1' : product.tiers.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
                   {product.tiers.map((tier) => (
                     <div
                       key={tier.name}
@@ -722,9 +746,11 @@ export default function Pricing() {
                     </a>
                     <a
                       href={product.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 bg-gradient-to-r ${product.gradient} text-white hover:opacity-90 hover:shadow-lg`}
                     >
-                      Get Started
+                      {product.cta ?? 'Get Started'}
                     </a>
                   </div>
                 </div>
