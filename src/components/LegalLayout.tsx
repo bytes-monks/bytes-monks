@@ -1,9 +1,10 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 interface Section {
   title: string;
-  content: string | string[];
+  content: ReactNode | ReactNode[];
 }
 
 interface LegalLayoutProps {
@@ -73,7 +74,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
                       {section.content.map((item, j) => (
                         <li key={j} className="flex gap-3 text-gray-500 text-sm leading-relaxed">
                           <span className="text-primary/60 mt-1.5 flex-shrink-0 text-xs">—</span>
-                          {item}
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
