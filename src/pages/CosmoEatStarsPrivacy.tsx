@@ -12,60 +12,95 @@ const sections = [
         This Privacy Policy applies exclusively to <P>Cosmo Eats Stars</P> (Google Play package:{' '}
         <P>com.bytesmonks.CosmoEatStar</P>), a one-touch arcade mobile game developed and published
         by <P>Bytes Monks</P> ("we", "us", "our"). This policy explains what information is
-        collected, how it is used, and your rights as a player. By downloading or playing Cosmo Eats
-        Stars you agree to the practices described herein.
+        collected, how it is used, and your rights — including the rights of parents and guardians
+        on behalf of children. By downloading or playing Cosmo Eats Stars you agree to the
+        practices described herein.
       </>
     ),
   },
   {
-    title: 'About the Game',
+    title: 'About the Game & Audience',
     content: [
       <>
-        <P>Cosmo Eats Stars</P> is a casual arcade game rated for <P>Everyone</P> on Google Play.
-        The game involves guiding a character to eat falling stars while avoiding obstacles.
+        <P>Cosmo Eats Stars</P> is a casual arcade game rated{' '}
+        <P>Everyone (E)</P> on Google Play. It is a{' '}
+        <P>mixed-audience application</P> — it is designed to be enjoyed by players of all ages,
+        including children.
       </>,
       'The game does not require account registration, sign-in, or any personally identifying information to play.',
-      'The game is designed to be enjoyable for all age groups and complies with the Google Play Families Policy.',
+      <>
+        Because the game is accessible to children, it is enrolled in the{' '}
+        <P>Google Play Families programme</P> and all data practices described in this policy are
+        designed to meet or exceed the requirements of that programme as well as applicable
+        children's privacy laws worldwide.
+      </>,
     ],
   },
   {
     title: 'Information We Collect',
     content: [
       <>
-        <P>No personal data collected by us:</P> We do not collect your name, email address, phone
-        number, or any other directly identifying information.
+        <P>No personal data collected by us:</P> We do not collect names, email addresses, phone
+        numbers, dates of birth, precise location, photos, or any other directly identifying
+        information from any player, including children.
       </>,
       <>
         <P>Gameplay analytics:</P> Anonymised data such as session duration, level progress, and
-        crash reports may be collected to improve game stability and performance. This data cannot be
-        used to identify you personally.
+        crash reports may be collected solely to improve game stability and performance. This data
+        cannot identify any individual player.
       </>,
       <>
-        <P>Android Advertising ID (GAID):</P> Our advertising partner Google AdMob may read the
-        Android Advertising ID on your device to deliver advertisements. You can reset or opt out of
-        ad personalisation at any time in{' '}
-        <span className="text-gray-300">Settings → Privacy → Ads</span> on your Android device.
+        <P>Android Advertising ID (GAID) — adults only:</P> For players who are adults, our
+        advertising partner Google AdMob may access the Android Advertising ID to deliver
+        advertisements. However, because the app is enrolled in the Families programme and{' '}
+        <P>child-directed treatment is enabled</P>, AdMob does{' '}
+        <P>not</P> use the Advertising ID, cookies, or any other persistent identifier to track or
+        profile child users. See the "Advertising" section below for full details.
       </>,
       <>
         <P>Device information:</P> AdMob may collect device model, OS version, IP address, and
-        general location (country/region) for the purpose of serving appropriate ads and detecting
-        fraud.
+        general location (country/region) for fraud detection and to serve geographically
+        appropriate ads. For child-directed requests, this data is used only to serve a single
+        ad impression and is not used to build a profile.
       </>,
     ],
   },
   {
-    title: 'Advertising — Google AdMob',
-    content: (
+    title: 'Advertising — Google AdMob & Child-Directed Treatment',
+    content: [
       <>
         <P>Cosmo Eats Stars</P> displays advertisements served by{' '}
         <P>Google AdMob (Google LLC)</P>. Our AdMob publisher ID is{' '}
-        <P>pub-3898970011871442</P>. AdMob is configured to serve{' '}
-        <P>family-safe, non-personalised ads</P> by default, consistent with the Google Play
-        Families Policy. You may opt into personalised ads by adjusting your Android device's
-        ad-personalisation setting. For details on how Google uses data from apps using AdMob, see
-        google.com/policies/privacy/partners.
-      </>
-    ),
+        <P>pub-3898970011871442</P>.
+      </>,
+      <>
+        <P>Child-directed treatment (COPPA):</P> The app sets AdMob's{' '}
+        <P>tagForChildDirectedTreatment(true)</P> flag. This instructs AdMob to:{' '}
+        (a) not use the Android Advertising ID, (b) not use cookies or any persistent identifier
+        for interest-based targeting, and (c) serve only{' '}
+        <P>non-personalised, family-safe ad content</P> to all users of the app.
+      </>,
+      <>
+        <P>Under-age-of-consent tag (GDPR):</P> For users in the European Economic Area the app
+        also sets <P>tagForUnderAgeOfConsent(true)</P>, ensuring AdMob applies the most restrictive
+        data-processing rules regardless of whether the individual user has declared their age.
+      </>,
+      <>
+        <P>No behavioural or interest-based advertising:</P> Because child-directed treatment is
+        active for the entire app, <P>no player</P> — adult or child — receives personalised or
+        behavioural ads through this application. All ads are contextual and non-personalised.
+      </>,
+      <>
+        <P>Family-safe content only:</P> AdMob is instructed to serve only ads that meet Google's
+        family-safe content standards. Ad categories inappropriate for children (gambling, alcohol,
+        adult content, violence) are blocked at the publisher level.
+      </>,
+      <>
+        For details on how Google uses data when child-directed treatment is active, see{' '}
+        <span className="text-gray-300">families.google.com/familylink/privacy/child-policy</span>{' '}
+        and <span className="text-gray-300">google.com/policies/privacy/partners</span>.
+      </>,
+    ],
   },
   {
     title: 'Ad Format & Families Policy Compliance',
@@ -73,8 +108,8 @@ const sections = [
       <>
         <P>Clearly labelled advertisements:</P> Every advertisement displayed within Cosmo Eats
         Stars is visually and textually distinct from game content. All ad units carry a visible{' '}
-        <P>"Ad"</P> or <P>"Advertisement"</P> label so players can immediately distinguish ads from
-        gameplay elements.
+        <P>"Ad"</P> or <P>"Advertisement"</P> label so players of any age can immediately
+        distinguish ads from gameplay elements.
       </>,
       <>
         <P>Visual separation:</P> Ads are rendered inside dedicated, bordered containers with a
@@ -89,19 +124,18 @@ const sections = [
       </>,
       <>
         <P>Closeable interstitials:</P> Any full-screen (interstitial) ad is displayed only between
-        natural game sessions — never mid-level — and always provides a clearly visible close button
-        within the time permitted by AdMob's own policies.
+        natural game sessions — never mid-level — and always provides a clearly visible close
+        button within the time permitted by AdMob's own policies.
       </>,
       <>
         <P>No fake in-app purchase prompts:</P> Any offer to purchase in-app content is presented
-        through the standard Google Play billing interface. No custom UI mimics the game's art to
-        present purchase offers.
+        exclusively through the standard Google Play billing interface. No custom UI mimics the
+        game's art to present purchase offers.
       </>,
       <>
-        <P>Families Policy:</P> The app is enrolled in Google Play's Families programme. All ad
-        SDKs and mediation networks used are certified under the{' '}
-        <P>Google Play Families Self-Certified Ads SDK</P> programme. No ad network that is not
-        certified for Families use is initialised in the app.
+        <P>Certified SDK programme:</P> All ad SDKs and mediation networks used are certified
+        under the <P>Google Play Families Self-Certified Ads SDK</P> programme. No ad network that
+        is not certified for Families use is initialised in the app.
       </>,
     ],
   },
@@ -109,8 +143,8 @@ const sections = [
     title: 'App Permissions',
     content: [
       <>
-        <P>INTERNET</P> — required to load and display advertisements and to submit anonymised crash
-        reports.
+        <P>INTERNET</P> — required to load and display advertisements and to submit anonymised
+        crash reports.
       </>,
       <>
         <P>ACCESS_NETWORK_STATE</P> — used to check connectivity before making network requests,
@@ -120,89 +154,183 @@ const sections = [
     ],
   },
   {
-    title: "Children's Privacy (COPPA & GDPR-K)",
+    title: "Children's Privacy — COPPA, GDPR-K & Google Play Families",
     content: [
-      'Cosmo Eats Stars is a general-audience game and is not directed at children under 13 as its primary audience.',
-      'We do not knowingly collect personal data from children under 13 (or under 16 in the European Economic Area).',
-      'AdMob is configured with child-directed treatment tags and content-rating signals so that only family-safe, non-personalised ad content is eligible to serve to younger audiences.',
-      'If you are a parent or guardian and believe your child has provided us with personal information, please contact us at contact@bytesmonks.com and we will delete it promptly.',
+      <>
+        <P>Mixed-audience designation:</P> Cosmo Eats Stars is accessible to players of all ages.
+        We treat all users as potentially being children and apply the strongest available
+        protections to everyone, not just to users who self-identify as children.
+      </>,
+      <>
+        <P>No personal data collected from children:</P> We do not knowingly collect — and have no
+        technical mechanism to collect — any personal information from children under 13 (US /
+        COPPA) or under 16 (EEA / GDPR-K). This includes names, email addresses, phone numbers,
+        precise location, photos, persistent device identifiers, or any biometric data.
+      </>,
+      <>
+        <P>No behavioural profiling of children:</P> Child-directed treatment is enabled app-wide
+        (see "Advertising" section), which prevents any persistent identifier from being used to
+        build a behavioural or interest-based profile of any player.
+      </>,
+      <>
+        <P>No targeted advertising to children:</P> In compliance with COPPA and the Google Play
+        Families Policy, children are never shown personalised or interest-based advertisements.
+        All ads served through this app are non-personalised and family-safe.
+      </>,
+      <>
+        <P>No third-party data sharing for children's advertising:</P> We do not share, sell, or
+        disclose any data relating to child users to third parties for advertising, analytics, or
+        any commercial purpose beyond what is strictly necessary to serve a single non-personalised
+        ad impression.
+      </>,
+      <>
+        <P>No in-app purchases requiring parental approval flows:</P> Any purchase within the app
+        goes through the standard Google Play billing system, which provides Google's own
+        parental-approval mechanisms (Google Family Library, parental approval prompts). We do not
+        operate a separate payment or subscription flow.
+      </>,
+      <>
+        <P>COPPA compliance:</P> We comply with the U.S. Children's Online Privacy Protection Act
+        (COPPA, 15 U.S.C. § 6501 et seq.) and the FTC's implementing regulations (16 CFR Part
+        312).
+      </>,
+      <>
+        <P>GDPR-K compliance:</P> We comply with Article 8 of the EU General Data Protection
+        Regulation and applicable Member State implementing legislation relating to the processing
+        of children's personal data.
+      </>,
+    ],
+  },
+  {
+    title: 'Parental Rights & Controls',
+    content: [
+      <>
+        <P>Right to know:</P> Parents and guardians may contact us at{' '}
+        <P>contact@bytesmonks.com</P> to ask what, if any, information we hold that relates to
+        their child. Because we do not collect personal player profiles, in almost all cases the
+        answer is that we hold no such information.
+      </>,
+      <>
+        <P>Right to deletion:</P> If you believe we inadvertently collected personal information
+        from your child, email <P>contact@bytesmonks.com</P> with the subject line{' '}
+        <P>"Cosmo Eats Stars — Child Data Deletion"</P>. We will investigate and, if data exists,
+        delete it within <P>14 business days</P> and confirm by email.
+      </>,
+      <>
+        <P>Right to refuse / opt out of further collection:</P> Because no personal data is
+        collected by us, there is nothing to opt out of on our side. To prevent AdMob from
+        accessing even the limited device signals it may use for non-personalised ads, you may
+        uninstall the app.
+      </>,
+      <>
+        <P>Disable ads entirely (no purchase required):</P> The app does not require a paid version
+        to remove ads, but you may block ad network traffic through your device's network or
+        parental-control settings.
+      </>,
+      <>
+        <P>Google Family Link:</P> Parents using{' '}
+        <span className="text-gray-300">Google Family Link</span> can manage, approve, and remove
+        apps installed on their child's device and can review app permissions. We encourage parents
+        to use Family Link for additional oversight.
+      </>,
+      <>
+        <P>Response time:</P> We will acknowledge parental enquiries within{' '}
+        <P>5 business days</P> and resolve them within <P>30 days</P>.
+      </>,
     ],
   },
   {
     title: 'Data Sharing',
     content: [
-      'We do not sell, rent, or trade any player data to third parties.',
+      'We do not sell, rent, or trade any player data — including children\'s data — to third parties.',
       <>
-        <P>Google AdMob (Google LLC)</P> — receives device information and, where permitted,
-        Advertising ID for ad delivery. Governed by Google's Privacy Policy.
+        <P>Google AdMob (Google LLC)</P> — receives minimal device signals to serve a single
+        non-personalised, family-safe ad impression. Under child-directed treatment, no Advertising
+        ID or persistent identifier is passed. Governed by Google's Privacy Policy and COPPA
+        safe-harbor certification.
       </>,
       <>
-        <P>Crash-reporting service</P> — receives anonymised crash logs. No personally identifying
-        information is included.
+        <P>Crash-reporting service</P> — receives anonymised, non-identifiable crash logs to
+        improve app stability. No personal or child data is included.
       </>,
       'Legal authorities — data may be disclosed if required by law, court order, or to protect the rights and safety of users or the public.',
+      <>
+        <P>No data is shared for the purpose of advertising to, or profiling, children under any
+        circumstances.</P>
+      </>,
     ],
   },
   {
     title: 'Data Retention',
     content: [
-      'We do not store personal player profiles on our own servers.',
-      'Anonymised crash and analytics data is retained for up to 12 months.',
+      'We do not store personal player profiles on our own servers — for children or adults.',
+      'Anonymised crash and performance analytics are retained for up to 12 months and contain no personally identifying information.',
       <>
-        Data held by <P>Google AdMob</P> is subject to Google's own retention policies. You can
-        review and manage it via your Google account's "My Ad Center" dashboard.
+        Data held by <P>Google AdMob</P> under child-directed treatment is subject to Google's
+        restricted retention policies for child-directed content. You can review Google's practices
+        at <span className="text-gray-300">families.google.com/familylink/privacy/child-policy</span>.
       </>,
     ],
   },
   {
-    title: 'Your Rights & Opt-Outs',
+    title: 'Your Rights & Opt-Outs (All Players)',
     content: [
       <>
-        <P>Opt out of personalised ads:</P> Go to Settings → Privacy → Ads on your Android device
-        and enable "Opt out of Ads Personalisation".
+        <P>Opt out of non-personalised ads entirely:</P> All ads in this app are already
+        non-personalised. If you wish to prevent any ad from loading, you may use a network-level
+        content blocker or uninstall the app.
       </>,
       <>
-        <P>Reset Advertising ID:</P> In the same Ads settings screen, tap "Reset advertising ID" to
-        unlink previous ad-interaction history from your device.
+        <P>Reset Advertising ID:</P> Go to{' '}
+        <span className="text-gray-300">Settings → Privacy → Ads</span> on your Android device and
+        tap "Reset advertising ID". Because child-directed treatment is active, this ID is not
+        used by this app, but resetting it affects other apps too.
       </>,
       <>
-        <P>Request data deletion:</P> Because we do not store a personal player profile, there is
-        no account to delete. For data held by AdMob, visit Google's data controls at
-        myaccount.google.com.
+        <P>Request data deletion:</P> We do not store personal player profiles. For any data held
+        by AdMob, visit{' '}
+        <span className="text-gray-300">myaccount.google.com</span> or contact Google directly.
       </>,
       <>
-        <P>Contact us:</P> For any privacy question or concern related to this app, email{' '}
-        <P>contact@bytesmonks.com</P> with the subject line "Cosmo Eats Stars – Privacy". We will
-        respond within 30 days.
+        <P>Contact us:</P> For any privacy question, email{' '}
+        <P>contact@bytesmonks.com</P> with the subject line{' '}
+        <P>"Cosmo Eats Stars – Privacy"</P>. We will respond within 30 days. Parental enquiries
+        are prioritised and acknowledged within 5 business days.
       </>,
     ],
   },
   {
     title: 'Data Security',
     content:
-      'All network communication between the app and external services (AdMob, crash reporting) is conducted over encrypted HTTPS/TLS connections. We apply appropriate technical and organisational measures to protect the limited data we handle against unauthorised access, alteration, or disclosure.',
+      'All network communication between the app and external services (AdMob, crash reporting) is conducted over encrypted HTTPS/TLS connections. We apply appropriate technical and organisational security measures to protect the limited data we handle against unauthorised access, alteration, or disclosure.',
   },
   {
     title: 'International Data Transfers',
     content:
-      "Your device data may be processed in countries outside your own, including the United States, by Google LLC (AdMob). Google relies on Standard Contractual Clauses and other approved mechanisms to transfer data from the European Economic Area. For details, see Google's Privacy Policy.",
+      "Your device data may be processed in countries outside your own, including the United States, by Google LLC (AdMob). Google relies on Standard Contractual Clauses and other approved transfer mechanisms for data originating from the European Economic Area. For child-directed requests, Google applies its most restrictive data-handling rules regardless of geography.",
   },
   {
     title: 'Changes to This Policy',
     content:
-      'We may update this Privacy Policy to reflect changes in the app, advertising partners, or applicable law. When we do, we will revise the "Last updated" date above. We encourage you to review this page periodically. Continued use of the app after any update constitutes acceptance of the revised policy.',
+      'We may update this Privacy Policy to reflect changes in the app, advertising partners, or applicable law. When we do, we will revise the "Last updated" date above. We encourage parents and guardians to review this page periodically. Continued use of the app after any update constitutes acceptance of the revised policy.',
   },
   {
-    title: 'Contact',
+    title: 'Contact & Regulatory Information',
     content: (
       <>
-        For questions about this Privacy Policy or your privacy rights in relation to{' '}
-        <P>Cosmo Eats Stars</P>, please contact us at <P>contact@bytesmonks.com</P>. You also have
-        the right to lodge a complaint with the data protection authority in your jurisdiction.
+        For questions about this Privacy Policy, to exercise your or your child's privacy rights,
+        or to raise a concern, contact us at <P>contact@bytesmonks.com</P>.
+        <br />
+        <br />
+        Parents and guardians in the United States may also contact the{' '}
+        <P>FTC</P> (ftc.gov/tips-advice/business-center/privacy-and-security/children's-privacy)
+        for information about their rights under COPPA. EEA residents may lodge a complaint with
+        the data protection authority in their Member State.
         <br />
         <br />
         <span className="text-gray-600 text-xs">
-          Developer: Bytes Monks · bytesmonks.com · App package: com.bytesmonks.CosmoEatStar
+          Developer: Bytes Monks · bytesmonks.com · App package: com.bytesmonks.CosmoEatStar ·
+          AdMob publisher: pub-3898970011871442
         </span>
       </>
     ),

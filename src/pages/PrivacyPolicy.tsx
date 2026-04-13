@@ -113,8 +113,29 @@ const sections = [
   },
   {
     title: "Children's Privacy",
-    content:
-      'Our services are not directed at children under the age of 13 (or under 16 in the European Economic Area). We do not knowingly collect personal data from children. Cosmo Eats Stars is rated for general audiences; it does not knowingly target or collect data from children under 13. If you are a parent or guardian and believe your child has provided us with personal data, please contact us at contact@bytesmonks.com and we will promptly delete it.',
+    content: [
+      'Our corporate website and web applications (bytesmonks.com, Genify, Form Temple) are not directed at children under the age of 13 (or under 16 in the European Economic Area) and we do not knowingly collect personal data from children through those services.',
+      <>
+        <P>Cosmo Eats Stars</P> is a mixed-audience mobile game accessible to players of all ages.
+        For that app we apply the strongest available protections to all users: child-directed
+        treatment is enabled app-wide (preventing any persistent identifier or Advertising ID from
+        being used for profiling), all advertisements are non-personalised and family-safe, and no
+        personal data is collected from any player — child or adult. Full details are in the{' '}
+        <P>Cosmo Eats Stars Privacy Policy</P> at bytesmonks.com/cosmo-eat-stars/privacy.
+      </>,
+      <>
+        <P>COPPA (US):</P> We comply with the Children's Online Privacy Protection Act. We do not
+        knowingly collect, use, or disclose personal information from children under 13 without
+        verifiable parental consent. Because Cosmo Eats Stars collects no personal player data, no
+        such consent mechanism is required for that app.
+      </>,
+      <>
+        <P>GDPR-K (EEA):</P> We comply with Article 8 GDPR and applicable Member State legislation
+        on children's data. For EEA users of Cosmo Eats Stars, the app also sets AdMob's
+        tagForUnderAgeOfConsent flag, applying maximum data restrictions regardless of declared age.
+      </>,
+      'If you are a parent or guardian and believe your child has provided us with personal data through any Bytes Monks service, please contact us at contact@bytesmonks.com with the subject line "Child Data Deletion". We will investigate and, where data exists, delete it within 14 business days.',
+    ],
   },
   {
     title: 'Data Security',
