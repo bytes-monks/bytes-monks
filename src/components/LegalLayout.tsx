@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import Logo from './Logo';
 
 interface Section {
   title: string;
@@ -22,10 +23,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
       <div className="border-b border-gray-800/60 bg-dark-200/80 backdrop-blur-md sticky top-0 z-40">
         <div className="container-custom px-4 md:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative w-7 h-7">
-              <div className="absolute inset-0 rounded-full border border-primary/60" />
-              <div className="absolute inset-[4px] rounded-full bg-gradient-to-br from-primary to-accent-purple" />
-            </div>
+            <Logo size={28} />
             <span className="font-display text-base font-bold">
               <span className="text-white">Bytes</span>
               <span className="gradient-text">Monks</span>

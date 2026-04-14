@@ -1,5 +1,6 @@
 import { Mail, Linkedin, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 const socialLinks = [
   { href: 'mailto:contact@bytesmonks.com', Icon: Mail, label: 'Email', external: false },
@@ -32,11 +33,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <a href="#" className="flex items-center gap-3 mb-6">
-              <div className="relative w-9 h-9">
-                <div className="absolute inset-0 rounded-full border-2 border-primary" />
-                <div className="absolute inset-1.5 rounded-full border border-accent-purple" />
-                <div className="absolute inset-[9px] rounded-full bg-gradient-to-r from-primary to-accent-purple" />
-              </div>
+              <Logo size={36} />
               <span className="font-display text-xl font-bold">
                 <span className="text-white">Bytes</span>
                 <span className="gradient-text">Monks</span>

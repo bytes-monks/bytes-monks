@@ -1,5 +1,18 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="16" cy="16" r="14" stroke="#3B82F6" stroke-width="2"/>
-  <circle cx="16" cy="16" r="8" stroke="#8B5CF6" stroke-width="2"/>
-  <circle cx="16" cy="16" r="3" fill="#3B82F6"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <!-- Dark rounded background -->
+  <rect width="32" height="32" rx="7" fill="#0A0A0F"/>
+  <!-- Monk robe -->
+  <path d="M16 14.5C10 14.5 5 18 5 28H27C27 18 22 14.5 16 14.5Z" fill="url(#g)"/>
+  <!-- Monk head -->
+  <circle cx="16" cy="9.5" r="5" fill="url(#g)"/>
+  <!-- Circuit / binary nodes -->
+  <circle cx="11" cy="23" r="1.2" fill="white" fill-opacity="0.4"/>
+  <circle cx="16" cy="20.5" r="1.2" fill="white" fill-opacity="0.4"/>
+  <circle cx="21" cy="23" r="1.2" fill="white" fill-opacity="0.4"/>
 </svg>

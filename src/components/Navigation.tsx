@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 const navLinks = [
   { name: 'About', href: '#about' },
@@ -36,10 +37,7 @@ export default function Navigation() {
 
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="relative w-8 h-8">
-            <div className="absolute inset-0 rounded-full border border-primary/60" />
-            <div className="absolute inset-[5px] rounded-full bg-gradient-to-br from-primary to-accent-purple" />
-          </div>
+          <Logo size={32} />
           <span className="font-display text-lg font-bold tracking-tight">
             <span className="text-white">Bytes</span>
             <span className="gradient-text">Monks</span>
