@@ -1,122 +1,91 @@
-import { useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState } from 'react';
+import { Reveal } from './monastic';
 
 const sponsors = [
-  { name: 'Rakam AI',      logo: 'RA', image: '/logos/rakam_ai.webp',  url: 'https://rakam.ai/' },
-  { name: 'DM Nova',       logo: 'DM', image: '/logos/dmnova.webp',    url: 'https://dmnova.tech/' },
-  { name: 'Khotoua',       logo: 'KH', image: '/logos/khotoua.webp',   url: 'https://khotoua.com/' },
-  { name: 'Jetfi Systems', logo: 'JS', image: null,                    url: 'https://jetfisystems.de/' },
-  { name: 'NLKit',         logo: 'NK', image: null,                    url: 'https://www.nlkit.com/' },
-  { name: 'elBaladiya.tn', logo: 'EB', image: null,                    url: 'https://elbaladiya.tn/home' },
-  { name: 'AI Xperts',     logo: 'AX', image: '/logos/ai_xperts.avif', url: 'https://www.ai-xperts.io/' },
+  { name: 'Rakam AI', logo: 'RA', image: '/logos/rakam_ai.webp', url: 'https://rakam.ai/' },
+  { name: 'DM Nova', logo: 'DM', image: '/logos/dmnova.webp', url: 'https://dmnova.tech/' },
+  { name: 'Khotoua', logo: 'KH', image: '/logos/khotoua.webp', url: 'https://khotoua.com/' },
+  { name: 'Jetfi Systems', logo: 'JS', image: null, url: 'https://jetfisystems.de/' },
+  { name: 'NLKit', logo: 'NK', image: null, url: 'https://www.nlkit.com/' },
+  { name: 'elBaladiya.tn', logo: 'EB', image: null, url: 'https://elbaladiya.tn/home' },
+  { name: 'AI Xperts', logo: 'AX', image: '/logos/ai_xperts.avif', url: 'https://www.ai-xperts.io/' },
 ];
 
 const sponsorsReversed = [...sponsors].reverse();
 
-function SponsorCard({ sponsor }: { sponsor: typeof sponsors[0] }) {
+function SponsorCard({ sponsor }: { sponsor: (typeof sponsors)[0] }) {
   return (
     <a
       href={sponsor.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex-shrink-0 flex items-center gap-3 px-6 py-4 rounded-xl border border-gray-800/60 bg-dark-100/40 hover:border-gray-700 hover:bg-dark-100/70 transition-all duration-300 group min-w-max"
+      style={{
+        flexShrink: 0, display: 'flex', alignItems: 'center', gap: 12, padding: '14px 22px',
+        border: '1px solid var(--rule)', background: 'var(--bg)', textDecoration: 'none',
+        minWidth: 'max-content', transition: 'all 0.25s ease',
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--ink)'; e.currentTarget.style.boxShadow = '4px 4px 0 var(--vermillion)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--rule)'; e.currentTarget.style.boxShadow = 'none'; }}
     >
-      <div className="w-9 h-9 rounded-lg bg-dark border border-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+      <div style={{ width: 36, height: 36, border: '1px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0, background: 'var(--bg-deep)' }}>
         {sponsor.image ? (
-          <img
-            src={sponsor.image}
-            alt={sponsor.name}
-            className="w-full h-full object-contain p-1"
-          />
+          <img src={sponsor.image} alt={sponsor.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 3 }} />
         ) : (
-          <span className="text-xs font-bold gradient-text">{sponsor.logo}</span>
+          <span className="serif italic" style={{ fontSize: 13, fontWeight: 600, color: 'var(--vermillion)' }}>{sponsor.logo}</span>
         )}
       </div>
-      <span className="text-gray-500 text-sm font-medium group-hover:text-gray-300 transition-colors whitespace-nowrap">
-        {sponsor.name}
-      </span>
+      <span className="serif" style={{ fontSize: 17, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{sponsor.name}</span>
     </a>
   );
 }
 
 export default function Sponsors() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [isPaused, setIsPaused] = useState(false);
 
   return (
-    <section className="py-16 md:py-20 px-4 md:px-8 bg-dark relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-200/20 via-transparent to-dark-200/20" />
-
-      <div className="container-custom relative z-10" ref={ref}>
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-8 h-px bg-primary" />
-            <span className="text-primary text-xs tracking-widest uppercase font-medium">Trusted Partners</span>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-white">
-              Companies That <span className="gradient-text">Believe In Us</span>
+    <section className="section" style={{ paddingTop: 80, paddingBottom: 80, overflow: 'hidden' }}>
+      <Reveal>
+        <div style={{ marginBottom: 48, display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+          <div>
+            <span className="eyebrow">Patrons of the Order</span>
+            <h2 className="serif" style={{ fontSize: 'clamp(30px, 4vw, 52px)', lineHeight: 1, marginTop: 16, fontWeight: 500, letterSpacing: '-0.01em' }}>
+              Houses that <span className="italic" style={{ color: 'var(--vermillion)' }}>trust the order</span>.
             </h2>
-            <p className="text-gray-600 text-sm">Hover to pause</p>
           </div>
-        </motion.div>
+          <p className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>Hover to pause</p>
+        </div>
+      </Reveal>
 
-        {/* Carousel */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.25 }}
-          className="relative"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
+      <div
+        style={{ position: 'relative' }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 96, background: 'linear-gradient(to right, var(--bg), transparent)', zIndex: 10, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 96, background: 'linear-gradient(to left, var(--bg), transparent)', zIndex: 10, pointerEvents: 'none' }} />
 
-          <div className="overflow-hidden py-3">
-            <div
-              className={`flex gap-4 ${isPaused ? '' : 'animate-scroll'}`}
-              style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
-            >
-              {[...sponsors, ...sponsors].map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} />
-              ))}
-            </div>
+        <div style={{ overflow: 'hidden', padding: '6px 0' }}>
+          <div className="sp-scroll" style={{ display: 'flex', gap: 16, width: 'max-content', animationPlayState: isPaused ? 'paused' : 'running' }}>
+            {[...sponsors, ...sponsors].map((sponsor, index) => (
+              <SponsorCard key={index} sponsor={sponsor} />
+            ))}
           </div>
+        </div>
 
-          <div className="overflow-hidden py-3 mt-3">
-            <div
-              className={`flex gap-4 ${isPaused ? '' : 'animate-scroll-reverse'}`}
-              style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
-            >
-              {[...sponsorsReversed, ...sponsorsReversed].map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} />
-              ))}
-            </div>
+        <div style={{ overflow: 'hidden', padding: '6px 0', marginTop: 12 }}>
+          <div className="sp-scroll-rev" style={{ display: 'flex', gap: 16, width: 'max-content', animationPlayState: isPaused ? 'paused' : 'running' }}>
+            {[...sponsorsReversed, ...sponsorsReversed].map((sponsor, index) => (
+              <SponsorCard key={index} sponsor={sponsor} />
+            ))}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <style>{`
-        @keyframes scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scroll-reverse {
-          0%   { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-scroll         { animation: scroll 28s linear infinite; width: max-content; }
-        .animate-scroll-reverse { animation: scroll-reverse 28s linear infinite; width: max-content; }
+        @keyframes sp-scroll      { 0% { transform: translateX(0); }    100% { transform: translateX(-50%); } }
+        @keyframes sp-scroll-rev  { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        .sp-scroll     { animation: sp-scroll 28s linear infinite; }
+        .sp-scroll-rev { animation: sp-scroll-rev 28s linear infinite; }
       `}</style>
     </section>
   );

@@ -1,89 +1,67 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { Reveal, Ornament } from './monastic';
 
-const stats = [
-  { value: '50+', label: 'Projects Delivered' },
-  { value: '100%', label: 'Client Satisfaction' },
-  { value: '24/7', label: 'Support Available' },
-  { value: '5+', label: 'Years Experience' },
+const ledger = [
+  { k: 'Founded', v: 'MMXXI' },
+  { k: 'Scriptoria', v: 'Tunis · Remote' },
+  { k: 'Disciplines', v: 'AI · Code · Data · Cloud' },
+  { k: 'Projects delivered', v: 'Fifty & rising' },
+  { k: 'Client satisfaction', v: 'One hundred per cent' },
+  { k: 'The vigil', v: 'Kept · day & night' },
 ];
 
 export default function About() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section id="about" className="section-padding bg-dark relative">
-      <div className="container-custom relative z-10" ref={ref}>
-
-        {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-3 mb-14"
-        >
-          <span className="w-8 h-px bg-primary" />
-          <span className="text-primary text-xs tracking-widest uppercase font-medium">About Us</span>
-        </motion.div>
-
-        {/* Split: bold headline left, text right */}
-        <div className="grid lg:grid-cols-2 gap-16 items-end mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.85, delay: 0.1 }}
-          >
-            <h2
-              className="font-display font-bold leading-[0.92] tracking-tight"
-              style={{ fontSize: 'clamp(48px, 6vw, 88px)' }}
-            >
-              <span className="block text-white">Discipline.</span>
-              <span className="block text-white">Precision.</span>
-              <span className="block gradient-text">Mastery.</span>
+    <section id="about" className="section" style={{ paddingTop: 80 }}>
+      <Reveal>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 64, gap: 32, flexWrap: 'wrap' }}>
+          <div>
+            <span className="eyebrow">I. On the Order</span>
+            <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+              An order sworn to <span className="italic" style={{ color: 'var(--vermillion)' }}>discipline</span>,
+              <br />not to deadlines.
             </h2>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.25 }}
-            className="pb-2 space-y-5"
-          >
-            <p className="text-gray-400 text-lg leading-relaxed">
-              Bytes Monks is a software &amp; AI engineering company focused on
-              building scalable, clean, and intelligent systems. We combine
-              technical excellence with strategic thinking to deliver solutions
-              that drive real business value.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              We don't just build software — we become your long-term technical
-              partners. From initial architecture to ongoing optimization, every
-              decision is made with your product's growth in mind.
-            </p>
-          </motion.div>
+          </div>
+          <div className="mono hidden md:block" style={{ fontSize: 11, color: 'var(--ink-faint)', letterSpacing: '0.16em', textTransform: 'uppercase', writingMode: 'vertical-rl', transform: 'rotate(180deg)', alignSelf: 'flex-start' }}>
+            Folio I · recto
+          </div>
         </div>
+      </Reveal>
 
-        {/* Stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-4 border border-gray-800/60 rounded-2xl overflow-hidden divide-x divide-y md:divide-y-0 divide-gray-800/60"
-        >
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-dark-100/40 px-8 py-10 text-center hover:bg-dark-100/70 transition-colors"
-            >
-              <div className="font-display text-4xl md:text-5xl font-bold gradient-text mb-2">
-                {stat.value}
+      <div className="grid items-start" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 80 }}>
+        <Reveal delay={120}>
+          <p className="serif dropcap" style={{ fontSize: 22, lineHeight: 1.6, color: 'var(--ink)' }}>
+            Bytes Monks is a software and AI engineering house founded on a single heresy of
+            our age: that the craft still matters. We combine technical excellence with strategic
+            thinking — reading the problem before writing the answer, weighing each decision
+            against the decade it must survive. We do not just build software; we become your
+            long-term technical partners, and we measure ourselves in what remains useful after
+            we are gone.
+          </p>
+          <div style={{ marginTop: 36, display: 'flex', alignItems: 'center', gap: 18 }}>
+            <div className="seal">BM</div>
+            <div>
+              <div className="serif italic" style={{ fontSize: 18, color: 'var(--ink)' }}>Sealed by the Scriptorium</div>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 4 }}>
+                Tunis · Anno Domini MMXXI
               </div>
-              <div className="text-gray-600 text-sm tracking-wide">{stat.label}</div>
             </div>
-          ))}
-        </motion.div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={220}>
+          <div style={{ borderLeft: '1px solid var(--rule)', paddingLeft: 40 }}>
+            {ledger.map((r, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 24, padding: '18px 0', borderBottom: i < ledger.length - 1 ? '1px solid var(--rule-soft)' : 'none' }}>
+                <div className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.16em', textTransform: 'uppercase', paddingTop: 4 }}>{r.k}</div>
+                <div className="serif italic" style={{ fontSize: 20, color: 'var(--ink)' }}>{r.v}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      <div style={{ marginTop: 100 }}>
+        <Ornament />
       </div>
     </section>
   );

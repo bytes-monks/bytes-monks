@@ -14,7 +14,7 @@ import CookieConsent from './components/CookieConsent';
 
 function App() {
   return (
-    <div className="bg-dark min-h-screen">
+    <div style={{ minHeight: '100vh' }}>
       <Navigation />
       <Hero />
       <About />

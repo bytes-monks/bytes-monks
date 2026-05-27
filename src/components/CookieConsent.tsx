@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cookie, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const CONSENT_KEY = 'bm_cookie_consent';
 const GA_ID = 'G-J4PKM3BBT1';
@@ -49,41 +49,25 @@ export default function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-md z-50"
+          style={{ position: 'fixed', bottom: 20, left: 16, right: 16, zIndex: 100, maxWidth: 420, marginLeft: 'auto' }}
         >
-          <div className="glass rounded-2xl p-5 shadow-2xl border border-white/10">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center">
-                <Cookie size={16} className="text-white" />
-              </div>
-              <div className="flex-1">
-                <p className="text-white font-semibold text-sm mb-1">We use cookies</p>
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  We use analytics cookies to understand how you interact with our site and improve
-                  your experience. No personal data is sold or shared with third parties.
+          <div style={{ background: 'var(--bg)', border: '1px solid var(--ink)', boxShadow: '4px 4px 0 var(--ink)', padding: '20px 22px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 16 }}>
+              <div className="seal" style={{ width: 40, height: 40, fontSize: 16, flexShrink: 0 }}>⁂</div>
+              <div style={{ flex: 1 }}>
+                <p className="serif italic" style={{ fontSize: 18, color: 'var(--vermillion)', marginBottom: 6 }}>A note on cookies</p>
+                <p className="sans" style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                  We keep a small ledger of analytics cookies to understand how you read our pages and
+                  improve the scriptorium. No personal data is sold or shared.
                 </p>
               </div>
-              <button
-                onClick={decline}
-                className="flex-shrink-0 text-gray-500 hover:text-gray-300 transition-colors"
-                aria-label="Dismiss"
-              >
+              <button onClick={decline} aria-label="Dismiss" style={{ background: 'transparent', border: 'none', color: 'var(--ink-faint)', cursor: 'pointer', flexShrink: 0 }}>
                 <X size={16} />
               </button>
             </div>
-            <div className="flex gap-3">
-              <button
-                onClick={decline}
-                className="flex-1 text-xs font-medium py-2 px-4 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all"
-              >
-                Decline
-              </button>
-              <button
-                onClick={accept}
-                className="flex-1 text-xs font-medium py-2 px-4 rounded-lg bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 transition-opacity"
-              >
-                Accept All
-              </button>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button onClick={decline} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center', padding: '10px 14px' }}>Decline</button>
+              <button onClick={accept} className="btn" style={{ flex: 1, justifyContent: 'center', padding: '10px 14px' }}>Accept All</button>
             </div>
           </div>
         </motion.div>

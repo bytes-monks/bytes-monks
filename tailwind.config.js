@@ -25,7 +25,9 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        serif: ['EB Garamond', 'Cormorant Garamond', 'Times New Roman', 'serif'],
+        display: ['EB Garamond', 'Cormorant Garamond', 'serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

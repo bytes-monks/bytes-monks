@@ -11,10 +11,19 @@ import CosmoEatStarsPrivacy from './pages/CosmoEatStarsPrivacy'
 import './index.css'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   useEffect(() => {
+    if (hash) {
+      const id = hash.slice(1)
+      const t = setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        else window.scrollTo(0, 0)
+      }, 60)
+      return () => clearTimeout(t)
+    }
     window.scrollTo(0, 0)
-  }, [pathname])
+  }, [pathname, hash])
   return null
 }
 

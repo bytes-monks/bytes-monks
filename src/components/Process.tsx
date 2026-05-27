@@ -1,109 +1,79 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Search, PenTool, Code, Zap } from 'lucide-react';
+import { Reveal } from './monastic';
 
-const steps = [
+const rule = [
   {
-    icon: Search,
-    number: '01',
-    title: 'Understand',
-    description:
-      'Deep business analysis to uncover your core challenges and opportunities. We align on vision, goals, and constraints before writing a single line of code.',
+    num: 'I',
+    title: 'Audiamus',
+    en: 'We understand',
+    body: 'Before a single glyph is written, we read your problem aloud. Deep business analysis to uncover your core challenges — we map constraints, intentions, and the decade this thing must survive.',
+    practice: 'Discovery · architecture mapping · written RFC',
   },
   {
-    icon: PenTool,
-    number: '02',
-    title: 'Architect',
-    description:
-      'Clean, scalable design patterns that set the foundation for growth. Every decision is deliberate, documented, and built to survive the demands of tomorrow.',
+    num: 'II',
+    title: 'Disponamus',
+    en: 'We architect',
+    body: 'Architecture as intention. Clean, scalable design patterns that set the foundation for growth. Every boundary, contract, and dependency is weighed, named, and documented before it is correct.',
+    practice: 'System design · data modeling · ADRs',
   },
   {
-    icon: Code,
-    number: '03',
-    title: 'Build',
-    description:
-      'High-quality implementation with rigorous testing and engineering best practices. Delivered iteratively, with full visibility and collaborative feedback throughout.',
+    num: 'III',
+    title: 'Scribamus',
+    en: 'We build',
+    body: 'The code is written slowly, on purpose. High-quality implementation with rigorous testing. Tests before conclusions, reviews before merges, delivered iteratively with full visibility and collaborative feedback.',
+    practice: 'Iterative builds · rigorous tests · clean code',
   },
   {
-    icon: Zap,
-    number: '04',
-    title: 'Optimize',
-    description:
-      'Performance tuning, AI enhancement, and continuous improvement for maximum efficiency. We monitor, iterate, and support long after the initial launch.',
+    num: 'IV',
+    title: 'Custodiamus',
+    en: 'We keep vigil',
+    body: 'After launch, the work begins again. We monitor, we refactor, we tune for maximum efficiency — and we remain reachable at 3am when the build is on fire. The Rule does not end at delivery.',
+    practice: 'Observability · performance · long-term partnership',
   },
 ];
 
 export default function Process() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section id="process" className="section-padding bg-dark relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-200/30 via-transparent to-dark-200/30" />
-
-      <div className="container-custom relative z-10" ref={ref}>
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-20"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-px bg-primary" />
-            <span className="text-primary text-xs tracking-widest uppercase font-medium">Our Process</span>
-          </div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-            The Monk{' '}
-            <span className="gradient-text">Method</span>
+    <section id="process" className="section" style={{ paddingTop: 140 }}>
+      <Reveal>
+        <div style={{ marginBottom: 64 }}>
+          <span className="eyebrow">III. The Rule of the Order</span>
+          <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+            Four precepts, <span className="italic" style={{ color: 'var(--vermillion)' }}>kept in order</span>.
           </h2>
-        </motion.div>
-
-        {/* Steps — full-width row list */}
-        <div className="divide-y divide-gray-800/40">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 18 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.14 }}
-                className="group"
-              >
-                <div className="grid grid-cols-[64px_1fr] md:grid-cols-[80px_220px_1fr_48px] lg:grid-cols-[100px_260px_1fr_56px] gap-6 md:gap-8 items-center py-8 md:py-10 px-4 md:px-6 rounded-xl -mx-4 md:-mx-6 hover:bg-dark-100/25 transition-colors duration-300">
-
-                  {/* Large faded number */}
-                  <div className="font-display text-5xl md:text-6xl font-bold text-gray-800/70 group-hover:text-gray-700 transition-colors leading-none select-none">
-                    {step.number}
-                  </div>
-
-                  {/* Title */}
-                  <div>
-                    <h3 className="font-display text-xl md:text-2xl font-bold text-white group-hover:gradient-text transition-all">
-                      {step.title}
-                    </h3>
-                  </div>
-
-                  {/* Description */}
-                  <div className="col-span-2 md:col-span-1">
-                    <p className="text-gray-500 leading-relaxed group-hover:text-gray-400 transition-colors">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Icon circle */}
-                  <div className="hidden md:flex justify-end">
-                    <div className="w-12 h-12 rounded-full border border-gray-800 group-hover:border-primary/40 flex items-center justify-center transition-all duration-300">
-                      <Icon className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors duration-300" />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+          <p className="serif italic" style={{ fontSize: 20, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 600 }}>
+            Every project begins here and passes through each precept in turn. We do not skip
+            steps; the Rule has outlived every shortcut.
+          </p>
         </div>
+      </Reveal>
+
+      <div style={{ position: 'relative' }}>
+        <div style={{ position: 'absolute', left: 78, top: 0, bottom: 0, width: 1, background: 'var(--rule)' }} aria-hidden />
+
+        {rule.map((r, i) => (
+          <Reveal key={r.num} delay={i * 100}>
+            <div className="rule-row" style={{ display: 'grid', gridTemplateColumns: '80px minmax(0, 1fr) minmax(0, 1.4fr) 240px', gap: 40, alignItems: 'start', padding: '48px 0', borderBottom: i < rule.length - 1 ? '1px solid var(--rule-soft)' : 'none', position: 'relative' }}>
+              <div style={{ position: 'relative' }}>
+                <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--bg)', border: '2px solid var(--vermillion)', position: 'absolute', left: 67, top: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--vermillion)' }} />
+                </div>
+                <div className="serif italic" style={{ fontSize: 56, color: 'var(--vermillion)', lineHeight: 1, fontWeight: 500 }}>{r.num}</div>
+              </div>
+
+              <div>
+                <h3 className="serif" style={{ fontSize: 40, lineHeight: 1, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{r.title}</h3>
+                <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>— {r.en}</div>
+              </div>
+
+              <p className="serif" style={{ fontSize: 19, lineHeight: 1.55, color: 'var(--ink-soft)' }}>{r.body}</p>
+
+              <div style={{ padding: '14px 18px', borderLeft: '2px solid var(--vermillion)', background: 'color-mix(in oklch, var(--bg-deep) 30%, transparent)' }}>
+                <div className="mono" style={{ fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 8 }}>In practice</div>
+                <div className="sans" style={{ fontSize: 13, color: 'var(--ink)', lineHeight: 1.5 }}>{r.practice}</div>
+              </div>
+            </div>
+          </Reveal>
+        ))}
       </div>
     </section>
   );

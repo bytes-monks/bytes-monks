@@ -1,7 +1,7 @@
 import LegalLayout from '../components/LegalLayout';
 
 const P = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-white font-semibold">{children}</span>
+  <span style={{ fontWeight: 600, color: 'var(--ink)' }}>{children}</span>
 );
 
 const sections = [

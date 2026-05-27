@@ -1,21 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import {
-  ArrowLeft,
-  ArrowRight,
-  MapPin,
-  Clock,
-  Briefcase,
-  Users,
-  Megaphone,
-  TrendingUp,
-  Send,
-  Star,
-  Globe,
-  Zap,
-  X,
-} from 'lucide-react';
+import { MapPin, Clock, Briefcase, Users, Globe, X } from 'lucide-react';
+import Navigation from '../components/Navigation';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -27,8 +14,7 @@ interface JobOffer {
   department: string;
   commitment: string;
   badge?: string;
-  icon: React.ElementType;
-  gradient: string;
+  numeral: string;
   tagline: string;
   about: string;
   responsibilities: string[];
@@ -48,8 +34,7 @@ const jobs: JobOffer[] = [
     department: 'Marketing',
     commitment: 'Part-time · 20 hrs / week',
     badge: 'Now Hiring',
-    icon: Megaphone,
-    gradient: 'from-pink-500 to-rose-500',
+    numeral: 'I',
     tagline: 'Shape our voice online and grow a community around what we build.',
     about:
       'Bytes Monks is looking for a creative and driven Social Media Manager Intern to own our presence across LinkedIn, Twitter/X, and Instagram. You will craft content that showcases our products (Genify, Form Temple) and our agency work, engage our community, and help us grow from a niche dev studio into a recognisable tech brand.',
@@ -91,8 +76,7 @@ const jobs: JobOffer[] = [
     department: 'Growth',
     commitment: 'Part-time · 20 hrs / week',
     badge: 'Now Hiring',
-    icon: TrendingUp,
-    gradient: 'from-violet-500 to-purple-600',
+    numeral: 'II',
     tagline: 'Drive partnerships, support deals, and get hands-on experience in startup growth.',
     about:
       'Bytes Monks is looking for an ambitious Business Developer Intern to support our growth efforts — identifying new client opportunities, nurturing strategic partnerships, and helping scale our agency and SaaS revenue. You will work directly with the founders, get real exposure to the full sales cycle, and have a tangible impact on company direction from day one.',
@@ -129,95 +113,64 @@ const jobs: JobOffer[] = [
 ];
 
 const cultureItems = [
-  {
-    icon: Zap,
-    title: 'Move Fast',
-    body: 'We ship weekly. No bloated processes — just clear goals, real ownership, and quick iterations.',
-  },
-  {
-    icon: Globe,
-    title: 'Remote-first',
-    body: 'Work from anywhere. Async by default, with structured check-ins to stay aligned.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Grow With Us',
-    body: 'Early-stage means your contributions have real impact. What you build here, the world uses.',
-  },
+  { glyph: 'α', title: 'Move Fast', body: 'We ship weekly. No bloated processes — just clear goals, real ownership, and quick iterations.' },
+  { glyph: 'β', title: 'Remote-first', body: 'Work from anywhere. Async by default, with structured check-ins to stay aligned.' },
+  { glyph: 'γ', title: 'Grow With Us', body: 'Early-stage means your contributions have real impact. What you build here, the world uses.' },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function MetaPill({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
-    <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-dark border border-gray-800/60 px-3 py-1.5 rounded-full">
-      <Icon className="w-3.5 h-3.5 text-primary" /> {label}
+    <span className="mono" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', border: '1px solid var(--rule)', padding: '6px 12px' }}>
+      <Icon className="w-3.5 h-3.5" style={{ color: 'var(--vermillion)' }} /> {label}
     </span>
   );
 }
 
 function JobCard({ job, index, onOpen }: { job: JobOffer; index: number; onOpen: (id: string) => void }) {
-  const Icon = job.icon;
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: index * 0.1 }}
-      className="glass rounded-2xl overflow-hidden hover:border-gray-700 transition-all duration-300 group"
+      className="folio"
+      style={{ border: '1px solid var(--ink)', background: 'var(--bg)', boxShadow: '6px 6px 0 var(--rule)' }}
+      onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '10px 10px 0 var(--vermillion)')}
+      onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '6px 6px 0 var(--rule)')}
     >
-      {/* Top accent strip */}
-      <div className={`h-1 bg-gradient-to-r ${job.gradient}`} />
-
-      <div className="p-7">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div className="flex items-center gap-3">
-            <div className={`w-11 h-11 rounded-xl bg-gradient-to-r ${job.gradient} flex items-center justify-center flex-shrink-0`}>
-              <Icon className="w-5 h-5 text-white" />
-            </div>
+      <div style={{ padding: '32px 34px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 18 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
+            <span className="serif italic" style={{ fontSize: 40, color: 'var(--vermillion)', lineHeight: 0.9 }}>{job.numeral}</span>
             <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <h3 className="font-display font-bold text-white text-lg">{job.title}</h3>
-                {job.badge && (
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-500/15 text-green-400">
-                    {job.badge}
-                  </span>
-                )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                <h3 className="serif" style={{ fontSize: 28, fontWeight: 500, color: 'var(--ink)' }}>{job.title}</h3>
+                {job.badge && <span className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--sage)', border: '1px solid var(--sage)', padding: '3px 8px' }}>{job.badge}</span>}
               </div>
-              <p className="text-gray-600 text-xs">{job.department}</p>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 6 }}>{job.department}</p>
             </div>
           </div>
-          <span className={`text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r ${job.gradient} text-white flex-shrink-0`}>
-            {job.type}
-          </span>
+          <span className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--bg)', background: 'var(--ink)', padding: '5px 10px', flexShrink: 0 }}>{job.type}</span>
         </div>
 
-        <p className="text-gray-500 text-sm leading-relaxed mb-5 italic">"{job.tagline}"</p>
+        <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: 20 }}>“{job.tagline}”</p>
 
-        <div className="flex flex-wrap gap-2 mb-5">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
           <MetaPill icon={MapPin} label={job.location} />
           <MetaPill icon={Clock} label={job.commitment} />
           <MetaPill icon={Briefcase} label={job.department} />
         </div>
 
-        {/* Perks preview */}
-        <div className="space-y-1.5 mb-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28, paddingTop: 18, borderTop: '1px solid var(--rule-soft)' }}>
           {job.perks.slice(0, 3).map((perk, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs text-gray-600">
-              <Star className="w-3 h-3 text-amber-500 flex-shrink-0" />
-              {perk}
+            <div key={i} className="sans" style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-soft)' }}>
+              <span style={{ color: 'var(--vermillion)', flexShrink: 0 }}>⁜</span> {perk}
             </div>
           ))}
         </div>
 
-        <button
-          onClick={() => onOpen(job.id)}
-          className={`w-full py-3 rounded-xl text-sm font-semibold transition-all duration-300 bg-gradient-to-r ${job.gradient} text-white hover:opacity-90 hover:shadow-lg flex items-center justify-center gap-2 group`}
-        >
-          View Full Role
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-        </button>
+        <button onClick={() => onOpen(job.id)} className="btn" style={{ width: '100%', justifyContent: 'center' }}>View Full Role →</button>
       </div>
     </motion.div>
   );
@@ -225,120 +178,95 @@ function JobCard({ job, index, onOpen }: { job: JobOffer; index: number; onOpen:
 
 function ModalSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="mb-7">
-      <h4 className="text-xs text-gray-600 uppercase tracking-widest font-medium mb-3">{title}</h4>
+    <section style={{ marginBottom: 28 }}>
+      <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--vermillion)', marginBottom: 12 }}>{title}</div>
       {children}
     </section>
   );
 }
 
 function JobModal({ job, onClose }: { job: JobOffer; onClose: () => void }) {
-  const Icon = job.icon;
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-start justify-center p-4 md:p-8 bg-black/75 backdrop-blur-sm overflow-y-auto"
+      style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: 16, background: 'color-mix(in oklch, var(--ink) 55%, transparent)', backdropFilter: 'blur(4px)', overflowY: 'auto' }}
       onClick={onClose}
     >
       <motion.div
-        initial={{ opacity: 0, y: 32, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 16, scale: 0.97 }}
+        initial={{ opacity: 0, y: 32 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 16 }}
         transition={{ duration: 0.28 }}
-        className="w-full max-w-2xl my-8 glass rounded-2xl overflow-hidden border border-gray-800/60"
+        style={{ width: '100%', maxWidth: 720, margin: '32px 0', background: 'var(--bg)', border: '1px solid var(--ink)', boxShadow: '8px 8px 0 var(--vermillion)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Gradient top bar */}
-        <div className={`h-1 bg-gradient-to-r ${job.gradient}`} />
-
-        <div className="p-8">
-          {/* Close */}
-          <div className="flex items-start justify-between gap-4 mb-6">
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${job.gradient} flex items-center justify-center flex-shrink-0`}>
-                <Icon className="w-6 h-6 text-white" />
-              </div>
+        <div style={{ padding: 'clamp(28px, 4vw, 44px)' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
+              <span className="serif italic" style={{ fontSize: 48, color: 'var(--vermillion)', lineHeight: 0.85 }}>{job.numeral}</span>
               <div>
-                <h2 className="font-display font-bold text-white text-xl">{job.title}</h2>
-                <p className="text-gray-600 text-xs mt-0.5">{job.department} · {job.type}</p>
+                <h2 className="serif" style={{ fontSize: 32, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{job.title}</h2>
+                <p className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 6 }}>{job.department} · {job.type}</p>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="text-gray-600 hover:text-white transition-colors p-1 flex-shrink-0"
-              aria-label="Close"
-            >
+            <button onClick={onClose} aria-label="Close" style={{ background: 'transparent', border: '1px solid var(--rule)', color: 'var(--ink-soft)', cursor: 'pointer', padding: 6, flexShrink: 0 }}>
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Meta */}
-          <div className="flex flex-wrap gap-2 mb-7">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
             <MetaPill icon={MapPin} label={job.location} />
             <MetaPill icon={Clock} label={job.commitment} />
             <MetaPill icon={Globe} label="Remote-first" />
           </div>
 
           <ModalSection title="About the role">
-            <p className="text-gray-500 text-sm leading-relaxed">{job.about}</p>
+            <p className="serif" style={{ fontSize: 18, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{job.about}</p>
           </ModalSection>
 
           <ModalSection title="What you'll do">
-            <ul className="space-y-2.5">
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {job.responsibilities.map((r, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-gray-400">
-                  <Zap className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
-                  {r}
-                </li>
+                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--vermillion)', flexShrink: 0 }}>⁜</span> {r}</li>
               ))}
             </ul>
           </ModalSection>
 
           <ModalSection title="What we're looking for">
-            <ul className="space-y-2.5">
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {job.requirements.map((r, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-gray-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/60 flex-shrink-0 mt-1.5" />
-                  {r}
-                </li>
+                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--ink-faint)', flexShrink: 0 }}>—</span> {r}</li>
               ))}
             </ul>
           </ModalSection>
 
           <ModalSection title="Nice to have">
-            <ul className="space-y-2.5">
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {job.niceToHave.map((r, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gray-700 flex-shrink-0 mt-1.5" />
-                  {r}
-                </li>
+                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-faint)', lineHeight: 1.5 }}><span style={{ flexShrink: 0 }}>·</span> {r}</li>
               ))}
             </ul>
           </ModalSection>
 
           <ModalSection title="What you'll get">
-            <ul className="space-y-2.5">
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               {job.perks.map((p, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-gray-400">
-                  <Star className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
-                  {p}
-                </li>
+                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--gilt)', flexShrink: 0 }}>✦</span> {p}</li>
               ))}
             </ul>
           </ModalSection>
 
           <a
             href={`mailto:contact@bytesmonks.com?subject=Application – ${job.title}&body=Hi Bytes Monks team,%0D%0A%0D%0AI'd like to apply for the ${job.title} position.%0D%0A%0D%0A[Tell us a bit about yourself and attach your CV]`}
-            className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${job.gradient} hover:opacity-90 hover:shadow-lg transition-all duration-300`}
+            className="btn"
+            style={{ width: '100%', justifyContent: 'center' }}
           >
-            <Send className="w-4 h-4" />
-            Apply Now — Send Your Application
+            Apply Now — Send Your Application →
           </a>
-          <p className="text-center text-gray-700 text-xs mt-3">
-            Send your CV and a short intro to{' '}
-            <span className="text-gray-500">contact@bytesmonks.com</span>
+          <p className="mono" style={{ textAlign: 'center', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 14 }}>
+            Send your CV and a short intro to contact@bytesmonks.com
           </p>
         </div>
       </motion.div>
@@ -353,214 +281,122 @@ export default function Hiring() {
   const activeJob = jobs.find((j) => j.id === openJobId) ?? null;
 
   return (
-    <div className="bg-dark min-h-screen">
+    <div style={{ minHeight: '100vh' }}>
+      <Navigation />
 
-      {/* ── Sticky nav ── */}
-      <div className="border-b border-gray-800/60 bg-dark-200/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="container-custom px-4 md:px-8 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="relative w-7 h-7">
-              <div className="absolute inset-0 rounded-full border border-primary/60" />
-              <div className="absolute inset-[4px] rounded-full bg-gradient-to-br from-primary to-accent-purple" />
-            </div>
-            <span className="font-display text-base font-bold">
-              <span className="text-white">Bytes</span>
-              <span className="gradient-text">Monks</span>
-            </span>
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* ── Hero ── */}
-      <div className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 right-0 w-[600px] h-[500px] bg-primary/8 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-accent-purple/8 rounded-full blur-[100px]" />
+      {/* Hero */}
+      <section className="section" style={{ paddingTop: 160, paddingBottom: 40 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
+          <span className="eyebrow" style={{ color: 'var(--sage)' }}>
+            <span style={{ width: 6, height: 6, background: 'var(--sage)', borderRadius: '50%', display: 'inline-block', marginRight: 6 }} />
+            Take Vows · We're Hiring
+          </span>
+          <span style={{ flex: 1, minWidth: 40, height: 1, background: 'var(--rule-soft)' }} />
+          <Link to="/" className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', color: 'var(--ink-faint)', textTransform: 'uppercase', textDecoration: 'none' }}>← Return to the scriptorium</Link>
         </div>
 
-        <div className="container-custom px-4 md:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-8 h-px bg-green-400" />
-              <span className="text-green-400 text-xs tracking-widest uppercase font-medium flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                We're Hiring
-              </span>
-            </div>
+        <div className="hiring-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 48, alignItems: 'center' }}>
+          <div>
+            <h1 className="serif" style={{ fontSize: 'clamp(44px, 7vw, 100px)', lineHeight: 0.9, fontWeight: 500, letterSpacing: '-0.025em' }}>
+              Build the future <span className="italic" style={{ color: 'var(--vermillion)' }}>with us</span>.
+            </h1>
+            <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, margin: '24px 0 32px' }}>
+              We're a small order shipping real products. If you're hungry, self-driven, and excited
+              about the intersection of tech and business — you'll fit right in.
+            </p>
+            <a href="#positions" className="btn">See Open Roles →</a>
+          </div>
 
-            <div className="grid lg:grid-cols-[1fr_340px] gap-12 items-center">
-              <div>
-                <h1
-                  className="font-display font-bold leading-tight mb-5"
-                  style={{ fontSize: 'clamp(40px, 6vw, 80px)' }}
-                >
-                  Build the Future{' '}
-                  <span className="gradient-text">With Us</span>
-                </h1>
-                <p className="text-gray-500 text-lg leading-relaxed max-w-xl mb-8">
-                  We're a small team shipping real products. If you're hungry, self-driven,
-                  and excited about the intersection of tech and business — you'll fit right in.
-                </p>
-                <a
-                  href="#positions"
-                  className="btn-primary inline-flex items-center gap-2 group"
-                >
-                  See Open Roles
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-
-              {/* Stats card */}
-              <div className="glass rounded-2xl p-7 border border-gray-800/60">
-                <div className="space-y-5">
-                  {[
-                    { icon: Globe, label: 'Location', value: 'Remote-first' },
-                    { icon: Users, label: 'Open roles', value: `${jobs.length} positions` },
-                    { icon: Zap, label: 'Culture', value: 'Move fast, ship often' },
-                  ].map(({ icon: Icon, label, value }) => (
-                    <div key={label} className="flex items-center gap-4">
-                      <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-4 h-4 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-600 uppercase tracking-widest">{label}</div>
-                        <div className="text-white text-sm font-medium">{value}</div>
-                      </div>
-                    </div>
-                  ))}
+          <div style={{ border: '1px solid var(--ink)', padding: '32px', background: 'color-mix(in oklch, var(--bg-deep) 30%, var(--bg))' }}>
+            {[
+              { icon: Globe, label: 'Location', value: 'Remote-first' },
+              { icon: Users, label: 'Open roles', value: `${jobs.length} positions` },
+              { icon: Clock, label: 'Culture', value: 'Move fast, ship often' },
+            ].map(({ icon: Icon, label, value }, i) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: i < 2 ? '1px solid var(--rule-soft)' : 'none' }}>
+                <div style={{ width: 36, height: 36, border: '1px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon className="w-4 h-4" style={{ color: 'var(--vermillion)' }} />
+                </div>
+                <div>
+                  <div className="mono" style={{ fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>{label}</div>
+                  <div className="serif italic" style={{ fontSize: 18, color: 'var(--ink)' }}>{value}</div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* ── Job listings ── */}
-      <section id="positions" className="py-16 md:py-24 px-4 md:px-8 bg-dark-200">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <span className="w-8 h-px bg-primary" />
-              <span className="text-primary text-xs tracking-widest uppercase font-medium">Open Positions</span>
-            </div>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
-                {jobs.length} Roles Available
-              </h2>
-              <p className="text-gray-600 text-sm max-w-xs">
-                Click any card to see the full job description and apply.
-              </p>
-            </div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {jobs.map((job, i) => (
-              <JobCard key={job.id} job={job} index={i} onOpen={setOpenJobId} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Culture strip ── */}
-      <section className="py-14 px-4 md:px-8 bg-dark border-y border-gray-800/40">
-        <div className="container-custom">
-          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-800/40">
-            {cultureItems.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="flex items-start gap-4 py-8 sm:px-8 first:pl-0 last:pr-0"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white text-sm mb-1">{item.title}</p>
-                    <p className="text-gray-600 text-sm leading-relaxed">{item.body}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
+      {/* Job listings */}
+      <section id="positions" className="section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <div style={{ marginBottom: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+          <div>
+            <span className="eyebrow">Open Positions</span>
+            <h2 className="serif" style={{ fontSize: 'clamp(34px, 4.5vw, 64px)', lineHeight: 0.98, marginTop: 16, fontWeight: 500, letterSpacing: '-0.02em' }}>
+              {jobs.length} roles <span className="italic" style={{ color: 'var(--vermillion)' }}>available</span>.
+            </h2>
           </div>
+          <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 280 }}>Click any folio to read the full role and apply.</p>
+        </div>
+
+        <div className="jobs-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+          {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i} onOpen={setOpenJobId} />)}
         </div>
       </section>
 
-      {/* ── Generic CTA ── */}
-      <section className="py-16 md:py-20 px-4 md:px-8 bg-dark-200 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-gradient-to-r from-primary/10 to-accent-purple/10 rounded-full blur-3xl" />
+      {/* Culture strip */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
+        <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: '1px solid var(--ink)', borderBottom: '1px solid var(--ink)' }}>
+          {cultureItems.map((item, i) => (
+            <div key={i} style={{ padding: '32px', borderRight: i < 2 ? '1px solid var(--rule)' : 'none' }}>
+              <div className="serif italic" style={{ fontSize: 22, color: 'var(--vermillion)', marginBottom: 10 }}>{item.glyph}</div>
+              <p className="serif" style={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{item.title}</p>
+              <p className="sans" style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.6 }}>{item.body}</p>
+            </div>
+          ))}
         </div>
-        <div className="container-custom relative z-10">
-          <div className="glass rounded-3xl border border-gray-800/60 overflow-hidden">
-            <div className="grid md:grid-cols-[1fr_auto] gap-0 items-stretch">
-              <div className="p-10 md:p-14">
-                <p className="text-xs text-gray-600 uppercase tracking-widest font-medium mb-5">
-                  Don't see the right role?
-                </p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                  We're always open to<br />
-                  <span className="gradient-text">exceptional people.</span>
-                </h2>
-                <p className="text-gray-500 max-w-sm leading-relaxed text-sm">
-                  Drop us a line and tell us how you'd contribute. We read every message.
-                </p>
-              </div>
-              <div className="bg-dark-100/50 border-l border-gray-800/60 p-10 md:p-12 flex flex-col justify-center gap-4 min-w-[260px]">
-                <a
-                  href="mailto:contact@bytesmonks.com?subject=Spontaneous Application&body=Hi Bytes Monks team,%0D%0A%0D%0AI'd love to explore opportunities with you.%0D%0A%0D%0A[Tell us about yourself]"
-                  className="btn-primary inline-flex items-center justify-center gap-2 group"
-                >
-                  Get in Touch
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <p className="text-xs text-gray-700 text-center">We respond to every message</p>
-              </div>
+      </section>
+
+      {/* Generic CTA */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 100 }}>
+        <div style={{ border: '1px solid var(--ink)', background: 'color-mix(in oklch, var(--bg-deep) 30%, var(--bg))' }}>
+          <div className="cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
+            <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
+              <span className="eyebrow">Don't see the right role?</span>
+              <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+                We're always open to<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>exceptional people.</span>
+              </h2>
+              <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 460, lineHeight: 1.5 }}>
+                Drop us a line and tell us how you'd contribute. We read every letter.
+              </p>
+            </div>
+            <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>
+              <a
+                href="mailto:contact@bytesmonks.com?subject=Spontaneous Application&body=Hi Bytes Monks team,%0D%0A%0D%0AI'd love to explore opportunities with you.%0D%0A%0D%0A[Tell us about yourself]"
+                className="btn"
+                style={{ justifyContent: 'center' }}
+              >
+                Get in Touch →
+              </a>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>We respond to every letter</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Footer strip ── */}
-      <div className="border-t border-gray-800/40 py-8 px-4 md:px-8">
-        <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-700">
-          <span>© {new Date().getFullYear()} Bytes Monks. All rights reserved.</span>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link>
-          </div>
+      {/* Footer strip */}
+      <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {new Date().getFullYear()} Ordo Bytorum</span>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
+          <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
+          <Link to="/pricing" className="link-ink serif" style={{ fontSize: 14 }}>Tariff</Link>
         </div>
-      </div>
+      </footer>
 
-      {/* ── Job modal ── */}
       <AnimatePresence>
-        {activeJob && (
-          <JobModal job={activeJob} onClose={() => setOpenJobId(null)} />
-        )}
+        {activeJob && <JobModal job={activeJob} onClose={() => setOpenJobId(null)} />}
       </AnimatePresence>
-
     </div>
   );
 }

@@ -1,105 +1,53 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { Reveal } from './monastic';
 
-const reasons = [
-  {
-    title: 'Senior-level engineering',
-    desc: 'Every project is handled by experienced engineers, not juniors.',
-  },
-  {
-    title: 'AI-first mindset',
-    desc: 'We bake intelligence into solutions from the ground up.',
-  },
-  {
-    title: 'Scalable architecture',
-    desc: 'Systems designed to grow without costly rewrites.',
-  },
-  {
-    title: 'Fast iteration cycles',
-    desc: 'Rapid delivery with continuous feedback loops.',
-  },
-  {
-    title: 'Transparent communication',
-    desc: 'No black boxes — you always know where things stand.',
-  },
-  {
-    title: 'Long-term partnerships',
-    desc: 'We stay invested in your product long after launch.',
-  },
-  {
-    title: 'Clean code standards',
-    desc: 'Readable, maintainable, and properly documented codebases.',
-  },
-  {
-    title: '24/7 support available',
-    desc: 'Production issues don\'t wait. Neither do we.',
-  },
+const vows = [
+  { t: 'Senior hands only', d: 'No juniors paid to fumble. Every project is handled by experienced engineers who have been burned before.' },
+  { t: 'AI as first principle', d: 'Intelligence is not a feature we bolt on. It is a substrate we design around from the first meeting.' },
+  { t: 'Architecture that ages well', d: 'We build for the version of your company three years from now. Rewrites are a failure of design, not of time.' },
+  { t: 'Rapid, not rushed', d: 'Fast iteration cycles with honest feedback. Urgency without panic.' },
+  { t: 'Clear speech at all times', d: 'No black boxes, no weasel words. You always know exactly where the work stands.' },
+  { t: 'We stay', d: 'Partnerships outlast contracts. If your product grows, so does our involvement.' },
+  { t: 'Code read as prose', d: 'If the next engineer cannot read it aloud, we rewrite it. Documentation is a kindness, not a chore.' },
+  { t: 'Vigil through the night', d: "Production doesn't care what time it is. Neither do we when something is burning." },
 ];
 
 export default function WhyChooseUs() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section className="section-padding bg-dark relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-200/20 via-transparent to-dark-200/20" />
-
-      <div className="container-custom relative z-10" ref={ref}>
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-16 items-start">
-
-          {/* Left: heading + CTA */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="lg:sticky lg:top-28"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="w-8 h-px bg-primary" />
-              <span className="text-primary text-xs tracking-widest uppercase font-medium">Why Us</span>
+    <section className="section" style={{ paddingTop: 140, paddingBottom: 100, background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', maxWidth: 'unset' }}>
+      <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+        <div className="vows-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
+          <Reveal>
+            <div style={{ position: 'sticky', top: 120 }}>
+              <span className="eyebrow">IV. Our Vows</span>
+              <h2 className="serif" style={{ fontSize: 'clamp(40px, 5vw, 74px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+                Eight vows <br /><span className="italic" style={{ color: 'var(--vermillion)' }}>we keep</span>.
+              </h2>
+              <p className="serif italic" style={{ fontSize: 18, color: 'var(--ink-soft)', marginTop: 24, maxWidth: 340 }}>
+                Spoken when we are hired. Re-read before every release. Broken by no one in the order.
+              </p>
+              <a href="#contact" className="btn" style={{ marginTop: 28 }}>Start Your Project →</a>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">
-              Why Choose{' '}
-              <span className="gradient-text">Bytes Monks?</span>
-            </h2>
-            <p className="text-gray-500 text-lg leading-relaxed mb-10">
-              We combine technical excellence with strategic thinking. Every project
-              benefits from our commitment to quality, transparency, and long-term success.
-            </p>
-            <a href="#contact" className="btn-primary inline-flex">
-              Start Your Project
-            </a>
-          </motion.div>
+          </Reveal>
 
-          {/* Right: vertical list with dividers */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="divide-y divide-gray-800/50"
-          >
-            {reasons.map((reason, index) => (
-              <motion.div
-                key={reason.title}
-                initial={{ opacity: 0, y: 14 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.45, delay: 0.05 * index }}
-                className="flex items-start gap-6 py-6 group"
-              >
-                <span className="text-xs font-mono text-gray-700 group-hover:text-primary transition-colors mt-1 w-6 flex-shrink-0">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className="font-display font-semibold text-white group-hover:gradient-text transition-all mb-1">
-                    {reason.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed group-hover:text-gray-500 transition-colors">
-                    {reason.desc}
-                  </p>
+          <Reveal delay={140}>
+            <div>
+              {vows.map((v, i) => (
+                <div
+                  key={i}
+                  className="reveal-row"
+                  style={{ display: 'grid', gridTemplateColumns: '60px 1fr', alignItems: 'start', gap: 24, padding: '28px 0 28px 40px', borderBottom: i < vows.length - 1 ? '1px solid var(--rule-soft)' : 'none', position: 'relative', transition: 'padding 0.35s' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.paddingLeft = '56px')}
+                  onMouseLeave={(e) => (e.currentTarget.style.paddingLeft = '40px')}
+                >
+                  <div className="mono" style={{ fontSize: 11, letterSpacing: '0.16em', color: 'var(--vermillion)', paddingTop: 8 }}>{String(i + 1).padStart(2, '0')}</div>
+                  <div>
+                    <h3 className="serif" style={{ fontSize: 26, lineHeight: 1.2, color: 'var(--ink)', marginBottom: 8, fontWeight: 500 }}>{v.t}</h3>
+                    <p className="sans" style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6 }}>{v.d}</p>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -1,187 +1,191 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Mark } from './Logo';
+import { Sigil, Reveal } from './monastic';
 
-const serviceList = [
-  { num: '01', label: 'AI & Machine Learning', color: 'text-violet-400' },
-  { num: '02', label: 'Custom Software Dev', color: 'text-blue-400' },
-  { num: '03', label: 'Data Engineering', color: 'text-cyan-400' },
-  { num: '04', label: 'DevOps & Scaling', color: 'text-orange-400' },
+type LineKind = 'prompt' | 'comment' | 'out' | 'key';
+interface TermLine { text: string; kind: LineKind; pause?: number; break?: boolean }
+
+function renderLine(text: string, kind: LineKind) {
+  if (kind === 'prompt') {
+    return (
+      <>
+        <span className="prompt">monk@scriptorium</span>:<span style={{ color: 'oklch(0.7 0.06 220)' }}>~/vow</span>${' '}
+        <span>{text}</span>
+      </>
+    );
+  }
+  if (kind === 'comment') return <span className="term-comment"># {text}</span>;
+  if (kind === 'out') return <span style={{ opacity: 0.85 }}>{text}</span>;
+  if (kind === 'key') return <span className="term-key">{text}</span>;
+  return <span>{text}</span>;
+}
+
+function TypedLines({ lines, speed = 22 }: { lines: TermLine[]; speed?: number }) {
+  const [state, setState] = useState({ li: 0, ci: 0, done: false });
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => {
+    if (state.done) return;
+    const cur = lines[state.li];
+    if (!cur) { setState((s) => ({ ...s, done: true })); return; }
+    const text = cur.text;
+    if (state.ci >= text.length) {
+      timer.current = setTimeout(() => setState((s) => ({ li: s.li + 1, ci: 0, done: false })), cur.pause || 280);
+    } else {
+      timer.current = setTimeout(() => setState((s) => ({ ...s, ci: s.ci + 1 })), speed + (Math.random() * 30 - 8));
+    }
+    return () => clearTimeout(timer.current);
+  }, [state, lines, speed]);
+
+  return (
+    <>
+      {lines.slice(0, state.li).map((l, i) => (
+        <div key={i} style={{ marginBottom: l.break ? 10 : 0 }}>{renderLine(l.text, l.kind)}</div>
+      ))}
+      {state.li < lines.length && (
+        <div>
+          {renderLine(lines[state.li].text.slice(0, state.ci), lines[state.li].kind)}
+          <span className="cursor" style={{ height: '0.9em', width: 7 }} />
+        </div>
+      )}
+    </>
+  );
+}
+
+const lines: TermLine[] = [
+  { text: 'cat /etc/monks/vows.txt', kind: 'prompt', pause: 380, break: true },
+  { text: 'reading manuscript...', kind: 'comment', pause: 260, break: true },
+  { text: 'I. Build only what will outlast its builder.', kind: 'out', pause: 180 },
+  { text: 'II. Let every function have a single intention.', kind: 'out', pause: 180 },
+  { text: 'III. Comment as scripture — sparingly, truthfully.', kind: 'out', pause: 180 },
+  { text: 'IV. Optimize for the reader, not the author.', kind: 'out', pause: 340, break: true },
+  { text: '→ 4 vows loaded. ready.', kind: 'key', pause: 1200, break: true },
+  { text: 'deploy --blessing', kind: 'prompt', pause: 600, break: true },
+];
+
+const marginalia = [
+  '✦ Festina lente — make haste, slowly.',
+  '⁂ Ora et codica — pray and code.',
+  '❖ Ex silentio, systema — from silence, the system.',
+  '✚ Memento refactor — remember to refactor.',
+  '⁕ Deus est in testibus — god is in the tests.',
+  '⚜ Verba volant, scripta manent — words fly, code remains.',
 ];
 
 export default function Hero() {
+  const [restart, setRestart] = useState(0);
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Subtle background orbs */}
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] rounded-full bg-primary/8 blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/3 w-[500px] h-[500px] rounded-full bg-accent-purple/8 blur-[110px] pointer-events-none" />
+    <section id="top" style={{ minHeight: '100vh', position: 'relative', paddingTop: 110, zIndex: 3 }}>
+      {/* Floating manuscript year */}
+      <div
+        className="serif italic"
+        style={{
+          position: 'absolute', right: 40, bottom: 40, fontSize: 180,
+          color: 'color-mix(in oklch, var(--ink-trace) 28%, transparent)',
+          lineHeight: 1, pointerEvents: 'none', fontWeight: 400, userSelect: 'none', zIndex: 0,
+        }}
+        aria-hidden
+      >
+        MMXXVI
+      </div>
 
-      <div className="container-custom relative z-10 pt-28 pb-20">
-        <div className="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-14 xl:gap-20 items-center">
+      <div className="section" style={{ paddingTop: 40, paddingBottom: 40, position: 'relative', zIndex: 2 }}>
+        {/* Eyebrow */}
+        <Reveal>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 48, flexWrap: 'wrap' }}>
+            <span className="eyebrow">Anno Codicis · Vol. IX</span>
+            <span style={{ flex: 1, minWidth: 40, height: 1, background: 'var(--rule-soft)' }} />
+            <span className="eyebrow" style={{ color: 'var(--sage)' }}>
+              <span style={{ width: 6, height: 6, background: 'var(--sage)', borderRadius: '50%', display: 'inline-block', marginRight: 6 }} />
+              Scriptorium Open
+            </span>
+          </div>
+        </Reveal>
 
-          {/* Left: Main content */}
+        <div className="hero-grid" style={{ display: 'grid', alignItems: 'start', gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.9fr)', gap: 64 }}>
+          {/* Left */}
           <div>
-            {/* Eyebrow */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex items-center gap-3 mb-10"
-            >
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs text-green-400 font-medium tracking-widest uppercase">
-                  Available for new projects
-                </span>
-              </span>
-              <span className="w-px h-4 bg-gray-700" />
-              <span className="text-xs text-gray-600 tracking-widest uppercase">
-                Software &amp; AI Engineering
-              </span>
-            </motion.div>
+            <Reveal delay={80}>
+              <h1 className="serif inkbleed" style={{ fontSize: 'clamp(52px, 9vw, 140px)', lineHeight: 0.88, fontWeight: 500, letterSpacing: '-0.02em', marginBottom: 36 }}>
+                We are the
+                <br />
+                <span className="italic" style={{ color: 'var(--vermillion)', fontWeight: 500 }}>quiet craftsmen</span>
+                <br />
+                of your
+                <br />
+                software.
+              </h1>
+            </Reveal>
 
-            {/* Headline — fluid sizing */}
-            <motion.h1
-              initial={{ opacity: 0, y: 36 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.1 }}
-              className="font-display font-bold tracking-tight leading-[0.92] mb-8"
-              style={{ fontSize: 'clamp(52px, 7.5vw, 96px)' }}
-            >
-              <span className="block text-white">Engineering</span>
-              <span className="block gradient-text">Digital</span>
-              <span className="block text-white">Excellence.</span>
-            </motion.h1>
+            <Reveal delay={220}>
+              <p className="serif italic" style={{ fontSize: 22, lineHeight: 1.55, maxWidth: 560, color: 'var(--ink-soft)', marginBottom: 40 }}>
+                An order of engineers in the old tradition — patient, disciplined, and
+                obsessed with the work itself. We build systems that age like stone, not
+                like software.
+              </p>
+            </Reveal>
 
-            {/* Subtext */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25 }}
-              className="text-gray-400 text-lg leading-relaxed max-w-lg mb-10"
-            >
-              We build scalable software, intelligent AI systems, and
-              high-performance digital products for ambitious companies.
-            </motion.p>
+            <Reveal delay={320}>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 56, flexWrap: 'wrap' }}>
+                <a href="#contact" className="btn">Book Free Consultation →</a>
+                <a href="#portfolio" className="btn btn-ghost">View Our Work</a>
+              </div>
+            </Reveal>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.38 }}
-              className="flex flex-wrap gap-4 mb-14"
-            >
-              <a
-                href="#contact"
-                className="btn-primary inline-flex items-center gap-2 group"
-              >
-                Book Free Consultation
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#portfolio" className="btn-secondary inline-flex items-center gap-2">
-                View Our Work
-              </a>
-            </motion.div>
-
-            {/* Stats strip */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.55 }}
-              className="flex flex-wrap gap-8 pt-8 border-t border-gray-800/60"
-            >
-              {[
-                { value: '50+', label: 'Projects Delivered' },
-                { value: '5+', label: 'Years Experience' },
-                { value: '100%', label: 'Client Satisfaction' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="font-display text-2xl font-bold gradient-text">{stat.value}</div>
-                  <div className="text-xs text-gray-600 mt-0.5 tracking-wide">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
+            <Reveal delay={420}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, paddingTop: 28, borderTop: '1px solid var(--rule-soft)' }}>
+                {[
+                  { roman: 'L+', label: 'Projects delivered' },
+                  { roman: 'V+', label: 'Years in the order' },
+                  { roman: 'C%', label: 'Client satisfaction' },
+                ].map((s, i) => (
+                  <div key={i} style={{ padding: '0 20px', borderRight: i < 2 ? '1px solid var(--rule-soft)' : 'none', paddingLeft: i === 0 ? 0 : 20 }}>
+                    <div className="serif italic" style={{ fontSize: 48, lineHeight: 1, color: 'var(--vermillion)', fontWeight: 500 }}>{s.roman}</div>
+                    <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--ink-faint)', textTransform: 'uppercase', marginTop: 10 }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
-          {/* Right: Floating info card */}
-          <motion.div
-            initial={{ opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="hidden lg:block"
-          >
-            <div className="relative">
-              <div className="glass rounded-2xl p-8 border border-gray-800 relative z-10">
-                {/* Card header */}
-                <div className="flex items-center justify-between mb-8">
-                  <span className="text-xs text-gray-600 uppercase tracking-widest font-medium">
-                    Core Services
-                  </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          {/* Right: sigil + scriptorium terminal */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 28, position: 'relative' }}>
+            <Reveal delay={280}>
+              <div className="flicker" style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+                <Sigil size={280} />
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'var(--vermillion)', pointerEvents: 'none', lineHeight: 0 }}>
+                  <Mark size={72} variant="mark" />
                 </div>
-
-                {/* Service list */}
-                <div className="space-y-5 mb-8">
-                  {serviceList.map((item, i) => (
-                    <motion.div
-                      key={item.label}
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.7 + i * 0.08 }}
-                      className="flex items-center gap-4 group cursor-default"
-                    >
-                      <span className={`text-xs font-mono font-bold ${item.color} w-5 flex-shrink-0`}>
-                        {item.num}
-                      </span>
-                      <div className="flex-1 h-px bg-gray-800/80 group-hover:bg-gray-700 transition-colors" />
-                      <span className="text-sm text-gray-400 group-hover:text-gray-200 transition-colors">
-                        {item.label}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Trusted by */}
-                <div className="border-t border-gray-800/60 pt-6">
-                  <p className="text-xs text-gray-700 mb-3 tracking-wide">Trusted by</p>
-                  <div className="flex -space-x-2">
-                    {['BK', 'DM', 'JF', 'NK', 'XP'].map((init, i) => (
-                      <div
-                        key={i}
-                        className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-xs font-bold text-white border-2 border-dark"
-                      >
-                        {init}
-                      </div>
-                    ))}
-                    <div className="w-8 h-8 rounded-full bg-dark-100 border-2 border-dark flex items-center justify-center text-xs text-gray-500">
-                      +
-                    </div>
-                  </div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, calc(-50% + 68px))', pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+                  <div className="mono" style={{ fontSize: 9, letterSpacing: '0.3em', color: 'var(--ink-faint)' }}>ORDO · BYTORVM</div>
                 </div>
               </div>
+            </Reveal>
 
-              {/* Decorative glows */}
-              <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-primary/12 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-8 -left-8 w-44 h-44 rounded-full bg-accent-purple/10 blur-3xl pointer-events-none" />
-            </div>
-          </motion.div>
+            <Reveal delay={380}>
+              <div className="scriptorium" onClick={() => setRestart((r) => r + 1)} style={{ cursor: 'pointer' }} title="click to re-read">
+                <div className="scriptorium-head">
+                  <span className="dot" style={{ background: 'var(--vermillion)' }} />
+                  <span className="dot" style={{ background: 'var(--gilt)' }} />
+                  <span className="dot" style={{ background: 'var(--sage)' }} />
+                  <span style={{ marginLeft: 'auto' }}>scriptorium.sh — /codex</span>
+                </div>
+                <TypedLines key={restart} lines={lines} />
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.3 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <a
-          href="#about"
-          className="flex flex-col items-center gap-1 text-gray-700 hover:text-gray-500 transition-colors"
-        >
-          <span className="text-[10px] uppercase tracking-widest">Scroll</span>
-          <ChevronDown className="w-4 h-4 animate-bounce" />
-        </a>
-      </motion.div>
+      {/* Scrolling marginalia */}
+      <div style={{ position: 'relative', borderTop: '1px solid var(--rule-soft)', borderBottom: '1px solid var(--rule-soft)', padding: '18px 0', marginTop: 40, overflow: 'hidden', background: 'color-mix(in oklch, var(--bg-deep) 40%, transparent)' }}>
+        <div className="ticker-track serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)' }}>
+          {[...marginalia, ...marginalia].map((m, i) => (
+            <span key={i}>{m}</span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

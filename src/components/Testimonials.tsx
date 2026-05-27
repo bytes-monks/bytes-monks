@@ -1,112 +1,76 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { Reveal } from './monastic';
 
-const testimonials = [
+const epistles = [
   {
     quote:
-      'Bytes Monks Handles all of our infrastructure. The technical depth and business understanding they bring is exceptional.',
+      'Bytes Monks handles all of our infrastructure. The technical depth and business understanding they bring is exceptional.',
     author: 'Iheb Lourimi',
-    role: 'CEO',
-    company: 'DM Nova',
+    role: 'Chief Executive',
+    house: 'DM Nova',
     photo: '/clients/iheb_lourimi.jfif',
-    index: '01',
   },
   {
     quote:
       'Working with them felt like having a true technical partner. They delivered our platform on time and exceeded every expectation.',
     author: 'Seif Esslam Bensib',
     role: 'Lead Game Developer',
-    company: 'Khotoua',
+    house: 'Khotoua',
     photo: null,
-    index: '02',
   },
   {
     quote:
-      'The quality of code and architecture they produced set a new standard for our engineering team. Highly recommend.',
+      'The quality of code and architecture they produced set a new standard for our engineering team. Highly recommended.',
     author: 'Mootaz Zemmel',
     role: 'Software Engineer',
-    company: 'Elbaladya.tn',
+    house: 'Elbaladya.tn',
     photo: '/clients/mootaz_zemmel.jfif',
-    index: '03',
   },
 ];
 
 export default function Testimonials() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section className="section-padding bg-dark-200 relative">
-      <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
-
-      <div className="container-custom relative z-10" ref={ref}>
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 36 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-px bg-primary" />
-            <span className="text-primary text-xs tracking-widest uppercase font-medium">Testimonials</span>
-          </div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-            What Our{' '}
-            <span className="gradient-text">Clients Say</span>
+    <section id="epistles" className="section" style={{ paddingTop: 140 }}>
+      <Reveal>
+        <div style={{ marginBottom: 72 }}>
+          <span className="eyebrow">VI. Epistles</span>
+          <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+            Letters kept under <span className="italic" style={{ color: 'var(--vermillion)' }}>seal</span>.
           </h2>
-        </motion.div>
-
-        {/* Testimonials — editorial list with dividers */}
-        <div className="divide-y divide-gray-800/50">
-          {testimonials.map((t, index) => (
-            <motion.div
-              key={t.author}
-              initial={{ opacity: 0, y: 22 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.14 }}
-              className="group"
-            >
-              <div className="grid md:grid-cols-[80px_1fr_200px] gap-6 md:gap-10 items-start py-10 md:py-12">
-
-                {/* Index */}
-                <div className="font-display text-4xl font-bold text-gray-800/60 group-hover:text-gray-700 transition-colors leading-none select-none">
-                  {t.index}
-                </div>
-
-                {/* Quote */}
-                <div>
-                  <div className="font-display text-5xl text-primary/20 leading-none mb-2 select-none">"</div>
-                  <p className="text-gray-300 text-lg md:text-xl leading-relaxed group-hover:text-white transition-colors">
-                    {t.quote}
-                  </p>
-                </div>
-
-                {/* Author */}
-                <div className="flex items-center gap-3 md:flex-col md:items-start md:pt-8">
-                  {t.photo ? (
-                    <img
-                      src={t.photo}
-                      alt={t.author}
-                      className="w-10 h-10 rounded-full object-cover flex-shrink-0"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-purple flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                      {t.author.split(' ').map((n) => n[0]).join('')}
-                    </div>
-                  )}
-                  <div>
-                    <div className="font-semibold text-white text-sm">{t.author}</div>
-                    <div className="text-gray-600 text-xs mt-0.5">
-                      {t.role}, {t.company}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
+      </Reveal>
+
+      <div className="epistles-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+        {epistles.map((e, i) => (
+          <Reveal key={e.author} delay={i * 140}>
+            <article style={{ background: 'var(--bg)', border: '1px solid var(--rule)', padding: '40px 36px 32px', position: 'relative', minHeight: 360, display: 'flex', flexDirection: 'column' }}>
+              {/* Corner fold */}
+              <div style={{ position: 'absolute', top: 0, right: 0, width: 40, height: 40, background: 'linear-gradient(225deg, var(--rule-soft) 0 50%, transparent 50%)' }} aria-hidden />
+
+              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 20 }}>
+                Epistola {['I', 'II', 'III'][i]} · to the Brothers
+              </div>
+
+              <div className="serif italic" style={{ fontSize: 80, color: 'var(--vermillion)', lineHeight: 0.6, marginBottom: -10, fontWeight: 700 }}>&ldquo;</div>
+
+              <p className="serif" style={{ fontSize: 20, lineHeight: 1.5, color: 'var(--ink)', flex: 1 }}>{e.quote}</p>
+
+              <div style={{ marginTop: 32, paddingTop: 24, borderTop: '1px solid var(--rule-soft)', display: 'flex', alignItems: 'center', gap: 14 }}>
+                {e.photo ? (
+                  <img src={e.photo} alt={e.author} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                ) : (
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--ink)', color: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'EB Garamond', serif", fontStyle: 'italic', fontSize: 18, fontWeight: 600, flexShrink: 0 }}>
+                    {e.author.split(' ').map((n) => n[0]).join('')}
+                  </div>
+                )}
+                <div style={{ flex: 1 }}>
+                  <div className="serif" style={{ fontSize: 18, fontWeight: 500, color: 'var(--ink)' }}>{e.author}</div>
+                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 3 }}>{e.role} · {e.house}</div>
+                </div>
+                <div className="seal" style={{ width: 40, height: 40, fontSize: 14 }}>⁂</div>
+              </div>
+            </article>
+          </Reveal>
+        ))}
       </div>
     </section>
   );

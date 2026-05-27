@@ -1,213 +1,122 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Brain, Code, Database, Cloud, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Reveal } from './monastic';
 
-const services = [
+const disciplines = [
   {
-    icon: Brain,
-    number: '01',
-    title: 'AI & Machine Learning',
-    description:
-      'Intelligent systems that learn, adapt, and automate complex workflows — giving your business a measurable competitive edge.',
-    features: [
-      'Custom AI systems',
-      'LLM integrations',
-      'Chatbots & automation',
-      'CV-job matching systems',
-      'AI workflow automation',
-    ],
-    gradient: 'from-violet-500 to-purple-600',
-    accent: 'text-violet-400',
-    border: 'border-violet-500/30',
+    num: 'I',
+    sigil: '✚',
+    name: 'Ars Intelligentia',
+    subtitle: 'AI & Machine Learning',
+    oath: 'To summon intelligence into matter, and keep it faithful.',
+    gloss:
+      'Intelligent systems that learn, adapt, and automate complex workflows — from LLM-powered agents and CV-matching pipelines to production-grade automation that gives your business a measurable edge.',
+    works: ['Custom AI systems', 'LLM integrations', 'Chatbots & agents', 'CV-to-role matching', 'Workflow automation'],
   },
   {
-    icon: Code,
-    number: '02',
-    title: 'Custom Software Development',
-    description:
-      'Tailored solutions built for your unique needs — from lean MVPs to enterprise-grade platforms that scale without friction.',
-    features: [
-      'Web applications',
-      'SaaS platforms',
-      'Backend architecture',
-      'API development',
-      'Mobile apps',
-    ],
-    gradient: 'from-blue-500 to-cyan-500',
-    accent: 'text-blue-400',
-    border: 'border-blue-500/30',
+    num: 'II',
+    sigil: '⚜',
+    name: 'Ars Fabricandi',
+    subtitle: 'Custom Software Development',
+    oath: 'To make things that work, and keep working.',
+    gloss:
+      'Full-stack systems tailored to the grain of your business — from lean MVPs to enterprise-grade SaaS platforms, APIs, and mobile apps engineered to scale without friction.',
+    works: ['Web applications', 'SaaS platforms', 'Backend architecture', 'API development', 'Mobile apps'],
   },
   {
-    icon: Database,
-    number: '03',
-    title: 'Data Engineering',
-    description:
-      'Transform raw data into actionable insights with modern pipelines, vector search, and analytics infrastructure.',
-    features: [
-      'Data pipelines',
-      'Vector search',
-      'Analytics systems',
-      'AI-driven insights',
-      'Data warehousing',
-    ],
-    gradient: 'from-cyan-500 to-teal-500',
-    accent: 'text-cyan-400',
-    border: 'border-cyan-500/30',
+    num: 'III',
+    sigil: '❖',
+    name: 'Ars Datarum',
+    subtitle: 'Data Engineering',
+    oath: 'To render the unseen legible.',
+    gloss:
+      'Pipelines, warehouses, and vector stores that turn raw streams into analytics your board can read and your models can learn from.',
+    works: ['Data pipelines', 'Vector search', 'Analytics systems', 'AI-driven insights', 'Data warehousing'],
   },
   {
-    icon: Cloud,
-    number: '04',
-    title: 'DevOps & Scaling',
-    description:
-      'Reliable, automated infrastructure that grows with your business — zero-downtime deploys, always observable, always resilient.',
-    features: [
-      'Cloud deployment',
-      'Docker & Kubernetes',
-      'CI/CD pipelines',
-      'Performance optimization',
-      'Monitoring & logging',
-    ],
-    gradient: 'from-orange-500 to-pink-500',
-    accent: 'text-orange-400',
-    border: 'border-orange-500/30',
+    num: 'IV',
+    sigil: '⁕',
+    name: 'Ars Sustinendi',
+    subtitle: 'DevOps & Scaling',
+    oath: 'To keep the vigil when others sleep.',
+    gloss:
+      'Automated, observable, resilient infrastructure — zero-downtime deploys, proper CI/CD, and cloud topology that survives a Tuesday.',
+    works: ['Cloud deployment', 'Docker & Kubernetes', 'CI/CD pipelines', 'Performance tuning', 'Monitoring & logging'],
   },
 ];
 
 export default function Services() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const active = services[activeIndex];
-  const ActiveIcon = active.icon;
+  const [active, setActive] = useState(0);
+  const d = disciplines[active];
 
   return (
-    <section id="services" className="section-padding bg-dark-200 relative">
-      <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
+    <section id="services" className="section" style={{ paddingTop: 120 }}>
+      <Reveal>
+        <div style={{ marginBottom: 56 }}>
+          <span className="eyebrow">II. The Four Disciplines</span>
+          <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+            Four arts, one <span className="italic" style={{ color: 'var(--vermillion)' }}>rule</span>.
+          </h2>
+        </div>
+      </Reveal>
 
-      <div className="container-custom relative z-10" ref={ref}>
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-px bg-primary" />
-            <span className="text-primary text-xs tracking-widest uppercase font-medium">What We Do</span>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Services Built for{' '}
-              <span className="gradient-text">Excellence</span>
-            </h2>
-            <p className="text-gray-600 max-w-xs text-sm hidden md:block">
-              Select a service to explore what we build.
-            </p>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid lg:grid-cols-[5fr_8fr] gap-6 items-start"
-        >
-          {/* Left: service selector */}
-          <div className="space-y-2">
-            {services.map((service, index) => {
-              const Icon = service.icon;
-              const isActive = activeIndex === index;
-              return (
-                <button
-                  key={service.title}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-full text-left rounded-xl px-5 py-4 transition-all duration-300 border group ${
-                    isActive
-                      ? `bg-primary/8 ${service.border}`
-                      : 'border-transparent hover:bg-dark-100/50 hover:border-gray-800/60'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <span
-                      className={`text-xs font-mono font-bold w-5 flex-shrink-0 transition-colors ${
-                        isActive ? 'text-primary' : 'text-gray-700'
-                      }`}
-                    >
-                      {service.number}
-                    </span>
-                    <div
-                      className={`w-9 h-9 rounded-lg bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
-                        isActive ? 'scale-100 opacity-100' : 'scale-90 opacity-40'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 text-white" />
-                    </div>
-                    <span
-                      className={`font-display font-semibold text-sm md:text-base transition-colors ${
-                        isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
-                      }`}
-                    >
-                      {service.title}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Right: detail panel */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, x: 18 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.28 }}
+      <div className="disciplines-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.3fr)', gap: 0, borderTop: '1px solid var(--ink)', borderBottom: '1px solid var(--ink)' }}>
+        {/* Left: list */}
+        <div style={{ borderRight: '1px solid var(--rule)' }}>
+          {disciplines.map((disc, i) => (
+            <button
+              key={disc.num}
+              onClick={() => setActive(i)}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left', padding: '32px 36px',
+                background: active === i ? 'color-mix(in oklch, var(--vermillion) 6%, transparent)' : 'transparent',
+                borderBottom: i < disciplines.length - 1 ? '1px solid var(--rule-soft)' : 'none',
+                borderLeft: active === i ? '4px solid var(--vermillion)' : '4px solid transparent',
+                color: 'inherit', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.35s ease',
+              }}
+              onMouseEnter={(e) => { if (active !== i) e.currentTarget.style.background = 'color-mix(in oklch, var(--ink) 4%, transparent)'; }}
+              onMouseLeave={(e) => { if (active !== i) e.currentTarget.style.background = 'transparent'; }}
             >
-              <div className={`glass rounded-2xl p-8 md:p-10 border ${active.border}`}>
-                {/* Icon */}
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${active.gradient} flex items-center justify-center mb-6`}
-                >
-                  <ActiveIcon className="w-8 h-8 text-white" />
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}>
+                <span className="serif italic" style={{ fontSize: 36, color: 'var(--vermillion)', minWidth: 48, lineHeight: 1 }}>{disc.num}</span>
+                <div style={{ flex: 1 }}>
+                  <div className="serif" style={{ fontSize: 28, lineHeight: 1.1, fontWeight: 500, color: 'var(--ink)' }}>{disc.name}</div>
+                  <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 8 }}>{disc.subtitle}</div>
                 </div>
-
-                <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">{active.title}</h3>
-                <p className="text-gray-400 text-lg leading-relaxed mb-8">{active.description}</p>
-
-                {/* Feature list */}
-                <div className="space-y-3 mb-8">
-                  {active.features.map((feature, i) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06 }}
-                      className="flex items-center gap-3"
-                    >
-                      <ArrowRight className={`w-4 h-4 ${active.accent} flex-shrink-0`} />
-                      <span className="text-gray-300">{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <div className="pt-6 border-t border-gray-800/50">
-                  <a
-                    href="#contact"
-                    className={`inline-flex items-center gap-2 font-medium text-sm group transition-colors ${active.accent} hover:opacity-80`}
-                  >
-                    Discuss this service
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </div>
+                <span className="serif" style={{ fontSize: 28, color: active === i ? 'var(--vermillion)' : 'var(--ink-trace)', transition: 'color 0.3s' }}>{disc.sigil}</span>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
+            </button>
+          ))}
+        </div>
+
+        {/* Right: detail panel */}
+        <div key={active} style={{ padding: '48px 56px', position: 'relative', background: 'color-mix(in oklch, var(--bg-deep) 20%, var(--bg))', animation: 'inkbleed 0.6s cubic-bezier(.2,.8,.2,1) both' }}>
+          <div className="serif italic" style={{ position: 'absolute', bottom: 20, right: 28, fontSize: 200, color: 'color-mix(in oklch, var(--vermillion) 10%, transparent)', lineHeight: 0.8, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }}>
+            {d.num}
+          </div>
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div className="mono" style={{ fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 20 }}>Oath of this Discipline</div>
+            <div className="serif italic" style={{ fontSize: 30, lineHeight: 1.3, color: 'var(--ink)', marginBottom: 40, maxWidth: 480 }}>“{d.oath}”</div>
+
+            <p className="sans" style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-soft)', maxWidth: 520, marginBottom: 36 }}>{d.gloss}</p>
+
+            <div style={{ borderTop: '1px solid var(--rule-soft)', paddingTop: 24 }}>
+              <div className="mono" style={{ fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 18 }}>Works of this Hand</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px' }}>
+                {d.works.map((w, i) => (
+                  <div key={w} className="serif" style={{ fontSize: 18, color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span className="mono" style={{ fontSize: 10, color: 'var(--vermillion)' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span>{w}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <a href="#contact" className="link-ink serif italic" style={{ display: 'inline-block', marginTop: 40, fontSize: 18 }}>
+              Consult the brothers on this matter →
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

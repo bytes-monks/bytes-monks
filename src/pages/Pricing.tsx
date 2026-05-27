@@ -1,26 +1,8 @@
-import { useState, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import {
-  Check,
-  Minus,
-  ArrowLeft,
-  ArrowRight,
-  Zap,
-  Layers,
-  Rocket,
-  Clock,
-  Users,
-  Shield,
-  ChevronDown,
-  BadgeCheck,
-  CreditCard,
-  RefreshCw,
-  Wand2,
-  FileInput,
-  ExternalLink,
-  Gauge,
-} from 'lucide-react';
+import { Check, Minus, ChevronDown, ExternalLink } from 'lucide-react';
+import Navigation from '../components/Navigation';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -35,8 +17,7 @@ interface Plan {
   monthlyPrice: number;
   annualPrice: number;
   description: string;
-  icon: React.ElementType;
-  gradient: string;
+  numeral: string;
   features: PlanFeature[];
   cta: string;
   highlight: boolean;
@@ -47,8 +28,7 @@ interface RetainerPlan {
   price: number;
   hours: string;
   description: string;
-  icon: React.ElementType;
-  gradient: string;
+  numeral: string;
   services: string[];
   sla: string;
   highlight: boolean;
@@ -71,10 +51,7 @@ interface SaasProduct {
   tagline: string;
   description: string;
   model: 'Subscription' | 'Usage-based' | 'Subscription + Usage' | 'Free to Play';
-  modelColor: string;
-  icon?: React.ElementType;
   logoImg?: string;
-  gradient: string;
   tiers: SaasTier[];
   freeTrial: string | null;
   url: string;
@@ -89,8 +66,7 @@ const platformPlans: Plan[] = [
     monthlyPrice: 299,
     annualPrice: 249,
     description: 'Managed cloud infrastructure and tooling for early-stage products.',
-    icon: Zap,
-    gradient: 'from-blue-500 to-cyan-500',
+    numeral: 'I',
     highlight: false,
     cta: 'Get Started',
     features: [
@@ -111,8 +87,7 @@ const platformPlans: Plan[] = [
     monthlyPrice: 799,
     annualPrice: 665,
     description: 'Production-grade platform with observability and priority support.',
-    icon: Layers,
-    gradient: 'from-violet-500 to-purple-600',
+    numeral: 'II',
     highlight: true,
     cta: 'Start Free Trial',
     features: [
@@ -132,8 +107,7 @@ const platformPlans: Plan[] = [
     monthlyPrice: 1999,
     annualPrice: 1665,
     description: 'Enterprise-ready infrastructure with dedicated resources and SLA.',
-    icon: Rocket,
-    gradient: 'from-orange-500 to-pink-500',
+    numeral: 'III',
     highlight: false,
     cta: 'Contact Sales',
     features: [
@@ -156,8 +130,7 @@ const retainerPlans: RetainerPlan[] = [
     price: 2500,
     hours: '20 hrs / month',
     description: 'Ongoing technical support and small-scope development for growing teams.',
-    icon: Clock,
-    gradient: 'from-blue-500 to-cyan-500',
+    numeral: 'I',
     highlight: false,
     sla: 'Next business day',
     services: [
@@ -173,8 +146,7 @@ const retainerPlans: RetainerPlan[] = [
     price: 5000,
     hours: '40 hrs / month',
     description: 'Dedicated engineering bandwidth for continuous product development.',
-    icon: Users,
-    gradient: 'from-violet-500 to-purple-600',
+    numeral: 'II',
     highlight: true,
     sla: '4 business hours',
     services: [
@@ -191,8 +163,7 @@ const retainerPlans: RetainerPlan[] = [
     price: 9500,
     hours: 'Full-time equivalent',
     description: 'A fully embedded engineering team working exclusively on your product.',
-    icon: Shield,
-    gradient: 'from-orange-500 to-pink-500',
+    numeral: 'III',
     highlight: false,
     sla: '1 hour',
     services: [
@@ -214,15 +185,12 @@ const saasProducts: SaasProduct[] = [
     description:
       'Instantly convert videos, images, and PDFs — no sign-up needed. Unlock AI-powered image and music generation with a credit-based subscription. Fast, private, and free to start.',
     model: 'Subscription + Usage',
-    modelColor: 'text-amber-400 bg-amber-400/10',
-    icon: Wand2,
-    gradient: 'from-amber-500 to-orange-500',
     freeTrial: '10 free AI credits on signup',
     url: 'https://genify.bytesmonks.com',
     tiers: [
-      { name: 'Free',    price: '$0',    unit: 'unlimited file conversions', highlight: false },
-      { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits',      highlight: false },
-      { name: 'Pro',     price: '$9.99', unit: '/ mo — 300 AI credits',      highlight: true  },
+      { name: 'Free', price: '$0', unit: 'unlimited file conversions', highlight: false },
+      { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits', highlight: false },
+      { name: 'Pro', price: '$9.99', unit: '/ mo — 300 AI credits', highlight: true },
     ],
   },
   {
@@ -231,15 +199,11 @@ const saasProducts: SaasProduct[] = [
     description:
       'Pilot a neon spacecraft through a thickening asteroid field, consuming glowing stars for energy. The more stars you devour, the faster the chaos — master precise maneuvers, collect rare Supernova orbs to go invincible, and chase the high score.',
     model: 'Free to Play',
-    modelColor: 'text-violet-400 bg-violet-400/10',
     logoImg: '/logos/cosmoeatsstars.webp',
-    gradient: 'from-violet-500 to-indigo-600',
     freeTrial: null,
     url: 'https://play.google.com/store/apps/details?id=com.bytesmonks.CosmoEatStar',
     cta: 'Play Now',
-    tiers: [
-      { name: 'Free', price: '$0', unit: 'Full game — no paywalls', highlight: true },
-    ],
+    tiers: [{ name: 'Free', price: '$0', unit: 'Full game — no paywalls', highlight: true }],
   },
   {
     name: 'Form Temple',
@@ -247,631 +211,335 @@ const saasProducts: SaasProduct[] = [
     description:
       'Generate secure API endpoints for any HTML form in seconds — no backend required. Built-in spam protection, file uploads, webhook notifications, and a submission analytics dashboard.',
     model: 'Subscription',
-    modelColor: 'text-emerald-400 bg-emerald-400/10',
-    icon: FileInput,
-    gradient: 'from-emerald-500 to-teal-500',
     freeTrial: 'Free forever for your first form',
     url: 'https://formtemple.bytesmonks.com',
     tiers: [
-      { name: 'Free',  price: '$0',   unit: '1 form, 100 submissions / mo',  highlight: false },
-      { name: 'Pro',   price: '$12',  unit: '/ mo — 10 forms, unlimited',    highlight: true  },
-      { name: 'Team',  price: '$29',  unit: '/ mo — unlimited + team access', highlight: false },
+      { name: 'Free', price: '$0', unit: '1 form, 100 submissions / mo', highlight: false },
+      { name: 'Pro', price: '$12', unit: '/ mo — 10 forms, unlimited', highlight: true },
+      { name: 'Team', price: '$29', unit: '/ mo — unlimited + team access', highlight: false },
     ],
   },
 ];
 
 const faqs: FaqItem[] = [
-  {
-    q: 'How does billing work?',
-    a: 'All plans are billed monthly or annually in advance. You will receive a tax-compliant invoice automatically after each payment.',
-  },
-  {
-    q: 'Can I switch plans at any time?',
-    a: 'Yes. You can upgrade or downgrade your platform plan at any time from your billing dashboard. Upgrades take effect immediately (prorated for the remainder of the cycle). Downgrades take effect at the start of the next billing cycle.',
-  },
-  {
-    q: 'Is there a free trial?',
-    a: "The Growth platform plan includes a 14-day free trial with no credit card required. IT service retainers do not include a trial period but can be cancelled with 14 days' notice before your next billing date.",
-  },
-  {
-    q: 'What is your refund policy?',
-    a: "Platform plan subscriptions cancelled within 48 hours of the start of a new billing cycle are eligible for a full refund of that cycle's payment. After 48 hours, the subscription remains active until the end of the period — no partial refunds are issued. See our full Refund Policy for details.",
-  },
-  {
-    q: 'Who handles my payment data?',
-    a: 'Bytes Monks never stores your payment card details. All payment processing is handled by a PCI-DSS Level 1 certified payment provider. You will receive a compliant invoice after every payment.',
-  },
-  {
-    q: 'Are prices inclusive of tax?',
-    a: 'Displayed prices are exclusive of applicable taxes (VAT, GST, sales tax). The tax amount applicable to your location will be calculated and shown at checkout before you confirm payment.',
-  },
-  {
-    q: 'Can I cancel at any time?',
-    a: "Yes. Platform subscriptions can be cancelled at any time via the billing dashboard — your access continues until the end of the current paid period. IT retainer contracts require 14 days written notice before the next billing date.",
-  },
-  {
-    q: 'Do you offer custom enterprise pricing?',
-    a: 'Yes. For large teams, custom infrastructure requirements, or multi-year contracts, contact us at contact@bytesmonks.com to discuss a tailored plan.',
-  },
+  { q: 'How does billing work?', a: 'All plans are billed monthly or annually in advance. You will receive a tax-compliant invoice automatically after each payment.' },
+  { q: 'Can I switch plans at any time?', a: 'Yes. You can upgrade or downgrade your platform plan at any time from your billing dashboard. Upgrades take effect immediately (prorated for the remainder of the cycle). Downgrades take effect at the start of the next billing cycle.' },
+  { q: 'Is there a free trial?', a: "The Growth platform plan includes a 14-day free trial with no credit card required. IT service retainers do not include a trial period but can be cancelled with 14 days' notice before your next billing date." },
+  { q: 'What is your refund policy?', a: "Platform plan subscriptions cancelled within 48 hours of the start of a new billing cycle are eligible for a full refund of that cycle's payment. After 48 hours, the subscription remains active until the end of the period — no partial refunds are issued. See our full Refund Policy for details." },
+  { q: 'Who handles my payment data?', a: 'Bytes Monks never stores your payment card details. All payment processing is handled by a PCI-DSS Level 1 certified payment provider. You will receive a compliant invoice after every payment.' },
+  { q: 'Are prices inclusive of tax?', a: 'Displayed prices are exclusive of applicable taxes (VAT, GST, sales tax). The tax amount applicable to your location will be calculated and shown at checkout before you confirm payment.' },
+  { q: 'Can I cancel at any time?', a: 'Yes. Platform subscriptions can be cancelled at any time via the billing dashboard — your access continues until the end of the current paid period. IT retainer contracts require 14 days written notice before the next billing date.' },
+  { q: 'Do you offer custom enterprise pricing?', a: 'Yes. For large teams, custom infrastructure requirements, or multi-year contracts, contact us at contact@bytesmonks.com to discuss a tailored plan.' },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function SectionHeader({
-  eyebrow,
-  title,
-  subtitle,
-  inView,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  subtitle?: string;
-  inView: boolean;
-}) {
+function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: React.ReactNode; subtitle?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
-      className="mb-12"
+      style={{ marginBottom: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}
     >
-      <div className="flex items-center gap-3 mb-5">
-        <span className="w-8 h-px bg-primary" />
-        <span className="text-primary text-xs tracking-widest uppercase font-medium">{eyebrow}</span>
+      <div>
+        <span className="eyebrow">{eyebrow}</span>
+        <h2 className="serif" style={{ fontSize: 'clamp(34px, 4.5vw, 64px)', lineHeight: 0.98, marginTop: 16, fontWeight: 500, letterSpacing: '-0.02em' }}>{title}</h2>
       </div>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">{title}</h2>
-        {subtitle && (
-          <p className="text-gray-600 max-w-md text-sm">{subtitle}</p>
-        )}
-      </div>
+      {subtitle && <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 360 }}>{subtitle}</p>}
     </motion.div>
   );
 }
 
-function FaqRow({ item, index }: { item: FaqItem; index: number }) {
+function FaqRow({ item }: { item: FaqItem }) {
   const [open, setOpen] = useState(false);
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="border-b border-gray-800/50 last:border-0"
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-5 text-left gap-4 group"
-      >
-        <span className="text-gray-300 group-hover:text-white transition-colors font-medium text-sm md:text-base">
-          {item.q}
-        </span>
-        <ChevronDown
-          className={`w-4 h-4 text-gray-600 flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-primary' : ''}`}
-        />
+    <div style={{ borderBottom: '1px solid var(--rule-soft)' }}>
+      <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '22px 0', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', color: 'inherit' }}>
+        <span className="serif" style={{ fontSize: 21, color: 'var(--ink)' }}>{item.q}</span>
+        <ChevronDown className="w-4 h-4" style={{ color: open ? 'var(--vermillion)' : 'var(--ink-faint)', flexShrink: 0, transition: 'transform 0.3s', transform: open ? 'rotate(180deg)' : 'none' }} />
       </button>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="overflow-hidden"
-          >
-            <p className="text-gray-500 text-sm leading-relaxed pb-5">{item.a}</p>
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden' }}>
+            <p className="serif" style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--ink-soft)', paddingBottom: 22, paddingLeft: 4 }}>{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
+}
+
+function planCardStyle(highlight: boolean): React.CSSProperties {
+  return {
+    border: `1px solid ${highlight ? 'var(--ink)' : 'var(--rule)'}`,
+    background: highlight ? 'color-mix(in oklch, var(--vermillion) 4%, var(--bg))' : 'var(--bg)',
+    boxShadow: highlight ? '6px 6px 0 var(--vermillion)' : 'none',
+    padding: '32px 30px',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+  };
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Pricing() {
   const [annual, setAnnual] = useState(false);
-  const platformRef = useRef(null);
-  const retainerRef = useRef(null);
-  const saasRef = useRef(null);
-  const platformInView = useInView(platformRef, { once: true, margin: '-80px' });
-  const retainerInView = useInView(retainerRef, { once: true, margin: '-80px' });
-  const saasInView = useInView(saasRef, { once: true, margin: '-80px' });
 
   return (
-    <div className="bg-dark min-h-screen">
+    <div style={{ minHeight: '100vh' }}>
+      <Navigation />
 
-      {/* ── Sticky nav ── */}
-      <div className="border-b border-gray-800/60 bg-dark-200/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="container-custom px-4 md:px-8 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="relative w-7 h-7">
-              <div className="absolute inset-0 rounded-full border border-primary/60" />
-              <div className="absolute inset-[4px] rounded-full bg-gradient-to-br from-primary to-accent-purple" />
-            </div>
-            <span className="font-display text-base font-bold">
-              <span className="text-white">Bytes</span>
-              <span className="gradient-text">Monks</span>
-            </span>
-          </Link>
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
+      {/* Hero */}
+      <section className="section" style={{ paddingTop: 160, paddingBottom: 40 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
+          <span className="eyebrow">The Tariff of the Order</span>
+          <span style={{ flex: 1, minWidth: 40, height: 1, background: 'var(--rule-soft)' }} />
+          <Link to="/" className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', color: 'var(--ink-faint)', textTransform: 'uppercase', textDecoration: 'none' }}>← Return to the scriptorium</Link>
         </div>
-      </div>
-
-      {/* ── Hero ── */}
-      <div className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-r from-primary/8 to-accent-purple/8 rounded-full blur-3xl" />
-        </div>
-        <div className="container-custom px-4 md:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-8 h-px bg-primary" />
-              <span className="text-primary text-xs tracking-widest uppercase font-medium">Transparent Pricing</span>
-            </div>
-            <div className="grid lg:grid-cols-[1fr_auto] gap-10 items-end">
-              <div>
-                <h1
-                  className="font-display font-bold leading-tight mb-5"
-                  style={{ fontSize: 'clamp(40px, 6vw, 80px)' }}
-                >
-                  Simple Plans,{' '}
-                  <span className="gradient-text">Real Value</span>
-                </h1>
-                <p className="text-gray-500 text-lg max-w-xl leading-relaxed">
-                  Two product lines — a fully managed SaaS infrastructure platform and
-                  flexible IT service retainers. No surprises, no lock-in.
-                </p>
-              </div>
-
-              {/* Billing toggle */}
-              <div className="flex-shrink-0">
-                <p className="text-xs text-gray-600 uppercase tracking-widest mb-3 text-center">Billing cycle</p>
-                <div className="inline-flex items-center gap-1 glass rounded-xl p-1 border border-gray-800/60">
-                  <button
-                    onClick={() => setAnnual(false)}
-                    className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      !annual
-                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow'
-                        : 'text-gray-500 hover:text-white'
-                    }`}
-                  >
-                    Monthly
-                  </button>
-                  <button
-                    onClick={() => setAnnual(true)}
-                    className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                      annual
-                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white shadow'
-                        : 'text-gray-500 hover:text-white'
-                    }`}
-                  >
-                    Annual
-                    <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-md font-semibold">
-                      −17%
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* ── Platform plans ── */}
-      <section className="py-16 md:py-24 px-4 md:px-8 bg-dark-200" ref={platformRef}>
-        <div className="container-custom">
-          <SectionHeader
-            eyebrow="SaaS Running Platform"
-            title="Managed Infrastructure Plans"
-            subtitle="We host, monitor, and operate your application infrastructure so you can focus on building product."
-            inView={platformInView}
-          />
-
-          <div className="grid md:grid-cols-3 gap-5 mb-8">
-            {platformPlans.map((plan, i) => (
-              <motion.div
-                key={plan.name}
-                initial={{ opacity: 0, y: 28 }}
-                animate={platformInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="relative"
-              >
-                {plan.highlight && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                    <span className="bg-gradient-to-r from-primary to-accent-purple text-white text-xs font-bold px-4 py-1.5 rounded-full shadow whitespace-nowrap">
-                      {plan.badge}
-                    </span>
-                  </div>
-                )}
-                <div
-                  className={`glass rounded-2xl p-7 h-full flex flex-col transition-all duration-300 ${
-                    plan.highlight
-                      ? 'border border-primary/40 shadow-lg shadow-primary/10'
-                      : 'hover:border-gray-700'
-                  }`}
-                >
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
-                      <plan.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-display font-bold text-white">{plan.name}</p>
-                      <p className="text-gray-600 text-xs">{plan.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <div className="flex items-end gap-1">
-                      <span className="text-gray-600 text-base">$</span>
-                      <motion.span
-                        key={annual ? 'annual' : 'monthly'}
-                        initial={{ opacity: 0, y: -6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="font-display text-5xl font-bold text-white"
-                      >
-                        {annual ? plan.annualPrice : plan.monthlyPrice}
-                      </motion.span>
-                      <span className="text-gray-600 text-sm mb-1">/ mo</span>
-                    </div>
-                    {annual && (
-                      <p className="text-green-400 text-xs mt-1">
-                        Billed annually — ${plan.annualPrice * 12} / yr
-                      </p>
-                    )}
-                  </div>
-
-                  <ul className="space-y-3 flex-1 mb-7">
-                    {plan.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-3 text-sm">
-                        {f.included ? (
-                          <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
-                        ) : (
-                          <Minus className="w-4 h-4 text-gray-800 flex-shrink-0 mt-0.5" />
-                        )}
-                        <span className={f.included ? 'text-gray-300' : 'text-gray-700'}>
-                          {f.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#contact"
-                    onClick={() => { window.location.href = '/'; }}
-                    className={`w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                      plan.highlight
-                        ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20'
-                        : 'border border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white'
-                    }`}
-                  >
-                    {plan.cta}
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+        <div className="cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 40, alignItems: 'end' }}>
+          <div>
+            <h1 className="serif" style={{ fontSize: 'clamp(44px, 7vw, 100px)', lineHeight: 0.9, fontWeight: 500, letterSpacing: '-0.025em' }}>
+              Simple plans, <span className="italic" style={{ color: 'var(--vermillion)' }}>real value</span>.
+            </h1>
+            <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, marginTop: 24 }}>
+              Two product lines — a fully managed SaaS infrastructure platform and flexible IT
+              service retainers. No surprises, no lock-in.
+            </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={platformInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="flex flex-wrap gap-6 text-xs text-gray-600"
-          >
-            <span className="flex items-center gap-2"><BadgeCheck className="w-3.5 h-3.5 text-primary" /> No setup fees</span>
-            <span className="flex items-center gap-2"><RefreshCw className="w-3.5 h-3.5 text-primary" /> Cancel any time</span>
-            <span className="flex items-center gap-2"><CreditCard className="w-3.5 h-3.5 text-primary" /> Secure payments — VAT invoices included</span>
-          </motion.div>
+          {/* Billing toggle */}
+          <div style={{ flexShrink: 0 }}>
+            <p className="mono" style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 10, textAlign: 'center' }}>Billing cycle</p>
+            <div style={{ display: 'inline-flex', border: '1px solid var(--ink)' }}>
+              <button onClick={() => setAnnual(false)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: !annual ? 'var(--ink)' : 'transparent', color: !annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', cursor: 'pointer' }}>Monthly</button>
+              <button onClick={() => setAnnual(true)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: annual ? 'var(--ink)' : 'transparent', color: annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', borderLeft: '1px solid var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+                Annual <span style={{ color: annual ? 'var(--gilt)' : 'var(--sage)' }}>−17%</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── IT Service Retainers ── */}
-      <section className="py-16 md:py-24 px-4 md:px-8 bg-dark relative" ref={retainerRef}>
-        <div className="absolute inset-0 bg-gradient-radial from-accent-purple/5 via-transparent to-transparent" />
-        <div className="container-custom relative z-10">
-          <SectionHeader
-            eyebrow="IT Services"
-            title="Engineering Retainers"
-            subtitle="Dedicated engineering hours billed monthly. Scope the work you need, pause or cancel with 14 days' notice."
-            inView={retainerInView}
-          />
+      {/* Platform plans */}
+      <section className="section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <SectionHeader
+          eyebrow="I. SaaS Running Platform"
+          title={<>Managed infrastructure <span className="italic" style={{ color: 'var(--vermillion)' }}>plans</span></>}
+          subtitle="We host, monitor, and operate your application infrastructure so you can focus on building product."
+        />
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {retainerPlans.map((plan, i) => (
-              <motion.div
-                key={plan.name}
-                initial={{ opacity: 0, y: 28 }}
-                animate={retainerInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`glass rounded-2xl p-7 flex flex-col transition-all duration-300 ${
-                  plan.highlight
-                    ? 'border border-primary/40 shadow-lg shadow-primary/10'
-                    : 'hover:border-gray-700'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center`}>
-                    <plan.icon className="w-5 h-5 text-white" />
+        <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
+          {platformPlans.map((plan, i) => (
+            <motion.div key={plan.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }} style={{ position: 'relative' }}>
+              <div style={planCardStyle(plan.highlight)}>
+                {plan.badge && (
+                  <span className="mono" style={{ position: 'absolute', top: -11, left: 24, background: 'var(--vermillion)', color: 'var(--bg)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 12px' }}>{plan.badge}</span>
+                )}
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 6 }}>
+                  <span className="serif italic" style={{ fontSize: 30, color: 'var(--vermillion)', lineHeight: 1 }}>{plan.numeral}</span>
+                  <p className="serif" style={{ fontSize: 26, fontWeight: 500, color: 'var(--ink)' }}>{plan.name}</p>
+                </div>
+                <p className="sans" style={{ fontSize: 13, color: 'var(--ink-faint)', lineHeight: 1.5, marginBottom: 24 }}>{plan.description}</p>
+
+                <div style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid var(--rule-soft)' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
+                    <span className="serif" style={{ fontSize: 22, color: 'var(--ink-faint)' }}>$</span>
+                    <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{annual ? plan.annualPrice : plan.monthlyPrice}</span>
+                    <span className="mono" style={{ fontSize: 11, color: 'var(--ink-faint)', marginBottom: 8 }}>/ mo</span>
                   </div>
-                  <div>
-                    <p className="font-display font-bold text-white">{plan.name}</p>
-                    <p className="text-gray-600 text-xs">{plan.hours}</p>
-                  </div>
+                  {annual && <p className="mono" style={{ fontSize: 10, color: 'var(--sage)', marginTop: 6, letterSpacing: '0.06em' }}>Billed annually — ${plan.annualPrice * 12} / yr</p>}
                 </div>
 
-                <p className="text-gray-500 text-sm mb-6 leading-relaxed">{plan.description}</p>
-
-                <div className="mb-6">
-                  <div className="flex items-end gap-1">
-                    <span className="text-gray-600 text-base">$</span>
-                    <span className="font-display text-5xl font-bold text-white">
-                      {plan.price.toLocaleString()}
-                    </span>
-                    <span className="text-gray-600 text-sm mb-1">/ mo</span>
-                  </div>
-                  <p className="text-gray-700 text-xs mt-1">Billed monthly · cancel with 14 days' notice</p>
-                </div>
-
-                <ul className="space-y-3 flex-1 mb-6">
-                  {plan.services.map((s, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-gray-400">
-                      <Check className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
-                      {s}
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+                  {plan.features.map((f, j) => (
+                    <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14 }}>
+                      {f.included ? <Check className="w-4 h-4" style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} /> : <Minus className="w-4 h-4" style={{ color: 'var(--ink-trace)', flexShrink: 0, marginTop: 2 }} />}
+                      <span className="sans" style={{ color: f.included ? 'var(--ink)' : 'var(--ink-trace)' }}>{f.text}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="mb-6 flex items-center gap-2 bg-dark rounded-lg px-4 py-3 border border-gray-800/60">
-                  <Shield className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-gray-500 text-xs">
-                    Response SLA: <span className="text-white font-medium">{plan.sla}</span>
-                  </span>
-                </div>
+                <Link to="/#contact" className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>{plan.cta}</Link>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-                <Link
-                  to="/#contact"
-                  className={`w-full text-center py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                    plan.highlight
-                      ? 'bg-gradient-to-r from-primary to-accent-purple text-white hover:opacity-90 hover:shadow-lg hover:shadow-primary/20'
-                      : 'border border-gray-800 text-gray-400 hover:border-gray-700 hover:text-white'
-                  }`}
-                >
-                  Get Started
-                </Link>
+        <p className="mono" style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-faint)', display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <span>⁜ No setup fees</span>
+          <span>⁜ Cancel any time</span>
+          <span>⁜ Secure payments — VAT invoices included</span>
+        </p>
+      </section>
+
+      {/* Retainers */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 80, background: 'color-mix(in oklch, var(--bg-deep) 40%, var(--bg))', maxWidth: 'unset' }}>
+        <div style={{ maxWidth: 1320, margin: '0 auto', paddingTop: 80 }}>
+          <SectionHeader
+            eyebrow="II. IT Services"
+            title={<>Engineering <span className="italic" style={{ color: 'var(--vermillion)' }}>retainers</span></>}
+            subtitle="Dedicated engineering hours billed monthly. Scope the work you need, pause or cancel with 14 days' notice."
+          />
+
+          <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+            {retainerPlans.map((plan, i) => (
+              <motion.div key={plan.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
+                <div style={planCardStyle(plan.highlight)}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 6 }}>
+                    <span className="serif italic" style={{ fontSize: 30, color: 'var(--vermillion)', lineHeight: 1 }}>{plan.numeral}</span>
+                    <div>
+                      <p className="serif" style={{ fontSize: 26, fontWeight: 500, color: 'var(--ink)' }}>{plan.name}</p>
+                      <p className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 4 }}>{plan.hours}</p>
+                    </div>
+                  </div>
+                  <p className="sans" style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '14px 0 20px' }}>{plan.description}</p>
+
+                  <div style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid var(--rule-soft)' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
+                      <span className="serif" style={{ fontSize: 22, color: 'var(--ink-faint)' }}>$</span>
+                      <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{plan.price.toLocaleString()}</span>
+                      <span className="mono" style={{ fontSize: 11, color: 'var(--ink-faint)', marginBottom: 8 }}>/ mo</span>
+                    </div>
+                    <p className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', marginTop: 6, letterSpacing: '0.04em' }}>Billed monthly · cancel with 14 days' notice</p>
+                  </div>
+
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+                    {plan.services.map((s, j) => (
+                      <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14 }}>
+                        <Check className="w-4 h-4" style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} />
+                        <span className="sans" style={{ color: 'var(--ink)' }}>{s}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div style={{ marginBottom: 24, padding: '12px 16px', borderLeft: '2px solid var(--vermillion)', background: 'color-mix(in oklch, var(--bg-deep) 40%, transparent)' }}>
+                    <span className="mono" style={{ fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '0.04em' }}>Response SLA: <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{plan.sla}</span></span>
+                  </div>
+
+                  <Link to="/#contact" className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>Get Started</Link>
+                </div>
               </motion.div>
             ))}
           </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={retainerInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-6 text-sm text-gray-700"
-          >
-            Need a custom scope or a one-off project?{' '}
-            <Link to="/#contact" className="text-primary hover:text-primary-light transition-colors">Talk to us</Link>{' '}
-            — we'll put together a tailored proposal.
-          </motion.p>
+          <p className="serif italic" style={{ marginTop: 28, fontSize: 17, color: 'var(--ink-soft)' }}>
+            Need a custom scope or a one-off project? <Link to="/#contact" className="link-ink">Talk to us</Link> — we'll put together a tailored proposal.
+          </p>
         </div>
       </section>
 
-      {/* ── SaaS Products ── */}
-      <section className="py-16 md:py-24 px-4 md:px-8 bg-dark-200 relative" ref={saasRef}>
-        <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent" />
-        <div className="container-custom relative z-10">
-          <SectionHeader
-            eyebrow="Live Products"
-            title="Our Running SaaS Projects"
-            subtitle="Beyond client work, we build and operate our own products — each with transparent, usage-based or subscription pricing."
-            inView={saasInView}
-          />
+      {/* SaaS products */}
+      <section className="section" style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <SectionHeader
+          eyebrow="III. Live Products"
+          title={<>Our running <span className="italic" style={{ color: 'var(--vermillion)' }}>SaaS projects</span></>}
+          subtitle="Beyond client work, we build and operate our own products — each with transparent, usage-based or subscription pricing."
+        />
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {saasProducts.map((product, i) => (
-              <motion.div
-                key={product.name}
-                initial={{ opacity: 0, y: 28 }}
-                animate={saasInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="glass rounded-2xl p-7 flex flex-col hover:border-gray-700 transition-all duration-300"
-              >
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0">
-                      {product.logoImg ? (
-                        <img src={product.logoImg} alt={product.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className={`w-full h-full bg-gradient-to-r ${product.gradient} flex items-center justify-center`}>
-                          {(() => { const Icon = product.icon; return Icon ? <Icon className="w-5 h-5 text-white" /> : null; })()}
-                        </div>
-                      )}
+        <div className="pricing-2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+          {saasProducts.map((product, i) => (
+            <motion.div key={product.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
+              <div style={{ border: '1px solid var(--rule)', background: 'var(--bg)', padding: '30px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <div style={{ width: 44, height: 44, border: '1px solid var(--rule)', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-deep)' }}>
+                      {product.logoImg ? <img src={product.logoImg} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span className="serif italic" style={{ color: 'var(--vermillion)', fontSize: 18 }}>{product.name[0]}</span>}
                     </div>
                     <div>
-                      <p className="font-display font-bold text-white text-lg leading-tight">{product.name}</p>
-                      <p className="text-gray-600 text-xs">{product.tagline}</p>
+                      <p className="serif" style={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)', lineHeight: 1.1 }}>{product.name}</p>
+                      <p className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 4 }}>{product.tagline}</p>
                     </div>
                   </div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg flex-shrink-0 ${product.modelColor}`}>
-                    {product.model}
-                  </span>
+                  <span className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--vermillion)', border: '1px solid var(--vermillion)', padding: '4px 8px', flexShrink: 0 }}>{product.model}</span>
                 </div>
 
-                <p className="text-gray-500 text-sm leading-relaxed mb-6">{product.description}</p>
+                <p className="sans" style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)', marginBottom: 24 }}>{product.description}</p>
 
-                <div className={`grid gap-2 mb-5 ${product.tiers.length === 1 ? 'grid-cols-1' : product.tiers.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${product.tiers.length}, 1fr)`, gap: 10, marginBottom: 20 }}>
                   {product.tiers.map((tier) => (
-                    <div
-                      key={tier.name}
-                      className={`rounded-xl px-3 py-3 text-center ${
-                        tier.highlight
-                          ? 'bg-gradient-to-b from-primary/20 to-accent-purple/10 border border-primary/30'
-                          : 'bg-dark border border-gray-800'
-                      }`}
-                    >
-                      <p className={`text-xs font-medium mb-1 ${tier.highlight ? 'text-primary' : 'text-gray-600'}`}>
-                        {tier.name}
-                      </p>
-                      <p className="font-display font-bold text-white text-lg leading-none mb-1">{tier.price}</p>
-                      <p className="text-gray-700 text-[11px] leading-tight">{tier.unit}</p>
+                    <div key={tier.name} style={{ border: `1px solid ${tier.highlight ? 'var(--vermillion)' : 'var(--rule)'}`, background: tier.highlight ? 'color-mix(in oklch, var(--vermillion) 5%, var(--bg))' : 'var(--bg)', padding: '12px', textAlign: 'center' }}>
+                      <p className="mono" style={{ fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: tier.highlight ? 'var(--vermillion)' : 'var(--ink-faint)', marginBottom: 6 }}>{tier.name}</p>
+                      <p className="serif italic" style={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)', lineHeight: 1, marginBottom: 6 }}>{tier.price}</p>
+                      <p className="sans" style={{ fontSize: 10, color: 'var(--ink-faint)', lineHeight: 1.3 }}>{tier.unit}</p>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between gap-3 mt-auto pt-2">
-                  {product.freeTrial ? (
-                    <span className="flex items-center gap-1.5 text-green-400 text-xs">
-                      <Gauge className="w-3.5 h-3.5" />
-                      {product.freeTrial}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  <div className="flex items-center gap-3">
-                    <a
-                      href={product.url}
-                      className="flex items-center gap-1 text-gray-600 hover:text-white transition-colors text-xs"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      Learn more
-                    </a>
-                    <a
-                      href={product.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 bg-gradient-to-r ${product.gradient} text-white hover:opacity-90 hover:shadow-lg`}
-                    >
-                      {product.cta ?? 'Get Started'}
-                    </a>
-                  </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginTop: 'auto', paddingTop: 8 }}>
+                  {product.freeTrial ? <span className="mono" style={{ fontSize: 10, letterSpacing: '0.04em', color: 'var(--sage)' }}>⁜ {product.freeTrial}</span> : <span />}
+                  <a href={product.url} target="_blank" rel="noopener noreferrer" className="link-ink serif italic" style={{ fontSize: 15, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    {product.cta ?? 'Visit'} <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* ── Billing trust strip ── */}
-      <section className="py-12 px-4 md:px-8 bg-dark border-y border-gray-800/40">
-        <div className="container-custom">
-          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-800/40">
-            {[
-              {
-                icon: CreditCard,
-                title: 'Secure Payments',
-                body: 'PCI-DSS Level 1 certified processing. Your card data never touches our servers.',
-              },
-              {
-                icon: BadgeCheck,
-                title: 'Tax-Compliant Invoicing',
-                body: 'VAT, GST, and sales tax calculated by location. Compliant invoice after every payment.',
-              },
-              {
-                icon: RefreshCw,
-                title: 'Flexible Cancellation',
-                body: 'Cancel any time from your billing dashboard. Access continues until the period ends.',
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="flex items-start gap-4 py-8 sm:px-8 first:pl-0 last:pr-0"
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-white text-sm mb-1">{item.title}</p>
-                  <p className="text-gray-600 text-xs leading-relaxed">{item.body}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="py-16 md:py-24 px-4 md:px-8 bg-dark">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <span className="w-8 h-px bg-primary" />
-              <span className="text-primary text-xs tracking-widest uppercase font-medium">FAQ</span>
+      {/* Billing trust strip */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
+        <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: '1px solid var(--ink)', borderBottom: '1px solid var(--ink)' }}>
+          {[
+            { title: 'Secure Payments', body: 'PCI-DSS Level 1 certified processing. Your card data never touches our servers.' },
+            { title: 'Tax-Compliant Invoicing', body: 'VAT, GST, and sales tax calculated by location. Compliant invoice after every payment.' },
+            { title: 'Flexible Cancellation', body: 'Cancel any time from your billing dashboard. Access continues until the period ends.' },
+          ].map((item, i) => (
+            <div key={i} style={{ padding: '32px', borderRight: i < 2 ? '1px solid var(--rule)' : 'none' }}>
+              <div className="serif italic" style={{ fontSize: 22, color: 'var(--vermillion)', marginBottom: 10 }}>{['α', 'β', 'γ'][i]}</div>
+              <p className="serif" style={{ fontSize: 20, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{item.title}</p>
+              <p className="sans" style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.6 }}>{item.body}</p>
             </div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white">Common Questions</h2>
-          </motion.div>
-
-          <div className="max-w-3xl">
-            {faqs.map((item, i) => (
-              <FaqRow key={i} item={item} index={i} />
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* ── Bottom CTA ── */}
-      <section className="py-16 md:py-20 px-4 md:px-8 bg-dark-200 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-gradient-to-r from-primary/12 to-accent-purple/12 rounded-full blur-3xl" />
+      {/* FAQ */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
+        <div style={{ marginBottom: 40 }}>
+          <span className="eyebrow">Common Questions</span>
+          <h2 className="serif" style={{ fontSize: 'clamp(34px, 4.5vw, 64px)', lineHeight: 0.98, marginTop: 16, fontWeight: 500, letterSpacing: '-0.02em' }}>
+            Answered <span className="italic" style={{ color: 'var(--vermillion)' }}>plainly</span>.
+          </h2>
         </div>
-        <div className="container-custom relative z-10">
-          <div className="glass rounded-3xl border border-gray-800/60 overflow-hidden">
-            <div className="grid md:grid-cols-[1fr_auto] gap-0 items-stretch">
-              <div className="p-10 md:p-14">
-                <p className="text-xs text-gray-600 uppercase tracking-widest font-medium mb-5">Not sure which plan fits?</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                  Book a free 30-minute<br />
-                  <span className="gradient-text">strategy call.</span>
-                </h2>
-                <p className="text-gray-500 max-w-lg leading-relaxed">
-                  We'll recommend the right combination for your stage and budget — no commitment required.
-                </p>
-              </div>
-              <div className="bg-dark-100/50 border-l border-gray-800/60 p-10 md:p-12 flex flex-col justify-center gap-4 min-w-[260px]">
-                <Link
-                  to="/#contact"
-                  className="btn-primary inline-flex items-center justify-center gap-2 group"
-                >
-                  Book a Free Call
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <p className="text-xs text-gray-700 text-center">24h response · No obligation</p>
-              </div>
+        <div style={{ maxWidth: 820 }}>
+          {faqs.map((item, i) => <FaqRow key={i} item={item} />)}
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="section" style={{ paddingTop: 0, paddingBottom: 100 }}>
+        <div style={{ border: '1px solid var(--ink)', background: 'color-mix(in oklch, var(--bg-deep) 30%, var(--bg))' }}>
+          <div className="cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
+            <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
+              <span className="eyebrow">Not sure which plan fits?</span>
+              <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
+                Book a free 30-minute<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>strategy call.</span>
+              </h2>
+              <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 520, lineHeight: 1.5 }}>
+                We'll recommend the right combination for your stage and budget — no commitment required.
+              </p>
+            </div>
+            <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>
+              <Link to="/#contact" className="btn" style={{ justifyContent: 'center' }}>Book a Free Call →</Link>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>XXIV-hour response · no obligation</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Footer strip ── */}
-      <div className="border-t border-gray-800/40 py-8 px-4 md:px-8">
-        <div className="container-custom flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-700">
-          <span>© {new Date().getFullYear()} Bytes Monks. All rights reserved.</span>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link to="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
-          </div>
+      {/* Footer strip */}
+      <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {new Date().getFullYear()} Ordo Bytorum</span>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
+          <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
+          <Link to="/refund" className="link-ink serif" style={{ fontSize: 14 }}>Refund</Link>
         </div>
-      </div>
-
+      </footer>
     </div>
   );
 }
