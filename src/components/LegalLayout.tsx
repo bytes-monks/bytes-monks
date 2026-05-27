@@ -56,6 +56,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
     <>
       <Navigation />
 
+      <main>
       {/* Hero */}
       <section className="section" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 3 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
@@ -164,6 +165,8 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>

@@ -16,16 +16,18 @@ function App() {
   return (
     <div style={{ minHeight: '100vh' }}>
       <Navigation />
-      <Hero />
-      <About />
-      <Services />
-      <Process />
-      <Portfolio />
-      <WhyChooseUs />
-      <Testimonials />
-      <Sponsors />
-      <CTA />
-      <Contact />
+      <main>
+        <Hero />
+        <About />
+        <Services />
+        <Process />
+        <Portfolio />
+        <WhyChooseUs />
+        <Testimonials />
+        <Sponsors />
+        <CTA />
+        <Contact />
+      </main>
       <Footer />
       <CookieConsent />
     </div>
