@@ -10,7 +10,7 @@
   --bg-deep: oklch(0.92 0.025 80);
   --ink: oklch(0.20 0.012 60);
   --ink-soft: oklch(0.36 0.015 60);
-  --ink-faint: oklch(0.55 0.012 60);
+  --ink-faint: oklch(0.44 0.014 60);
   --ink-trace: oklch(0.78 0.012 70);
   --rule: oklch(0.78 0.015 70);
   --rule-soft: oklch(0.86 0.015 75);
@@ -26,7 +26,7 @@
   --bg-deep: oklch(0.80 0.07 55);
   --ink: oklch(0.22 0.04 45);
   --ink-soft: oklch(0.34 0.04 45);
-  --ink-faint: oklch(0.5 0.04 50);
+  --ink-faint: oklch(0.39 0.04 50);
   --ink-trace: oklch(0.72 0.04 55);
   --rule: oklch(0.72 0.05 60);
   --rule-soft: oklch(0.82 0.05 65);
