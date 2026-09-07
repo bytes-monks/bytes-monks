@@ -19,6 +19,14 @@
   --sage: oklch(0.45 0.05 155);
   --gilt: oklch(0.68 0.12 82);
   --paper-speck: oklch(0.88 0.03 70);
+
+  /* Scribe's hand. The fallback is EB Garamond, never the generic `cursive`
+     keyword — that resolves to Comic Sans on Windows and would flash on every
+     cold load. Caveat's x-height matches Garamond's exactly (0.400 em) but its
+     advance widths are only 85.8% as wide (measured across the display strings
+     on /sourcing), so the raw swap reflows by ~16%. 'Caveat Metric Fallback'
+     below corrects for that. */
+  --font-hand: 'Caveat', 'Caveat Metric Fallback', 'EB Garamond', Georgia, serif;
 }
 
 [data-theme="candlelight"] {
@@ -102,6 +110,39 @@ body::after {
 .mono   { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 .sans   { font-family: 'Inter', system-ui, sans-serif; }
 .italic { font-style: italic; }
+
+/* Metric-matched stand-in used while Caveat is in flight. size-adjust is the
+   measured Caveat/EB-Garamond advance ratio; the overrides are Caveat's own
+   ascent and descent re-expressed against that adjusted em. Together they make
+   the swap invisible instead of a 16% reflow. */
+@font-face {
+  font-family: 'Caveat Metric Fallback';
+  src: local('EB Garamond'), local('Georgia'), local('Times New Roman');
+  size-adjust: 85.8%;
+  ascent-override: 112%;
+  descent-override: 35%;
+  line-gap-override: 0%;
+}
+
+/* Scribe's hand — a marginalia layer, never a content layer.
+   Guardrails: min 18px (20px preferred), weight 600 below 24px, max ~90
+   characters per run, and never for body copy, form labels, prices, or legal
+   text. Vermillion hand text must stay >=24px: on the candlelight theme
+   --vermillion is 3.27:1, which is AA-large only. */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-style: normal;                 /* Caveat ships no italic */
+  font-synthesis: none;               /* block fake bold and fake oblique */
+  font-variant-ligatures: contextual;  /* Caveat varies letterforms by position */
+  font-feature-settings: 'calt' 1;
+  letter-spacing: 0;                  /* never inherit .eyebrow's 0.2em */
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* Light-on-dark makes thin strokes bloom; ease the weight back. */
+[data-theme="ink"] .hand { font-weight: 500; }
 
 .eyebrow {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -348,7 +389,8 @@ body::after {
   outline: none;
   transition: border-color 0.2s;
 }
-.ms-input::placeholder { color: var(--ink-trace); }
+/* --ink-trace is a hairline colour at ~1.75:1 — never legible as text. */
+.ms-input::placeholder { color: var(--ink-faint); opacity: 1; }
 .ms-input:focus { border-bottom-color: var(--vermillion); }
 .ms-input:disabled { opacity: 0.6; }
 select.ms-input { font-style: normal; }
@@ -356,6 +398,40 @@ select.ms-input option { background: var(--bg); color: var(--ink); }
 
 /* Focus states */
 :focus-visible { outline: 2px solid var(--vermillion); outline-offset: 3px; }
+/* <main> is focused programmatically on route change purely to move the
+   reading position — that should not paint a ring. Tabbing to it still does,
+   via :focus-visible above. */
+main:focus { outline: none; }
+
+/* Visually hidden but still announced — for text that exists only for AT,
+   such as the arabic reading of a Roman numeral. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link — /sourcing is ten screens deep; tabbing past the nav on every
+   page is a real cost for keyboard users. */
+.skip-link {
+  position: absolute;
+  left: 8px; top: -100px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition: top 0.18s ease;
+}
+.skip-link:focus { top: 8px; }
 
 /* Small util */
 .u-max-6 { max-width: 640px; }
@@ -365,6 +441,11 @@ select.ms-input option { background: var(--bg); color: var(--ink); }
 @layer components {
   .container-custom { @apply max-w-[1320px] mx-auto; }
   .section-padding { @apply py-[120px] px-6 md:px-12; }
+}
+
+/* Five footer columns get cramped before the 920px collapse. */
+@media (max-width: 1180px) {
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; }
 }
 
 /* Responsive collapses for monastic two-column layouts */
@@ -384,14 +465,55 @@ select.ms-input option { background: var(--bg); color: var(--ink); }
   .rule-row > :nth-child(4) { grid-column: 1 / -1; }
 
   .cta-side { border-left: none !important; border-top: 1px solid var(--rule) !important; }
-  .footer-grid { gap: 32px !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 32px !important; }
   .psi-grid { gap: 24px !important; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .footer-grid { grid-template-columns: 1fr 1fr !important; }
   .epistles-grid { gap: 20px !important; }
 }
+
+/* Ars Vocandi · /sourcing layouts.
+   These grids draw their separators as per-cell borders, so every column-count
+   change has to re-cut which edges are drawn or stray rules appear at the
+   container edge. */
+@media (max-width: 1080px) {
+  .sourcing-4 { grid-template-columns: 1fr 1fr !important; }
+  .sourcing-4 > *:nth-child(2n) { border-right: none !important; }
+  .sourcing-4 > *:nth-child(-n + 2) { border-bottom: 1px solid var(--rule); }
+
+  .sourcing-3 { grid-template-columns: 1fr 1fr !important; }
+
+  .terms-grid { grid-template-columns: 1fr 1fr !important; }
+  .terms-grid > *:nth-child(2n) { border-right: none !important; }
+  .terms-grid > *:nth-child(-n + 2) { border-bottom: 1px solid var(--rule); }
+}
+@media (max-width: 920px) {
+  .sourcing-hero-grid,
+  .lines-grid,
+  .dual-grid { grid-template-columns: 1fr !important; }
+  .lines-cell { border-right: none !important; }
+  .lines-grid > *:first-child { border-bottom: 1px solid var(--rule); }
+  .dual-side { border-left: none !important; border-top: 1px solid var(--rule) !important; }
+}
+@media (max-width: 680px) {
+  .sourcing-4,
+  .sourcing-3,
+  .terms-grid,
+  .handled-grid,
+  .form-grid { grid-template-columns: 1fr !important; }
+
+  .sourcing-4 > *,
+  .sourcing-3 > *,
+  .terms-grid > * { border-right: none !important; border-bottom: 1px solid var(--rule); }
+  .sourcing-3 { border-left: none !important; }
+  .sourcing-4 > *:last-child,
+  .terms-grid > *:last-child { border-bottom: none; }
+}
+
+/* "The Rite" reuses the four-column .rule-row from the home page's Process
+   section; its 920px collapse is defined with the other monastic grids above. */
 
 @media (max-width: 1024px) {
   .legal-grid { grid-template-columns: 1fr !important; gap: 48px !important; }

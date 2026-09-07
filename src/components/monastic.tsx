@@ -62,7 +62,7 @@ export function Ornament({ muted = false }: { muted?: boolean }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, color: c }}>
       <span style={{ flex: 1, maxWidth: 90, height: 1, background: 'var(--rule)' }} />
-      <span style={{ fontFamily: "'EB Garamond', serif", fontSize: 22, fontStyle: 'italic' }}>⁂</span>
+      <span aria-hidden style={{ fontFamily: "'EB Garamond', serif", fontSize: 22, fontStyle: 'italic' }}>⁂</span>
       <span style={{ flex: 1, maxWidth: 90, height: 1, background: 'var(--rule)' }} />
     </div>
   );
