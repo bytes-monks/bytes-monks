@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- GitHub Pages SPA: restore path that was encoded by 404.html -->
+    <!-- Legacy support for links captured by the old GitHub Pages 404 redirect.
+         Every real route is prerendered now, so this only fires for old ?p=
+         URLs. It must be a real navigation, not history.replaceState: the
+         document already holds the home page's prerendered markup, and
+         rewriting the URL under it would guarantee a hydration mismatch. -->
     <script>
       (function () {
         var params = new URLSearchParams(window.location.search);
@@ -19,52 +23,62 @@
             decodeURIComponent(path) +
             (query ? '?' + decodeURIComponent(query) : '') +
             window.location.hash;
-          window.history.replaceState(null, '', url);
+          window.location.replace(url);
         }
       })();
     </script>
 
-    <!-- Primary Meta Tags -->
-    <title>Bytes Monks | Engineering Digital Excellence</title>
-    <meta name="title" content="Bytes Monks | Engineering Digital Excellence" />
-    <meta name="description" content="Bytes Monks builds scalable software, intelligent AI systems, and high-performance digital products for ambitious companies. Custom development, AI/ML, data engineering, and DevOps." />
-    <meta name="keywords" content="software development, AI systems, machine learning, custom software, data engineering, DevOps, digital products, web development, mobile development, tech agency" />
+    <title>Bytes Monks | Software, AI &amp; Tech Talent Sourcing</title>
+
+    <!-- Everything between the markers is rewritten per route by
+         scripts/prerender.mjs, and again at runtime by src/components/Seo.tsx.
+         The values below are the home page's. Do not add non-route-specific
+         tags in here — they would be discarded on every other page. -->
+    <!--seo:start-->
+    <meta name="title" content="Bytes Monks | Software, AI &amp; Tech Talent Sourcing" data-seo />
+    <meta name="description" content="We build scalable software and intelligent AI systems — and source the vetted engineers who run them. Development, AI/ML, data, DevOps and talent sourcing." data-seo />
+    <meta name="keywords" content="software development agency, AI development company, custom software, machine learning, data engineering, DevOps, tech talent sourcing, hire software engineers" data-seo />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" data-seo />
+    <link rel="canonical" href="https://bytesmonks.com/" data-seo />
+    <meta property="og:type" content="website" data-seo />
+    <meta property="og:site_name" content="Bytes Monks" data-seo />
+    <meta property="og:url" content="https://bytesmonks.com/" data-seo />
+    <meta property="og:title" content="Bytes Monks | Software, AI &amp; Tech Talent Sourcing" data-seo />
+    <meta property="og:description" content="We build scalable software and intelligent AI systems — and source the vetted engineers who run them." data-seo />
+    <meta property="og:image" content="https://bytesmonks.com/og-image.png" data-seo />
+    <meta property="og:image:width" content="1200" data-seo />
+    <meta property="og:image:height" content="630" data-seo />
+    <meta property="og:image:type" content="image/png" data-seo />
+    <meta property="og:image:alt" content="Bytes Monks — engineering digital excellence" data-seo />
+    <meta property="og:locale" content="en_US" data-seo />
+    <meta name="twitter:card" content="summary_large_image" data-seo />
+    <meta name="twitter:url" content="https://bytesmonks.com/" data-seo />
+    <meta name="twitter:title" content="Bytes Monks | Software, AI &amp; Tech Talent Sourcing" data-seo />
+    <meta name="twitter:description" content="We build scalable software and intelligent AI systems — and source the vetted engineers who run them." data-seo />
+    <meta name="twitter:image" content="https://bytesmonks.com/og-image.png" data-seo />
+    <meta name="twitter:image:alt" content="Bytes Monks — engineering digital excellence" data-seo />
+    <!--seo:end-->
+
     <meta name="author" content="Bytes Monks" />
-    <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#F2EAD8" />
-    <link rel="canonical" href="https://bytesmonks.com/" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://bytesmonks.com/" />
-    <meta property="og:site_name" content="Bytes Monks" />
-    <meta property="og:title" content="Bytes Monks | Engineering Digital Excellence" />
-    <meta property="og:description" content="We build scalable software, intelligent AI systems, and high-performance digital products for ambitious companies." />
-    <meta property="og:image" content="https://bytesmonks.com/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Bytes Monks - Engineering Digital Excellence" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://bytesmonks.com/" />
-    <meta name="twitter:title" content="Bytes Monks | Engineering Digital Excellence" />
-    <meta name="twitter:description" content="We build scalable software, intelligent AI systems, and high-performance digital products for ambitious companies." />
-    <meta name="twitter:image" content="https://bytesmonks.com/og-image.png" />
-    <meta name="twitter:image:alt" content="Bytes Monks - Engineering Digital Excellence" />
+    <!-- Matches --bg in src/index.css (parchment) and the ink theme. -->
+    <meta name="theme-color" content="#f6efe3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0806" media="(prefers-color-scheme: dark)" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts -->
+    <!-- Fonts. Caveat (the .hand face) is NOT here — it is injected per route
+         by scripts/prerender.mjs and src/components/Seo.tsx, because only
+         /sourcing renders it and it costs ~73 KB. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- Site-wide structured data. Page-level nodes (WebPage, BreadcrumbList,
+         Service, FAQPage, JobPosting) are emitted per route — keep the two
+         sets disjoint so no node is declared twice. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -73,83 +87,43 @@
           "@type": "Organization",
           "@id": "https://bytesmonks.com/#organization",
           "name": "Bytes Monks",
+          "alternateName": "Ordo Bytorum",
           "url": "https://bytesmonks.com",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://bytesmonks.com/favicon.svg"
+            "url": "https://bytesmonks.com/icon-512.png",
+            "width": 512,
+            "height": 512
           },
-          "description": "Bytes Monks builds scalable software, intelligent AI systems, and high-performance digital products for ambitious companies.",
-          "sameAs": []
+          "image": "https://bytesmonks.com/og-image.png",
+          "description": "Bytes Monks builds scalable software and intelligent AI systems, and sources the vetted engineers who run them.",
+          "foundingDate": "2021",
+          "email": "contact@bytesmonks.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tunis",
+            "addressCountry": "TN"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "email": "contact@bytesmonks.com",
+              "availableLanguage": ["English", "French", "Arabic"]
+            }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/company/bytes-monks/",
+            "https://github.com/bytes-monks"
+          ]
         },
         {
           "@type": "WebSite",
           "@id": "https://bytesmonks.com/#website",
           "url": "https://bytesmonks.com",
           "name": "Bytes Monks",
-          "publisher": {
-            "@id": "https://bytesmonks.com/#organization"
-          }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://bytesmonks.com/#webpage",
-          "url": "https://bytesmonks.com",
-          "name": "Bytes Monks | Engineering Digital Excellence",
-          "description": "We build scalable software, intelligent AI systems, and high-performance digital products for ambitious companies.",
-          "isPartOf": {
-            "@id": "https://bytesmonks.com/#website"
-          },
-          "about": {
-            "@id": "https://bytesmonks.com/#organization"
-          }
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://bytesmonks.com/#service",
-          "name": "Bytes Monks",
-          "url": "https://bytesmonks.com",
-          "description": "Custom software development, AI/ML systems, data engineering, and DevOps for ambitious companies.",
-          "provider": {
-            "@id": "https://bytesmonks.com/#organization"
-          },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Software Engineering Services",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "AI & Machine Learning",
-                  "description": "Intelligent AI systems, machine learning models, and data-driven solutions tailored for your business needs."
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Custom Software Development",
-                  "description": "Scalable, high-performance web and mobile applications built with modern technologies."
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Data Engineering",
-                  "description": "Robust data pipelines, warehousing, and analytics infrastructure for data-driven decision making."
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "DevOps & Cloud",
-                  "description": "CI/CD pipelines, cloud infrastructure, and DevOps automation for reliable, scalable deployments."
-                }
-              }
-            ]
-          }
+          "inLanguage": "en",
+          "publisher": { "@id": "https://bytesmonks.com/#organization" }
         }
       ]
     }

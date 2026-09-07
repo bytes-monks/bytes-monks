@@ -20,6 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history: scripts/prerender.mjs derives each sitemap <lastmod>
+          # from the last commit touching that route's source. A shallow clone
+          # would collapse every page to the deploy date.
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4

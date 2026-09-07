@@ -2,24 +2,60 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Bytes Monks</title>
-    <script>
-      // GitHub Pages SPA redirect
-      // Encodes the full path + query + hash into the redirect URL so the
-      // main index.html can restore it after React mounts.
-      var location = window.location;
-      var path = location.pathname.slice(1); // strip leading /
-      var redirect =
-        location.protocol +
-        '//' +
-        location.hostname +
-        (location.port ? ':' + location.port : '') +
-        '/?p=' +
-        encodeURIComponent(path) +
-        (location.search ? '&q=' + encodeURIComponent(location.search.slice(1)) : '') +
-        location.hash;
-      location.replace(redirect);
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Folio not found | Bytes Monks</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#f6efe3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0806" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,500;1,500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <style>
+      /* Standalone: GitHub Pages serves this before any bundle exists.
+         Colours are the sRGB values of the oklch tokens in src/index.css. */
+      :root { --bg:#f6efe3; --ink:#1a1511; --ink-soft:#433b35; --ink-faint:#59514b; --rule:#beb6ad; --vermillion:#ba2d1f; }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg:#0c0806; --ink:#f0e9dc; --ink-soft:#c4bbb0; --ink-faint:#8d8479; --rule:#3a342e; --vermillion:#e0603f; }
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg); color: var(--ink);
+        font-family: 'EB Garamond', Georgia, serif;
+        min-height: 100vh; display: flex; align-items: center; justify-content: center;
+        padding: 32px; text-align: center;
+      }
+      .eyebrow {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-faint);
+      }
+      h1 { font-family: 'Caveat', 'EB Garamond', serif; font-weight: 600; font-size: clamp(40px, 8vw, 88px); line-height: 1.14; margin: 18px 0 0; }
+      h1 em { color: var(--vermillion); font-style: normal; }
+      p { font-style: italic; font-size: 20px; color: var(--ink-soft); margin: 18px auto 34px; max-width: 44ch; }
+      .links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+      a {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+        padding: 14px 22px; border: 1px solid var(--ink); text-decoration: none;
+        background: var(--ink); color: var(--bg); transition: background 0.25s, border-color 0.25s;
+      }
+      a.ghost { background: transparent; color: var(--ink); }
+      a:hover { background: var(--vermillion); border-color: var(--vermillion); color: #fff; }
+      hr { border: 0; border-top: 1px solid var(--rule); margin: 40px auto 0; max-width: 320px; }
+      .orn { font-size: 22px; color: var(--vermillion); margin-top: 20px; }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <main>
+      <span class="eyebrow">Error CDIV · Folio missing</span>
+      <h1>This page is <em>not in the book</em>.</h1>
+      <p>The scribes have searched the shelf twice. Whatever was here has been moved, renamed, or never written at all.</p>
+      <div class="links">
+        <a href="/">Return to the scriptorium</a>
+        <a class="ghost" href="/talent-sourcing">Talent sourcing</a>
+      </div>
+      <hr />
+      <div class="orn" aria-hidden="true">⁂</div>
+    </main>
+  </body>
 </html>
