@@ -11,12 +11,15 @@ import CTA from './components/CTA';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CookieConsent from './components/CookieConsent';
+import ServiceLines from './components/ServiceLines';
+import Seo from './components/Seo';
 
 function App() {
   return (
     <div style={{ minHeight: '100vh' }}>
+      <Seo path="/" />
       <Navigation />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero />
         <About />
         <Services />
@@ -25,6 +28,7 @@ function App() {
         <WhyChooseUs />
         <Testimonials />
         <Sponsors />
+        <ServiceLines />
         <CTA />
         <Contact />
       </main>
