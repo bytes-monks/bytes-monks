@@ -3,241 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Check, Minus, ChevronDown, ExternalLink } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import Seo from '../components/Seo';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface PlanFeature {
-  text: string;
-  included: boolean;
-}
-
-interface Plan {
-  name: string;
-  badge?: string;
-  monthlyPrice: number;
-  annualPrice: number;
-  description: string;
-  numeral: string;
-  features: PlanFeature[];
-  cta: string;
-  highlight: boolean;
-}
-
-interface RetainerPlan {
-  name: string;
-  price: number;
-  hours: string;
-  description: string;
-  numeral: string;
-  services: string[];
-  sla: string;
-  highlight: boolean;
-}
-
-interface FaqItem {
-  q: string;
-  a: string;
-}
-
-interface SaasTier {
-  name: string;
-  price: string;
-  unit: string;
-  highlight: boolean;
-}
-
-interface SaasProduct {
-  name: string;
-  tagline: string;
-  description: string;
-  model: 'Subscription' | 'Usage-based' | 'Subscription + Usage' | 'Free to Play';
-  logoImg?: string;
-  tiers: SaasTier[];
-  freeTrial: string | null;
-  url: string;
-  cta?: string;
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const platformPlans: Plan[] = [
-  {
-    name: 'Starter',
-    monthlyPrice: 299,
-    annualPrice: 249,
-    description: 'Managed cloud infrastructure and tooling for early-stage products.',
-    numeral: 'I',
-    highlight: false,
-    cta: 'Get Started',
-    features: [
-      { text: 'Up to 2 deployed services', included: true },
-      { text: '50 GB managed storage', included: true },
-      { text: 'CI/CD pipeline (GitHub Actions)', included: true },
-      { text: 'SSL & custom domain', included: true },
-      { text: 'Basic uptime monitoring (5-min checks)', included: true },
-      { text: 'Email support (48 h response)', included: true },
-      { text: 'Auto-scaling', included: false },
-      { text: 'Dedicated Slack channel', included: false },
-      { text: 'SLA guarantee', included: false },
-    ],
-  },
-  {
-    name: 'Growth',
-    badge: 'Most Popular',
-    monthlyPrice: 799,
-    annualPrice: 665,
-    description: 'Production-grade platform with observability and priority support.',
-    numeral: 'II',
-    highlight: true,
-    cta: 'Start Free Trial',
-    features: [
-      { text: 'Up to 10 deployed services', included: true },
-      { text: '500 GB managed storage', included: true },
-      { text: 'CI/CD pipeline (GitHub Actions)', included: true },
-      { text: 'SSL & custom domain', included: true },
-      { text: 'Advanced monitoring (1-min checks + alerts)', included: true },
-      { text: 'Priority email + Slack support (8 h response)', included: true },
-      { text: 'Auto-scaling (up to 10 instances)', included: true },
-      { text: 'Dedicated Slack channel', included: true },
-      { text: 'SLA guarantee', included: false },
-    ],
-  },
-  {
-    name: 'Scale',
-    monthlyPrice: 1999,
-    annualPrice: 1665,
-    description: 'Enterprise-ready infrastructure with dedicated resources and SLA.',
-    numeral: 'III',
-    highlight: false,
-    cta: 'Contact Sales',
-    features: [
-      { text: 'Unlimited deployed services', included: true },
-      { text: '2 TB managed storage', included: true },
-      { text: 'CI/CD pipeline (GitHub Actions)', included: true },
-      { text: 'SSL & custom domain', included: true },
-      { text: 'Full observability stack (logs, metrics, traces)', included: true },
-      { text: '24 / 7 phone + Slack support (1 h response)', included: true },
-      { text: 'Unlimited auto-scaling', included: true },
-      { text: 'Dedicated Slack channel', included: true },
-      { text: '99.9% uptime SLA guarantee', included: true },
-    ],
-  },
-];
-
-const retainerPlans: RetainerPlan[] = [
-  {
-    name: 'Essential',
-    price: 2500,
-    hours: '20 hrs / month',
-    description: 'Ongoing technical support and small-scope development for growing teams.',
-    numeral: 'I',
-    highlight: false,
-    sla: 'Next business day',
-    services: [
-      'Bug fixes & maintenance',
-      'Minor feature additions',
-      'Dependency & security updates',
-      'Monthly health report',
-      'Code review',
-    ],
-  },
-  {
-    name: 'Professional',
-    price: 5000,
-    hours: '40 hrs / month',
-    description: 'Dedicated engineering bandwidth for continuous product development.',
-    numeral: 'II',
-    highlight: true,
-    sla: '4 business hours',
-    services: [
-      'Everything in Essential',
-      'New feature development',
-      'Architecture consultation',
-      'Performance optimisation',
-      'Bi-weekly strategy calls',
-      'Dedicated Slack channel',
-    ],
-  },
-  {
-    name: 'Dedicated',
-    price: 9500,
-    hours: 'Full-time equivalent',
-    description: 'A fully embedded engineering team working exclusively on your product.',
-    numeral: 'III',
-    highlight: false,
-    sla: '1 hour',
-    services: [
-      'Everything in Professional',
-      'Full-stack product development',
-      'DevOps & infrastructure management',
-      'AI/ML integration',
-      'Weekly roadmap planning',
-      'On-demand video calls',
-      'Custom SLA available',
-    ],
-  },
-];
-
-const saasProducts: SaasProduct[] = [
-  {
-    name: 'Genify',
-    tagline: 'File Conversion & AI Content Generation',
-    description:
-      'Instantly convert videos, images, and PDFs — no sign-up needed. Unlock AI-powered image and music generation with a credit-based subscription. Fast, private, and free to start.',
-    model: 'Subscription + Usage',
-    freeTrial: '10 free AI credits on signup',
-    url: 'https://genify.bytesmonks.com',
-    tiers: [
-      { name: 'Free', price: '$0', unit: 'unlimited file conversions', highlight: false },
-      { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits', highlight: false },
-      { name: 'Pro', price: '$9.99', unit: '/ mo — 300 AI credits', highlight: true },
-    ],
-  },
-  {
-    name: 'Cosmo Eats Stars',
-    tagline: 'One-Touch Arcade Survival Game',
-    description:
-      'Pilot a neon spacecraft through a thickening asteroid field, consuming glowing stars for energy. The more stars you devour, the faster the chaos — master precise maneuvers, collect rare Supernova orbs to go invincible, and chase the high score.',
-    model: 'Free to Play',
-    logoImg: '/logos/cosmoeatsstars.webp',
-    freeTrial: null,
-    url: 'https://play.google.com/store/apps/details?id=com.bytesmonks.CosmoEatStar',
-    cta: 'Play Now',
-    tiers: [{ name: 'Free', price: '$0', unit: 'Full game — no paywalls', highlight: true }],
-  },
-  {
-    name: 'Form Temple',
-    tagline: 'Serverless Form Backend & Spam Protection',
-    description:
-      'Generate secure API endpoints for any HTML form in seconds — no backend required. Built-in spam protection, file uploads, webhook notifications, and a submission analytics dashboard.',
-    model: 'Subscription',
-    freeTrial: 'Free forever for your first form',
-    url: 'https://formtemple.bytesmonks.com',
-    tiers: [
-      { name: 'Free', price: '$0', unit: '1 form, 100 submissions / mo', highlight: false },
-      { name: 'Pro', price: '$12', unit: '/ mo — 10 forms, unlimited', highlight: true },
-      { name: 'Team', price: '$29', unit: '/ mo — unlimited + team access', highlight: false },
-    ],
-  },
-];
-
-const faqs: FaqItem[] = [
-  { q: 'How does billing work?', a: 'All plans are billed monthly or annually in advance. You will receive a tax-compliant invoice automatically after each payment.' },
-  { q: 'Can I switch plans at any time?', a: 'Yes. You can upgrade or downgrade your platform plan at any time from your billing dashboard. Upgrades take effect immediately (prorated for the remainder of the cycle). Downgrades take effect at the start of the next billing cycle.' },
-  { q: 'Is there a free trial?', a: "The Growth platform plan includes a 14-day free trial with no credit card required. IT service retainers do not include a trial period but can be cancelled with 14 days' notice before your next billing date." },
-  { q: 'What is your refund policy?', a: "Platform plan subscriptions cancelled within 48 hours of the start of a new billing cycle are eligible for a full refund of that cycle's payment. After 48 hours, the subscription remains active until the end of the period — no partial refunds are issued. See our full Refund Policy for details." },
-  { q: 'Who handles my payment data?', a: 'Bytes Monks never stores your payment card details. All payment processing is handled by a PCI-DSS Level 1 certified payment provider. You will receive a compliant invoice after every payment.' },
-  { q: 'Are prices inclusive of tax?', a: 'Displayed prices are exclusive of applicable taxes (VAT, GST, sales tax). The tax amount applicable to your location will be calculated and shown at checkout before you confirm payment.' },
-  { q: 'Can I cancel at any time?', a: 'Yes. Platform subscriptions can be cancelled at any time via the billing dashboard — your access continues until the end of the current paid period. IT retainer contracts require 14 days written notice before the next billing date.' },
-  { q: 'Do you offer custom enterprise pricing?', a: 'Yes. For large teams, custom infrastructure requirements, or multi-year contracts, contact us at contact@bytesmonks.com to discuss a tailored plan.' },
-];
+import { platformPlans, retainerPlans, saasProducts } from '../data/pricing';
+import { faqs } from '../data/pricingFaqs';
+import type { FaqItem } from '../data/pricingFaqs';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: React.ReactNode; subtitle?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
       style={{ marginBottom: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}
@@ -290,9 +67,10 @@ export default function Pricing() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
+      <Seo path="/pricing" />
       <Navigation />
 
-      <main>
+      <main id="main" tabIndex={-1}>
       {/* Hero */}
       <section className="section" style={{ paddingTop: 160, paddingBottom: 40 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
@@ -306,8 +84,8 @@ export default function Pricing() {
               Simple plans, <span className="italic" style={{ color: 'var(--vermillion)' }}>real value</span>.
             </h1>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, marginTop: 24 }}>
-              Two product lines — a fully managed SaaS infrastructure platform and flexible IT
-              service retainers. No surprises, no lock-in.
+              Two things you can buy: a managed SaaS platform, or engineering hours
+              by the month. No lock-in.
             </p>
           </div>
 
@@ -329,12 +107,12 @@ export default function Pricing() {
         <SectionHeader
           eyebrow="I. SaaS Running Platform"
           title={<>Managed infrastructure <span className="italic" style={{ color: 'var(--vermillion)' }}>plans</span></>}
-          subtitle="We host, monitor, and operate your application infrastructure so you can focus on building product."
+          subtitle="We run your infrastructure. You build the product."
         />
 
         <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, marginBottom: 32 }}>
           {platformPlans.map((plan, i) => (
-            <motion.div key={plan.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }} style={{ position: 'relative' }}>
+            <motion.div key={plan.name} initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }} style={{ position: 'relative' }}>
               <div style={planCardStyle(plan.highlight)}>
                 {plan.badge && (
                   <span className="mono" style={{ position: 'absolute', top: -11, left: 24, background: 'var(--vermillion)', color: 'var(--bg)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 12px' }}>{plan.badge}</span>
@@ -382,12 +160,12 @@ export default function Pricing() {
           <SectionHeader
             eyebrow="II. IT Services"
             title={<>Engineering <span className="italic" style={{ color: 'var(--vermillion)' }}>retainers</span></>}
-            subtitle="Dedicated engineering hours billed monthly. Scope the work you need, pause or cancel with 14 days' notice."
+            subtitle="Engineering hours, billed monthly. Pause or cancel with 14 days' notice."
           />
 
           <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {retainerPlans.map((plan, i) => (
-              <motion.div key={plan.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
+              <motion.div key={plan.name} initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
                 <div style={planCardStyle(plan.highlight)}>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, marginBottom: 6 }}>
                     <span className="serif italic" style={{ fontSize: 30, color: 'var(--vermillion)', lineHeight: 1 }}>{plan.numeral}</span>
@@ -427,7 +205,7 @@ export default function Pricing() {
           </div>
 
           <p className="serif italic" style={{ marginTop: 28, fontSize: 17, color: 'var(--ink-soft)' }}>
-            Need a custom scope or a one-off project? <Link to="/#contact" className="link-ink">Talk to us</Link> — we'll put together a tailored proposal.
+            Odd scope, or a one-off project? <Link to="/#contact" className="link-ink">Talk to us</Link> and we'll write you a proposal.
           </p>
         </div>
       </section>
@@ -437,17 +215,17 @@ export default function Pricing() {
         <SectionHeader
           eyebrow="III. Live Products"
           title={<>Our running <span className="italic" style={{ color: 'var(--vermillion)' }}>SaaS projects</span></>}
-          subtitle="Beyond client work, we build and operate our own products — each with transparent, usage-based or subscription pricing."
+          subtitle="We run our own products too. Each is priced by usage or subscription."
         />
 
         <div className="pricing-2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
           {saasProducts.map((product, i) => (
-            <motion.div key={product.name} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
+            <motion.div key={product.name} initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: i * 0.1 }}>
               <div style={{ border: '1px solid var(--rule)', background: 'var(--bg)', padding: '30px', height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                     <div style={{ width: 44, height: 44, border: '1px solid var(--rule)', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-deep)' }}>
-                      {product.logoImg ? <img src={product.logoImg} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span className="serif italic" style={{ color: 'var(--vermillion)', fontSize: 18 }}>{product.name[0]}</span>}
+                      {product.logoImg ? <img src={product.logoImg} alt={`${product.name} logo`} width={240} height={240} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span className="serif italic" style={{ color: 'var(--vermillion)', fontSize: 18 }}>{product.name[0]}</span>}
                     </div>
                     <div>
                       <p className="serif" style={{ fontSize: 22, fontWeight: 500, color: 'var(--ink)', lineHeight: 1.1 }}>{product.name}</p>
@@ -521,7 +299,7 @@ export default function Pricing() {
                 Book a free 30-minute<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>strategy call.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 520, lineHeight: 1.5 }}>
-                We'll recommend the right combination for your stage and budget — no commitment required.
+                Tell us where you are and we'll say which plan fits. No commitment.
               </p>
             </div>
             <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>
@@ -536,7 +314,7 @@ export default function Pricing() {
 
       {/* Footer strip */}
       <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {new Date().getFullYear()} Ordo Bytorum</span>
+        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
           <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
