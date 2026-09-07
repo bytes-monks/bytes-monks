@@ -30,12 +30,8 @@ export default function About() {
       <div className="grid items-start" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 80 }}>
         <Reveal delay={120}>
           <p className="serif dropcap" style={{ fontSize: 22, lineHeight: 1.6, color: 'var(--ink)' }}>
-            Bytes Monks is a software and AI engineering house founded on a single heresy of
-            our age: that the craft still matters. We combine technical excellence with strategic
-            thinking — reading the problem before writing the answer, weighing each decision
-            against the decade it must survive. We do not just build software; we become your
-            long-term technical partners, and we measure ourselves in what remains useful after
-            we are gone.
+            Bytes Monks builds software and AI systems. We read the problem before we write
+            the answer, and most of what we ship is still running.
           </p>
           <div style={{ marginTop: 36, display: 'flex', alignItems: 'center', gap: 18 }}>
             <div className="seal">BM</div>

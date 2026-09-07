@@ -4,7 +4,7 @@ const sections = [
   {
     title: 'Acceptance of Terms',
     content:
-      'By accessing or using any services provided by Bytes Monks ("we", "us", "our"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.',
+      'By accessing or using any services provided by Bytes Monks ("we", "us", "our"), you agree to be bound by these Terms of Service. If you don\'t agree with them, don\'t use our services.',
   },
   {
     title: 'Services',
@@ -23,7 +23,7 @@ const sections = [
   {
     title: 'Intellectual Property',
     content:
-      'Upon receipt of full payment, all custom deliverables created specifically for you become your property. Bytes Monks retains ownership of pre-existing tools, frameworks, libraries, and methodologies used in the delivery of services. We reserve the right to reference your project in our portfolio unless you request otherwise in writing.',
+      'Upon receipt of full payment, all custom deliverables created specifically for you become your property. Bytes Monks keeps ownership of pre-existing tools, frameworks, libraries, and methodologies we use to deliver services. We reserve the right to reference your project in our portfolio unless you request otherwise in writing.',
   },
   {
     title: 'Confidentiality',
@@ -48,7 +48,7 @@ const sections = [
   {
     title: 'Changes to Terms',
     content:
-      'We may update these Terms of Service from time to time. Continued use of our services after changes are posted constitutes acceptance of the updated terms. We will notify active clients of material changes via email.',
+      'We may update these Terms of Service. Continued use of our services after changes are posted constitutes acceptance of the updated terms. We will notify active clients of material changes via email.',
   },
   {
     title: 'Contact',

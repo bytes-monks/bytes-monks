@@ -5,28 +5,28 @@ const rule = [
     num: 'I',
     title: 'Audiamus',
     en: 'We understand',
-    body: 'Before a single glyph is written, we read your problem aloud. Deep business analysis to uncover your core challenges — we map constraints, intentions, and the decade this thing must survive.',
+    body: 'We read the problem before we write anything. Then we write down what we heard, so you can tell us where we got it wrong.',
     practice: 'Discovery · architecture mapping · written RFC',
   },
   {
     num: 'II',
     title: 'Disponamus',
     en: 'We architect',
-    body: 'Architecture as intention. Clean, scalable design patterns that set the foundation for growth. Every boundary, contract, and dependency is weighed, named, and documented before it is correct.',
+    body: 'We draw the system before we build it. Every boundary and dependency gets a name and a written reason for being there.',
     practice: 'System design · data modeling · ADRs',
   },
   {
     num: 'III',
     title: 'Scribamus',
     en: 'We build',
-    body: 'The code is written slowly, on purpose. High-quality implementation with rigorous testing. Tests before conclusions, reviews before merges, delivered iteratively with full visibility and collaborative feedback.',
+    body: 'We write the code slowly, on purpose. Tests before conclusions, reviews before merges — and you see every piece as it ships.',
     practice: 'Iterative builds · rigorous tests · clean code',
   },
   {
     num: 'IV',
     title: 'Custodiamus',
     en: 'We keep vigil',
-    body: 'After launch, the work begins again. We monitor, we refactor, we tune for maximum efficiency — and we remain reachable at 3am when the build is on fire. The Rule does not end at delivery.',
+    body: "Launch isn't the end. We keep watching, and we pick up the phone at 3am when production is on fire.",
     practice: 'Observability · performance · long-term partnership',
   },
 ];
@@ -41,8 +41,8 @@ export default function Process() {
             Four precepts, <span className="italic" style={{ color: 'var(--vermillion)' }}>kept in order</span>.
           </h2>
           <p className="serif italic" style={{ fontSize: 20, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 600 }}>
-            Every project begins here and passes through each precept in turn. We do not skip
-            steps; the Rule has outlived every shortcut.
+            Every project passes through all four, in order. Skipping a step always costs
+            more later.
           </p>
         </div>
       </Reveal>

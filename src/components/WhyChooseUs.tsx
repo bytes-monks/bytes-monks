@@ -1,13 +1,13 @@
 import { Reveal } from './monastic';
 
 const vows = [
-  { t: 'Senior hands only', d: 'No juniors paid to fumble. Every project is handled by experienced engineers who have been burned before.' },
-  { t: 'AI as first principle', d: 'Intelligence is not a feature we bolt on. It is a substrate we design around from the first meeting.' },
-  { t: 'Architecture that ages well', d: 'We build for the version of your company three years from now. Rewrites are a failure of design, not of time.' },
+  { t: 'Senior hands only', d: 'No juniors learning on your budget. Everyone who touches your code has been burned before.' },
+  { t: 'AI as first principle', d: 'We plan for AI from the first meeting. Bolting it on afterwards never works well.' },
+  { t: 'Architecture that ages well', d: 'We build for your company three years from now. A rewrite usually means someone guessed wrong early.' },
   { t: 'Rapid, not rushed', d: 'Fast iteration cycles with honest feedback. Urgency without panic.' },
-  { t: 'Clear speech at all times', d: 'No black boxes, no weasel words. You always know exactly where the work stands.' },
+  { t: 'Clear speech at all times', d: 'No black boxes, no weasel words. You always know where the work stands.' },
   { t: 'We stay', d: 'Partnerships outlast contracts. If your product grows, so does our involvement.' },
-  { t: 'Code read as prose', d: 'If the next engineer cannot read it aloud, we rewrite it. Documentation is a kindness, not a chore.' },
+  { t: 'Code read as prose', d: "If the next engineer can't read it, we rewrite it. Docs are a kindness, not a chore." },
   { t: 'Vigil through the night', d: "Production doesn't care what time it is. Neither do we when something is burning." },
 ];
 
@@ -23,7 +23,7 @@ export default function WhyChooseUs() {
                 Eight vows <br /><span className="italic" style={{ color: 'var(--vermillion)' }}>we keep</span>.
               </h2>
               <p className="serif italic" style={{ fontSize: 18, color: 'var(--ink-soft)', marginTop: 24, maxWidth: 340 }}>
-                Spoken when we are hired. Re-read before every release. Broken by no one in the order.
+                We say these when you hire us. We re-read them before every release.
               </p>
               <a href="#contact" className="btn" style={{ marginTop: 28 }}>Start Your Project →</a>
             </div>

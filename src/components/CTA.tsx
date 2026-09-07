@@ -23,12 +23,12 @@ export default function CTA() {
             <div style={{ padding: 'clamp(32px, 5vw, 56px) clamp(28px, 5vw, 64px)' }}>
               <span className="eyebrow">Ready to build?</span>
               <h2 className="serif" style={{ fontSize: 'clamp(38px, 5vw, 72px)', lineHeight: 0.95, marginTop: 20, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                Let's create something
+                Let's build something
                 <br />
-                <span className="italic" style={{ color: 'var(--vermillion)' }}>exceptional together.</span>
+                <span className="italic" style={{ color: 'var(--vermillion)' }}>that stays up.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 20, color: 'var(--ink-soft)', marginTop: 24, maxWidth: 480, lineHeight: 1.5 }}>
-                Tell us about your project. We'll respond within a day with a plan tailored to your goals.
+                Tell us about your project. We'll reply within a day with a plan.
               </p>
             </div>
 

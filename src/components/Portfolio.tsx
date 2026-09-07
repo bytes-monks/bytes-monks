@@ -8,11 +8,11 @@ const chronicles = [
     category: 'Ars Sustinendi',
     verse: 'A faltering infrastructure, moved stone by stone to a new foundation.',
     problem:
-      'Legacy infrastructure on OVH lacked scalability, resilience, and modern deployment capabilities, putting production reliability at risk.',
+      "Their OVH setup couldn't scale and had no safe way to deploy. Production was one bad night from going down.",
     solution:
-      'Migrated the entire infrastructure to Azure with automated scalability, a robust backup process, and CI/CD pipelines via GitHub Actions for seamless multi-environment deployments. Also migrated the production database to PostgreSQL with query optimizations.',
+      'We moved everything to Azure, with backups and GitHub Actions pipelines per environment. The database went to PostgreSQL and we tuned the slow queries.',
     impact:
-      'Up to 80% improvement in database query performance, zero-downtime deployments across environments, and a fully automated, resilient cloud infrastructure.',
+      'Queries run up to 80% faster. Deploys happen with no downtime, in every environment.',
     measure: 'LXXX',
     measureUnit: '% faster queries',
   },
@@ -22,11 +22,11 @@ const chronicles = [
     category: 'Ars Fabricandi',
     verse: "A children's learning platform, kept alive and growing for its young pupils.",
     problem:
-      "A growing children's education application needed reliable infrastructure, a secure admin control panel, and a scalable game backend to support its expanding user base.",
+      "A children's learning app was outgrowing its infrastructure. It also needed an admin panel and a game backend that could keep up.",
     solution:
-      "Designed and maintained the full cloud infrastructure, implemented automated backup processes, built a comprehensive administration and control panel, and developed and maintained the game's backend systems.",
+      "We built and still run the cloud infrastructure, with automated backups. We also built the admin panel and the game's backend.",
     impact:
-      'Stable, scalable platform supporting continuous growth, with full operational visibility through the admin panel and reliable game experiences for young learners.',
+      'The platform keeps up as the user base grows. The team can see what is happening and fix it from the admin panel.',
     measure: 'C',
     measureUnit: '% uptime',
   },
@@ -36,11 +36,11 @@ const chronicles = [
     category: 'Ars Intelligentia',
     verse: "An artificial scribe, reasoning over its master's own books.",
     problem:
-      'Users needed a personalized AI assistant capable of reasoning over their own unique knowledge bases, with integrated payments, transcription, and analytics — all delivered reliably.',
+      'Users wanted an AI assistant that actually knew their own documents. It also had to handle payments, transcription and analytics.',
     solution:
-      "Designed and implemented an AI Co-Pilot functioning as an expert agent over users' custom knowledge databases. Delivered CI/CD pipelines, automated database backups, a transcription service, online payment integration, and an analytics module.",
+      "We built an AI Co-Pilot that answers from each user's own knowledge base. Around it: CI/CD, database backups, transcription, payments and analytics.",
     impact:
-      'A fully production-ready AI platform with end-to-end automation, enabling users to interact with their own knowledge through a powerful, reliable, and extensible agent.',
+      'It shipped to production with the automation in place. Users now ask their own books a question instead of digging through files.',
     measure: 'AI',
     measureUnit: 'full-stack agent',
   },
@@ -58,7 +58,7 @@ export default function Portfolio() {
             </h2>
           </div>
           <p className="serif italic" style={{ fontSize: 18, color: 'var(--ink-soft)', maxWidth: 280 }}>
-            Three entries from a longer volume. Real problems, real solutions, measurable impact.
+            Three entries from a longer volume. Real work, real numbers.
           </p>
         </div>
       </Reveal>

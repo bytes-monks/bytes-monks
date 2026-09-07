@@ -120,9 +120,8 @@ export default function Hero() {
 
             <Reveal delay={220}>
               <p className="serif italic" style={{ fontSize: 22, lineHeight: 1.55, maxWidth: 560, color: 'var(--ink-soft)', marginBottom: 40 }}>
-                An order of engineers in the old tradition — patient, disciplined, and
-                obsessed with the work itself. We build systems that age like stone, not
-                like software.
+                We're engineers in the old tradition — patient, and a little obsessive.
+                We build software that's still standing years later.
               </p>
             </Reveal>
 

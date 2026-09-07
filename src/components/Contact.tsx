@@ -54,8 +54,8 @@ export default function Contact() {
               <br />problem.
             </h2>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', marginTop: 28, maxWidth: 480, lineHeight: 1.5 }}>
-              Tell us what you are trying to build, or what has gone wrong with what you have built.
-              We reply within a day, in plain language, with a plan — no commitment required.
+              Tell us what you're building, or what broke. We'll reply within a day with a plan.
+              No commitment.
             </p>
 
             <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -74,7 +74,7 @@ export default function Contact() {
                 <div className="seal" style={{ margin: '0 auto 24px' }}>✓</div>
                 <h3 className="serif italic" style={{ fontSize: 30, color: 'var(--ink)', marginBottom: 12 }}>Your letter is sealed</h3>
                 <p className="serif" style={{ fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                  Thank you for reaching out. We'll get back to you within a day.
+                  Thanks for writing. We'll get back to you within a day.
                 </p>
               </div>
             ) : (
@@ -98,7 +98,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <label htmlFor="message" className={labelClass} style={labelStyle}>Your petition</label>
-                  <textarea id="message" name="message" required rows={4} value={formData.message} onChange={handleChange} disabled={status === 'loading'} placeholder="Tell us about your project, goals, and timeline…" className="ms-input" style={{ resize: 'vertical', fontStyle: 'normal', fontSize: 18, lineHeight: 1.6 }} />
+                  <textarea id="message" name="message" required rows={4} value={formData.message} onChange={handleChange} disabled={status === 'loading'} placeholder="What you're building, and by when…" className="ms-input" style={{ resize: 'vertical', fontStyle: 'normal', fontSize: 18, lineHeight: 1.6 }} />
                 </div>
 
                 <button type="submit" disabled={status === 'loading'} className="btn" style={{ justifyContent: 'center' }}>

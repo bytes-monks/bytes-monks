@@ -14,7 +14,7 @@ const sections = [
         by <P>Bytes Monks</P> ("we", "us", "our"). This policy explains what information is
         collected, how it is used, and your rights — including the rights of parents and guardians
         on behalf of children. By downloading or playing Cosmo Eats Stars you agree to the
-        practices described herein.
+        practices described here.
       </>
     ),
   },
@@ -207,8 +207,8 @@ const sections = [
       <>
         <P>Right to know:</P> Parents and guardians may contact us at{' '}
         <P>contact@bytesmonks.com</P> to ask what, if any, information we hold that relates to
-        their child. Because we do not collect personal player profiles, in almost all cases the
-        answer is that we hold no such information.
+        their child. Because we don't collect player profiles, the answer is almost always that
+        we hold nothing.
       </>,
       <>
         <P>Right to deletion:</P> If you believe we inadvertently collected personal information
@@ -217,8 +217,8 @@ const sections = [
         delete it within <P>14 business days</P> and confirm by email.
       </>,
       <>
-        <P>Right to refuse / opt out of further collection:</P> Because no personal data is
-        collected by us, there is nothing to opt out of on our side. To prevent AdMob from
+        <P>Right to refuse / opt out of further collection:</P> Because we collect no personal
+        data, there's nothing to opt out of on our side. To prevent AdMob from
         accessing even the limited device signals it may use for non-personalised ads, you may
         uninstall the app.
       </>,

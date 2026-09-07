@@ -4,7 +4,7 @@ const sections = [
   {
     title: 'Overview',
     content:
-      'At Bytes Monks, we take pride in the quality of our work. Because our services are custom and time-based, our refund policy is designed to be fair to both parties while protecting the investment of time and resources committed to each project.',
+      'We take pride in our work. Our services are custom and time-based, so this policy aims to be fair to both sides.',
   },
   {
     title: 'Deposits & Upfront Payments',
@@ -38,7 +38,7 @@ const sections = [
   {
     title: 'Dispute Resolution',
     content:
-      'Before requesting a refund, we encourage clients to contact us at contact@bytesmonks.com to discuss concerns. Most issues can be resolved through open communication. If a resolution cannot be reached, both parties agree to attempt mediation before pursuing formal legal action.',
+      'Before requesting a refund, email us at contact@bytesmonks.com and tell us what went wrong. A conversation usually sorts it out. If a resolution cannot be reached, both parties agree to attempt mediation before pursuing formal legal action.',
   },
   {
     title: 'How to Request a Refund',

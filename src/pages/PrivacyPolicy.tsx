@@ -8,7 +8,7 @@ const sections = [
   {
     title: 'Introduction',
     content:
-      'Bytes Monks ("we", "us", "our") is committed to protecting your personal data. This Privacy Policy explains what information we collect, how we use it, who we share it with, and your rights in relation to it. It applies to all Bytes Monks digital properties, including our website (bytesmonks.com), our web applications, and our mobile applications published on the Google Play Store.',
+      'Bytes Monks ("we", "us", "our") wrote this policy to explain what we collect, how we use it, who we share it with, and what rights you have. It applies to all Bytes Monks digital properties, including our website (bytesmonks.com), our web applications, and our mobile applications published on the Google Play Store.',
   },
   {
     title: 'Scope — Products Covered',
@@ -107,14 +107,14 @@ const sections = [
     title: 'Account & Data Deletion',
     content: (
       <>
-        If you have an account with any of our web apps (<P>Genify</P> or <P>Form Temple</P>), you may request deletion of your account and all associated personal data by emailing contact@bytesmonks.com with the subject line "Account Deletion Request". We will process your request within 14 business days and confirm deletion by email. For <P>Cosmo Eats Stars</P>, no account is created; no personal data is stored on our servers, so no deletion request is necessary beyond opting out of ad personalisation on your device.
+        If you have an account with any of our web apps (<P>Genify</P> or <P>Form Temple</P>), you may request deletion of your account and all associated personal data. Email contact@bytesmonks.com with the subject line "Account Deletion Request". We will process it within 14 business days and confirm deletion by email. <P>Cosmo Eats Stars</P> creates no account and stores no personal data on our servers. There is nothing to delete, beyond opting out of ad personalisation on your device.
       </>
     ),
   },
   {
     title: "Children's Privacy",
     content: [
-      'Our corporate website and web applications (bytesmonks.com, Genify, Form Temple) are not directed at children under the age of 13 (or under 16 in the European Economic Area) and we do not knowingly collect personal data from children through those services.',
+      'Our corporate website and web applications (bytesmonks.com, Genify, Form Temple) are not directed at children under the age of 13, or under 16 in the European Economic Area. We do not knowingly collect personal data from children through those services.',
       <>
         <P>Cosmo Eats Stars</P> is a mixed-audience mobile game accessible to players of all ages.
         For that app we apply the strongest available protections to all users: child-directed

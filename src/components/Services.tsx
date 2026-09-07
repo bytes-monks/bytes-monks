@@ -1,48 +1,37 @@
 import { useState } from 'react';
 import { Reveal } from './monastic';
+import { coreDisciplines } from '../data/disciplines';
 
-const disciplines = [
+const detail = [
   {
-    num: 'I',
-    sigil: '✚',
-    name: 'Ars Intelligentia',
-    subtitle: 'AI & Machine Learning',
-    oath: 'To summon intelligence into matter, and keep it faithful.',
+    oath: 'To make machines think, and keep them honest.',
     gloss:
-      'Intelligent systems that learn, adapt, and automate complex workflows — from LLM-powered agents and CV-matching pipelines to production-grade automation that gives your business a measurable edge.',
+      'We build LLM agents, CV-matching pipelines, and automation that runs without a babysitter.',
     works: ['Custom AI systems', 'LLM integrations', 'Chatbots & agents', 'CV-to-role matching', 'Workflow automation'],
   },
   {
-    num: 'II',
-    sigil: '⚜',
-    name: 'Ars Fabricandi',
-    subtitle: 'Custom Software Development',
     oath: 'To make things that work, and keep working.',
     gloss:
-      'Full-stack systems tailored to the grain of your business — from lean MVPs to enterprise-grade SaaS platforms, APIs, and mobile apps engineered to scale without friction.',
+      'Web apps, SaaS platforms, APIs, and mobile apps. We start with the smallest version that\'s actually useful.',
     works: ['Web applications', 'SaaS platforms', 'Backend architecture', 'API development', 'Mobile apps'],
   },
   {
-    num: 'III',
-    sigil: '❖',
-    name: 'Ars Datarum',
-    subtitle: 'Data Engineering',
     oath: 'To render the unseen legible.',
     gloss:
-      'Pipelines, warehouses, and vector stores that turn raw streams into analytics your board can read and your models can learn from.',
+      'Pipelines, warehouses, and vector stores. Raw data goes in, numbers your team can actually read come out.',
     works: ['Data pipelines', 'Vector search', 'Analytics systems', 'AI-driven insights', 'Data warehousing'],
   },
   {
-    num: 'IV',
-    sigil: '⁕',
-    name: 'Ars Sustinendi',
-    subtitle: 'DevOps & Scaling',
     oath: 'To keep the vigil when others sleep.',
     gloss:
-      'Automated, observable, resilient infrastructure — zero-downtime deploys, proper CI/CD, and cloud topology that survives a Tuesday.',
+      'Deploys that need no maintenance window, and CI/CD that actually runs. Production doesn\'t care what time it is.',
     works: ['Cloud deployment', 'Docker & Kubernetes', 'CI/CD pipelines', 'Performance tuning', 'Monitoring & logging'],
   },
 ];
+
+// Latin name, numeral and sigil come from the shared list; only the oath,
+// gloss and works are specific to the services section.
+const disciplines = coreDisciplines.map((d, i) => ({ ...d, ...detail[i] }));
 
 export default function Services() {
   const [active, setActive] = useState(0);
