@@ -1,121 +1,19 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MapPin, Clock, Briefcase, Users, Globe, X } from 'lucide-react';
+import { MapPin, Clock, Briefcase, Users, Globe } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import Seo from '../components/Seo';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface JobOffer {
-  id: string;
-  title: string;
-  type: string;
-  location: string;
-  department: string;
-  commitment: string;
-  badge?: string;
-  numeral: string;
-  tagline: string;
-  about: string;
-  responsibilities: string[];
-  requirements: string[];
-  niceToHave: string[];
-  perks: string[];
-}
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const jobs: JobOffer[] = [
-  {
-    id: 'social-media-manager-intern',
-    title: 'Social Media Manager',
-    type: 'Internship',
-    location: 'Remote',
-    department: 'Marketing',
-    commitment: 'Part-time · 20 hrs / week',
-    badge: 'Now Hiring',
-    numeral: 'I',
-    tagline: 'Shape our voice online and grow a community around what we build.',
-    about:
-      'Bytes Monks is looking for a creative and driven Social Media Manager Intern to own our presence across LinkedIn, Twitter/X, and Instagram. You will craft content that showcases our products (Genify, Form Temple) and our agency work, engage our community, and help us grow from a niche dev studio into a recognisable tech brand.',
-    responsibilities: [
-      'Plan and publish 4–6 posts per week across LinkedIn, Twitter/X, and Instagram',
-      'Write engaging copy that bridges technical topics with a broader audience',
-      'Respond to comments, DMs, and brand mentions in a timely, on-brand manner',
-      'Track performance metrics (reach, engagement, follower growth) and report weekly',
-      'Collaborate with the dev team to promote product launches and feature releases',
-      'Research trending topics in tech, AI, and SaaS to fuel content ideas',
-      'Assist in creating short-form video scripts and visual content briefs',
-    ],
-    requirements: [
-      'Currently enrolled in or recently graduated from a Marketing, Communications, or related programme',
-      'Strong written English — clear, concise, and engaging',
-      'Genuine interest in technology, startups, or SaaS products',
-      'Familiarity with LinkedIn, Twitter/X, and Instagram content formats',
-      'Ability to work independently and meet deadlines without micromanagement',
-      'Available for at least 20 hours per week',
-    ],
-    niceToHave: [
-      'Experience with Canva, Figma, or Adobe Express for visual content',
-      'Basic understanding of SEO and content marketing',
-      'Prior internship or freelance social media work',
-      'Passion for AI or developer tools',
-    ],
-    perks: [
-      'Fully remote & flexible hours',
-      'Letter of recommendation upon successful completion',
-      'Early access to all Bytes Monks products',
-      'Potential conversion to paid role based on performance',
-    ],
-  },
-  {
-    id: 'business-developer-intern',
-    title: 'Business Developer',
-    type: 'Internship',
-    location: 'Remote',
-    department: 'Growth',
-    commitment: 'Part-time · 20 hrs / week',
-    badge: 'Now Hiring',
-    numeral: 'II',
-    tagline: 'Drive partnerships, support deals, and get hands-on experience in startup growth.',
-    about:
-      'Bytes Monks is looking for an ambitious Business Developer Intern to support our growth efforts — identifying new client opportunities, nurturing strategic partnerships, and helping scale our agency and SaaS revenue. You will work directly with the founders, get real exposure to the full sales cycle, and have a tangible impact on company direction from day one.',
-    responsibilities: [
-      'Research and qualify new business opportunities through outbound prospecting (LinkedIn, cold email, events)',
-      'Support discovery calls, proposals, and follow-up communications',
-      'Help build and maintain relationships with prospects, clients, and strategic partners',
-      'Collaborate with the tech team to understand and communicate our service offerings',
-      'Track pipeline activity in CRM and report progress on weekly targets',
-      'Represent Bytes Monks at online tech / startup events and communities',
-      'Gather market feedback to inform product roadmap and positioning',
-    ],
-    requirements: [
-      'Currently enrolled in or recently graduated from a Business, Marketing, or related programme',
-      'Strong communication skills — clear, persuasive, and professional',
-      'Genuine interest in technology, startups, or SaaS products',
-      'Proactive self-starter mindset: you take initiative and follow through',
-      'Ability to work independently and manage your time across 20 hours per week',
-      'Fluent written and spoken English',
-    ],
-    niceToHave: [
-      'Prior experience in sales, business development, or a client-facing role',
-      'Understanding of web technologies or SaaS business models',
-      'Existing network in the startup or SME ecosystem',
-    ],
-    perks: [
-      'Fully remote & flexible hours',
-      'Letter of recommendation upon successful completion',
-      'Mentorship from the founding team and direct exposure to startup operations',
-      'Early access to all Bytes Monks products and internal tools',
-      'Potential conversion to paid role based on performance',
-    ],
-  },
-];
+import { jobs } from '../data/jobs';
+import type { JobOffer } from '../data/jobs';
 
 const cultureItems = [
-  { glyph: 'α', title: 'Move Fast', body: 'We ship weekly. No bloated processes — just clear goals, real ownership, and quick iterations.' },
-  { glyph: 'β', title: 'Remote-first', body: 'Work from anywhere. Async by default, with structured check-ins to stay aligned.' },
-  { glyph: 'γ', title: 'Grow With Us', body: 'Early-stage means your contributions have real impact. What you build here, the world uses.' },
+  { glyph: 'α', title: 'Move Fast', body: 'We ship weekly. You own your work and decide how it gets done.' },
+  { glyph: 'β', title: 'Remote-first', body: 'Work from anywhere. Async by default, plus a weekly check-in.' },
+  { glyph: 'γ', title: 'Grow With Us', body: "We're small, so your work shows. What you build here, people use." },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -128,10 +26,11 @@ function MetaPill({ icon: Icon, label }: { icon: React.ElementType; label: strin
   );
 }
 
-function JobCard({ job, index, onOpen }: { job: JobOffer; index: number; onOpen: (id: string) => void }) {
+function JobCard({ job, index, open, onToggle }: { job: JobOffer; index: number; open: boolean; onToggle: (id: string) => void }) {
+  const detailId = `job-detail-${job.id}`;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: index * 0.1 }}
       className="folio"
@@ -170,97 +69,86 @@ function JobCard({ job, index, onOpen }: { job: JobOffer; index: number; onOpen:
           ))}
         </div>
 
-        <button onClick={() => onOpen(job.id)} className="btn" style={{ width: '100%', justifyContent: 'center' }}>View Full Role →</button>
+        <button
+          onClick={() => onToggle(job.id)}
+          aria-expanded={open}
+          aria-controls={detailId}
+          className="btn"
+          style={{ width: '100%', justifyContent: 'center' }}
+        >
+          {open ? 'Hide Full Role ↑' : 'View Full Role →'}
+        </button>
+
+        <JobDetails job={job} open={open} id={detailId} />
       </div>
     </motion.div>
   );
 }
 
-function ModalSection({ title, children }: { title: string; children: React.ReactNode }) {
+function DetailSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section style={{ marginBottom: 28 }}>
+    <section style={{ marginBottom: 24 }}>
       <div className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--vermillion)', marginBottom: 12 }}>{title}</div>
       {children}
     </section>
   );
 }
 
-function JobModal({ job, onClose }: { job: JobOffer; onClose: () => void }) {
+function BulletList({ items, marker, color }: { items: string[]; marker: string; color: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: 16, background: 'color-mix(in oklch, var(--ink) 55%, transparent)', backdropFilter: 'blur(4px)', overflowY: 'auto' }}
-      onClick={onClose}
+    <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {items.map((r) => (
+        <li key={r} className="serif" style={{ display: 'flex', gap: 10, fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+          <span aria-hidden style={{ color, flexShrink: 0 }}>{marker}</span> {r}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * The full role, rendered into the DOM on every page load and collapsed with
+ * CSS rather than mounted on demand.
+ *
+ * This is load-bearing for SEO, not just a style choice: src/lib/pageSchema.ts
+ * emits a JobPosting whose `description` is built from exactly this text, and
+ * Google requires that markup to describe content the page actually shows.
+ * `visibility` keeps it out of the accessibility tree and the tab order while
+ * collapsed, without removing it from the prerendered HTML.
+ */
+function JobDetails({ job, open, id }: { job: JobOffer; open: boolean; id: string }) {
+  return (
+    <div
+      id={id}
+      style={{
+        display: 'grid',
+        gridTemplateRows: open ? '1fr' : '0fr',
+        visibility: open ? 'visible' : 'hidden',
+        transition: `grid-template-rows 0.35s cubic-bezier(.2,.8,.2,1), visibility 0s linear ${open ? '0s' : '0.35s'}`,
+      }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 32 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 16 }}
-        transition={{ duration: 0.28 }}
-        style={{ width: '100%', maxWidth: 720, margin: '32px 0', background: 'var(--bg)', border: '1px solid var(--ink)', boxShadow: '8px 8px 0 var(--vermillion)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div style={{ padding: 'clamp(28px, 4vw, 44px)' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 24 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
-              <span className="serif italic" style={{ fontSize: 48, color: 'var(--vermillion)', lineHeight: 0.85 }}>{job.numeral}</span>
-              <div>
-                <h2 className="serif" style={{ fontSize: 32, fontWeight: 500, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{job.title}</h2>
-                <p className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 6 }}>{job.department} · {job.type}</p>
-              </div>
-            </div>
-            <button onClick={onClose} aria-label="Close" style={{ background: 'transparent', border: '1px solid var(--rule)', color: 'var(--ink-soft)', cursor: 'pointer', padding: 6, flexShrink: 0 }}>
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
-            <MetaPill icon={MapPin} label={job.location} />
-            <MetaPill icon={Clock} label={job.commitment} />
-            <MetaPill icon={Globe} label="Remote-first" />
-          </div>
-
-          <ModalSection title="About the role">
-            <p className="serif" style={{ fontSize: 18, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{job.about}</p>
-          </ModalSection>
-
-          <ModalSection title="What you'll do">
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {job.responsibilities.map((r, i) => (
-                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--vermillion)', flexShrink: 0 }}>⁜</span> {r}</li>
-              ))}
-            </ul>
-          </ModalSection>
-
-          <ModalSection title="What we're looking for">
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {job.requirements.map((r, i) => (
-                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--ink-faint)', flexShrink: 0 }}>—</span> {r}</li>
-              ))}
-            </ul>
-          </ModalSection>
-
-          <ModalSection title="Nice to have">
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {job.niceToHave.map((r, i) => (
-                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-faint)', lineHeight: 1.5 }}><span style={{ flexShrink: 0 }}>·</span> {r}</li>
-              ))}
-            </ul>
-          </ModalSection>
-
-          <ModalSection title="What you'll get">
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {job.perks.map((p, i) => (
-                <li key={i} className="serif" style={{ display: 'flex', gap: 10, fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5 }}><span style={{ color: 'var(--gilt)', flexShrink: 0 }}>✦</span> {p}</li>
-              ))}
-            </ul>
-          </ModalSection>
+      <div style={{ overflow: 'hidden' }}>
+        <div style={{ paddingTop: 26, marginTop: 26, borderTop: '1px solid var(--rule-soft)' }}>
+          <DetailSection title="About the role">
+            <p className="serif" style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{job.about}</p>
+          </DetailSection>
+          <DetailSection title="What you'll do">
+            <BulletList items={job.responsibilities} marker="⁜" color="var(--vermillion)" />
+          </DetailSection>
+          <DetailSection title="What we're looking for">
+            <BulletList items={job.requirements} marker="—" color="var(--ink-faint)" />
+          </DetailSection>
+          <DetailSection title="Nice to have">
+            <BulletList items={job.niceToHave} marker="·" color="var(--ink-faint)" />
+          </DetailSection>
+          <DetailSection title="What you'll get">
+            <BulletList items={job.perks} marker="✦" color="var(--gilt)" />
+          </DetailSection>
 
           <a
             href={`mailto:contact@bytesmonks.com?subject=Application – ${job.title}&body=Hi Bytes Monks team,%0D%0A%0D%0AI'd like to apply for the ${job.title} position.%0D%0A%0D%0A[Tell us a bit about yourself and attach your CV]`}
             className="btn"
+            tabIndex={open ? undefined : -1}
             style={{ width: '100%', justifyContent: 'center' }}
           >
             Apply Now — Send Your Application →
@@ -269,8 +157,8 @@ function JobModal({ job, onClose }: { job: JobOffer; onClose: () => void }) {
             Send your CV and a short intro to contact@bytesmonks.com
           </p>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -278,13 +166,14 @@ function JobModal({ job, onClose }: { job: JobOffer; onClose: () => void }) {
 
 export default function Hiring() {
   const [openJobId, setOpenJobId] = useState<string | null>(null);
-  const activeJob = jobs.find((j) => j.id === openJobId) ?? null;
+  const toggle = (id: string) => setOpenJobId((cur) => (cur === id ? null : id));
 
   return (
     <div style={{ minHeight: '100vh' }}>
+      <Seo path="/hiring" />
       <Navigation />
 
-      <main>
+      <main id="main" tabIndex={-1}>
       {/* Hero */}
       <section className="section" style={{ paddingTop: 160, paddingBottom: 40 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
@@ -302,8 +191,8 @@ export default function Hiring() {
               Build the future <span className="italic" style={{ color: 'var(--vermillion)' }}>with us</span>.
             </h1>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, margin: '24px 0 32px' }}>
-              We're a small order shipping real products. If you're hungry, self-driven, and excited
-              about the intersection of tech and business — you'll fit right in.
+              We're a small order shipping real products. If you're self-driven and like
+              tech and business, you'll fit here.
             </p>
             <a href="#positions" className="btn">See Open Roles →</a>
           </div>
@@ -337,11 +226,11 @@ export default function Hiring() {
               {jobs.length} roles <span className="italic" style={{ color: 'var(--vermillion)' }}>available</span>.
             </h2>
           </div>
-          <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 280 }}>Click any folio to read the full role and apply.</p>
+          <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 280 }}>Open any folio to read the full role and apply.</p>
         </div>
 
         <div className="jobs-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-          {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i} onOpen={setOpenJobId} />)}
+          {jobs.map((job, i) => <JobCard key={job.id} job={job} index={i} open={openJobId === job.id} onToggle={toggle} />)}
         </div>
       </section>
 
@@ -389,7 +278,7 @@ export default function Hiring() {
 
       {/* Footer strip */}
       <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {new Date().getFullYear()} Ordo Bytorum</span>
+        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
           <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
@@ -397,9 +286,6 @@ export default function Hiring() {
         </div>
       </footer>
 
-      <AnimatePresence>
-        {activeJob && <JobModal job={activeJob} onClose={() => setOpenJobId(null)} />}
-      </AnimatePresence>
     </div>
   );
 }
