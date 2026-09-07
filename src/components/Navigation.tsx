@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Mark, Wordmark } from './Logo';
+import { prefetchRoute } from '../routes';
 
 const navLinks = [
   { name: 'The Order', to: '/#about' },
   { name: 'Disciplines', to: '/#services' },
-  { name: 'The Rule', to: '/#process' },
   { name: 'Chronicles', to: '/#portfolio' },
+  { name: 'Talent', to: '/talent-sourcing' },
+  { name: 'Products', to: '/product-sourcing' },
   { name: 'Tariff', to: '/pricing' },
   { name: 'Take Vows', to: '/hiring', dot: true },
 ];
@@ -26,12 +28,16 @@ export default function Navigation() {
 
   return (
     <motion.nav
-      initial={{ y: -80, opacity: 0 }}
+      // The nav is on every prerendered page; animating in from opacity:0 would
+      // hide the whole internal-link block from non-rendering crawlers.
+      initial={false}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
       className="nav"
       style={{ borderBottomColor: isScrolled ? 'var(--rule)' : 'transparent' }}
     >
+      <a href="#main" className="skip-link">Skip to content</a>
+
       {/* Logo lockup */}
       <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--ink)', textDecoration: 'none' }}>
         <span className="flicker" style={{ color: 'var(--ink)' }}>
@@ -48,7 +54,12 @@ export default function Navigation() {
       {/* Desktop nav */}
       <div className="hidden md:flex items-center" style={{ gap: 24 }}>
         {navLinks.map((link) => (
-          <Link key={link.name} to={link.to}>
+          <Link
+            key={link.name}
+            to={link.to}
+            onMouseEnter={() => prefetchRoute(link.to)}
+            onFocus={() => prefetchRoute(link.to)}
+          >
             {link.name}
             {link.dot && (
               <span style={{ marginLeft: 6, display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'var(--sage)', verticalAlign: 'middle' }} />
@@ -68,6 +79,7 @@ export default function Navigation() {
         style={{ color: 'var(--ink-soft)', background: 'transparent', border: 'none', cursor: 'pointer', padding: 4 }}
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         aria-label="Toggle menu"
+        aria-expanded={isMobileMenuOpen}
       >
         {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
       </button>

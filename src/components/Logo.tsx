@@ -1,5 +1,7 @@
 // Bytes Monks mark: a monastic sigil fused with a bracket/byte glyph
 
+import { useId } from 'react';
+
 interface MarkProps {
   size?: number;
   strokeWidth?: number;
@@ -12,7 +14,9 @@ export function Mark({ size = 44, strokeWidth = 1.5, variant = 'full', className
   const cx = s / 2, cy = s / 2;
   const ringR = s * 0.47;
   const innerR = s * 0.38;
-  const pathId = `logo-arc-${Math.round(s)}`;
+  // useId is hydration-stable; deriving the id from `size` collided whenever
+  // two marks shared a size, which is invalid HTML in the prerendered output.
+  const pathId = `logo-arc-${useId().replace(/:/g, '')}`;
 
   const ringText = variant === 'full';
 

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { Mark } from './Logo';
 import Navigation from './Navigation';
+import Seo from './Seo';
 
 interface Section {
   title: string;
@@ -30,7 +31,7 @@ function toRoman(n: number): string {
 const covenants = [
   { to: '/privacy', book: 'Book I', title: 'Privacy Covenant', blurb: 'What we gather, and how we keep it.' },
   { to: '/terms', book: 'Book II', title: 'Rule of Service', blurb: 'The compact between the Order and you.' },
-  { to: '/refund', book: 'Book III', title: 'Refund Covenant', blurb: 'How coin is returned when work does not serve.' },
+  { to: '/refund', book: 'Book III', title: 'Refund Covenant', blurb: 'How coin comes back when the work doesn\'t serve.' },
 ];
 
 export default function LegalLayout({ title, subtitle, lastUpdated, sections }: LegalLayoutProps) {
@@ -54,9 +55,10 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
 
   return (
     <>
+      <Seo path={pathname} />
       <Navigation />
 
-      <main>
+      <main id="main" tabIndex={-1}>
       {/* Hero */}
       <section className="section" style={{ paddingTop: 160, paddingBottom: 60, position: 'relative', zIndex: 3 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 36, flexWrap: 'wrap' }}>
@@ -70,7 +72,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
           ))}
         </h1>
         <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 760, lineHeight: 1.5, marginBottom: 24 }}>
-          Set down in plain hand by the Brothers — in language you can actually read.
+          Written in plain hand by the Brothers, in language you can actually read.
         </p>
         <span className="mono" style={{ fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>Last revised · {lastUpdated}</span>
       </section>
@@ -131,7 +133,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
               <div>
                 <span className="eyebrow">Colophon</span>
                 <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 14, maxWidth: 420, lineHeight: 1.5 }}>
-                  Set down in plain hand by the Brothers. Questions or petitions may be sent to contact@bytesmonks.com — we read every letter.
+                  Written in plain hand by the Brothers. Send questions to contact@bytesmonks.com — we read every letter.
                 </p>
               </div>
               <div style={{ textAlign: 'center' }}>
@@ -170,7 +172,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {new Date().getFullYear()} Ordo Bytorum</span>
+        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
           <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>

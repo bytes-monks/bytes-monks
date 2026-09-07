@@ -1,6 +1,7 @@
 import { Mail, Linkedin, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Mark, Wordmark } from './Logo';
+import { prefetchRoute } from '../routes';
 
 const socialLinks = [
   { href: 'mailto:contact@bytesmonks.com', Icon: Mail, label: 'Email', external: false },
@@ -25,6 +26,16 @@ const columns: Col[] = [
     ],
   },
   {
+    h: 'Sourcing',
+    l: [
+      { t: 'Tech talent sourcing', to: '/talent-sourcing' },
+      { t: 'Hire vetted engineers', to: '/talent-sourcing#bench' },
+      { t: 'Product sourcing from China', to: '/product-sourcing' },
+      { t: 'Inspection & QC', to: '/product-sourcing#assay' },
+      { t: 'Join the bench', to: '/talent-sourcing#join' },
+    ],
+  },
+  {
     h: 'The House',
     l: [
       { t: 'About the Order', href: '#about' },
@@ -46,11 +57,13 @@ const columns: Col[] = [
 ];
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  // Frozen at build time: the prerendered HTML and the client must agree, or
+  // React discards the whole prerender on New Year's Day.
+  const currentYear = __BUILD_YEAR__;
 
   return (
     <footer style={{ borderTop: '1px solid var(--rule)', padding: '48px 48px 40px', maxWidth: 1320, margin: '80px auto 0', position: 'relative', zIndex: 3 }}>
-      <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: 48 }}>
+      <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.3fr repeat(4, 1fr)', gap: 40 }}>
         <div>
           <span style={{ color: 'var(--ink)', display: 'inline-block' }}>
             <Mark size={64} />
@@ -62,7 +75,7 @@ export default function Footer() {
             Ordo Bytorum · Tunis · MMXXI—
           </div>
           <p className="serif italic" style={{ fontSize: 14, color: 'var(--ink-faint)', marginTop: 16, maxWidth: 280 }}>
-            Quiet craftsmen of scalable software, AI systems, and the occasional miracle.
+            We build software and AI systems. Sometimes a miracle.
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
             {socialLinks.map(({ href, Icon, label, external }) => (
@@ -90,7 +103,17 @@ export default function Footer() {
               const onEnter = (e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = 'var(--vermillion)');
               const onLeave = (e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = 'var(--ink)');
               return item.to ? (
-                <Link key={item.t} to={item.to} className="serif" style={sty} onMouseEnter={onEnter} onMouseLeave={onLeave}>{item.t}</Link>
+                <Link
+                  key={item.t}
+                  to={item.to}
+                  className="serif"
+                  style={sty}
+                  onMouseEnter={(e) => { onEnter(e); prefetchRoute(item.to!); }}
+                  onFocus={() => prefetchRoute(item.to!)}
+                  onMouseLeave={onLeave}
+                >
+                  {item.t}
+                </Link>
               ) : (
                 <a key={item.t} href={item.href} className="serif" style={sty} onMouseEnter={onEnter} onMouseLeave={onLeave}>{item.t}</a>
               );
