@@ -10,8 +10,9 @@ yarn-error.log*
 .vscode
 
 # No bundled stuff in git
-dist
-lib
+/dist
+# Root build output only. Unanchored, `lib` also swallowed src/lib/.
+/lib
 
 # No rollup stuff
 .rts2_cache*
@@ -86,3 +87,6 @@ deployment_keys.tar
 
 .github/.release
 release-artifacts-*
+
+# SSR bundle used only by scripts/prerender.mjs
+.ssr
