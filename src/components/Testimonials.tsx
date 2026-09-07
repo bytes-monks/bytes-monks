@@ -7,7 +7,7 @@ const epistles = [
     author: 'Iheb Lourimi',
     role: 'Chief Executive',
     house: 'DM Nova',
-    photo: '/clients/iheb_lourimi.jfif',
+    photo: '/clients/iheb_lourimi.webp',
   },
   {
     quote:
@@ -23,7 +23,7 @@ const epistles = [
     author: 'Mootaz Zemmel',
     role: 'Software Engineer',
     house: 'Elbaladya.tn',
-    photo: '/clients/mootaz_zemmel.jfif',
+    photo: '/clients/mootaz_zemmel.webp',
   },
 ];
 
@@ -56,7 +56,7 @@ export default function Testimonials() {
 
               <div style={{ marginTop: 32, paddingTop: 24, borderTop: '1px solid var(--rule-soft)', display: 'flex', alignItems: 'center', gap: 14 }}>
                 {e.photo ? (
-                  <img src={e.photo} alt={e.author} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                  <img src={e.photo} alt={`${e.author}, ${e.role}`} width={176} height={176} loading="lazy" decoding="async" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                 ) : (
                   <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--ink)', color: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'EB Garamond', serif", fontStyle: 'italic', fontSize: 18, fontWeight: 600, flexShrink: 0 }}>
                     {e.author.split(' ').map((n) => n[0]).join('')}

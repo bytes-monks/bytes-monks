@@ -29,7 +29,7 @@ function SponsorCard({ sponsor }: { sponsor: (typeof sponsors)[0] }) {
     >
       <div style={{ width: 36, height: 36, border: '1px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0, background: 'var(--bg-deep)' }}>
         {sponsor.image ? (
-          <img src={sponsor.image} alt={sponsor.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 3 }} />
+          <img src={sponsor.image} alt={`${sponsor.name} logo`} width={108} height={108} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 3 }} />
         ) : (
           <span className="serif italic" style={{ fontSize: 13, fontWeight: 600, color: 'var(--vermillion)' }}>{sponsor.logo}</span>
         )}
