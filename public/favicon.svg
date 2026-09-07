@@ -1,18 +1,20 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3B82F6"/>
-      <stop offset="1" stop-color="#8B5CF6"/>
-    </linearGradient>
-  </defs>
-  <!-- Dark rounded background -->
-  <rect width="32" height="32" rx="7" fill="#0A0A0F"/>
-  <!-- Monk robe -->
-  <path d="M16 14.5C10 14.5 5 18 5 28H27C27 18 22 14.5 16 14.5Z" fill="url(#g)"/>
-  <!-- Monk head -->
-  <circle cx="16" cy="9.5" r="5" fill="url(#g)"/>
-  <!-- Circuit / binary nodes -->
-  <circle cx="11" cy="23" r="1.2" fill="white" fill-opacity="0.4"/>
-  <circle cx="16" cy="20.5" r="1.2" fill="white" fill-opacity="0.4"/>
-  <circle cx="21" cy="23" r="1.2" fill="white" fill-opacity="0.4"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bytes Monks">
+  <!-- The Ordo Bytorum sigil, simplified for favicon sizes: the dashed inner
+       ring, cardinal ticks and ring text from src/components/Logo.tsx all turn
+       to mush below ~48px and are dropped. Geometry follows Mark() with s=23,
+       centred at 16,16. Palette matches the tokens in src/index.css. -->
+  <rect width="32" height="32" rx="7" fill="#F6EFE3"/>
+  <circle cx="16" cy="16" r="11.8" fill="none" stroke="#1A1511" stroke-width="1.6"/>
+
+  <!-- Bracket pair — [ ] -->
+  <path d="M12.09 12.78H11.17V19.22H12.09" stroke="#1A1511" stroke-width="1.5" fill="none" stroke-linecap="butt"/>
+  <path d="M19.91 12.78H20.83V19.22H19.91" stroke="#1A1511" stroke-width="1.5" fill="none" stroke-linecap="butt"/>
+
+  <!-- Monastic arch / M -->
+  <path d="M13.01 18.76V15.08Q13.01 13.24 14.51 13.24Q16 13.24 16 15.54Q16 13.24 17.50 13.24Q18.99 13.24 18.99 15.08V18.76"
+        stroke="#1A1511" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Vermillion illumination + baseline rule -->
+  <circle cx="16" cy="11.4" r="1.25" fill="#BA2D1F"/>
+  <line x1="13.01" y1="20.5" x2="18.99" y2="20.5" stroke="#BA2D1F" stroke-width="1.4" stroke-linecap="round"/>
 </svg>

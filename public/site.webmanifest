@@ -1,17 +1,41 @@
 {
+  "id": "/",
   "name": "Bytes Monks",
   "short_name": "Bytes Monks",
-  "description": "Engineering Digital Excellence — scalable software, AI systems, and high-performance digital products.",
+  "description": "Scalable software, intelligent AI systems, and the vetted engineers who build them.",
   "start_url": "/",
+  "scope": "/",
+  "lang": "en",
   "display": "standalone",
-  "background_color": "#0F172A",
-  "theme_color": "#0F172A",
+  "background_color": "#f6efe3",
+  "theme_color": "#f6efe3",
+  "categories": [
+    "business",
+    "technology"
+  ],
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
