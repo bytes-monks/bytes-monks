@@ -81,11 +81,11 @@ export default function Pricing() {
         <div className="cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 40, alignItems: 'end' }}>
           <div>
             <h1 className="serif" style={{ fontSize: 'clamp(44px, 7vw, 100px)', lineHeight: 0.9, fontWeight: 500, letterSpacing: '-0.025em' }}>
-              Simple plans, <span className="italic" style={{ color: 'var(--vermillion)' }}>real value</span>.
+              Every price, <span className="italic" style={{ color: 'var(--vermillion)' }}>on one page</span>.
             </h1>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, marginTop: 24 }}>
-              Two things you can buy: a managed SaaS platform, or engineering hours
-              by the month. No lock-in.
+              Two things you can buy: we host and run your product, or you buy our
+              engineering hours by the month. Cancel either.
             </p>
           </div>
 
@@ -263,9 +263,9 @@ export default function Pricing() {
       <section className="section" style={{ paddingTop: 0, paddingBottom: 80 }}>
         <div className="pricing-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, borderTop: '1px solid var(--ink)', borderBottom: '1px solid var(--ink)' }}>
           {[
-            { title: 'Secure Payments', body: 'PCI-DSS Level 1 certified processing. Your card data never touches our servers.' },
-            { title: 'Tax-Compliant Invoicing', body: 'VAT, GST, and sales tax calculated by location. Compliant invoice after every payment.' },
-            { title: 'Flexible Cancellation', body: 'Cancel any time from your billing dashboard. Access continues until the period ends.' },
+            { title: 'Payments', body: 'Handled by a PCI-DSS Level 1 provider. We never see your card number.' },
+            { title: 'Invoices', body: 'Tax worked out for your country. An invoice after every payment.' },
+            { title: 'Cancellation', body: 'Cancel from the billing dashboard. Access runs to the end of the paid period.' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '32px', borderRight: i < 2 ? '1px solid var(--rule)' : 'none' }}>
               <div className="serif italic" style={{ fontSize: 22, color: 'var(--vermillion)', marginBottom: 10 }}>{['α', 'β', 'γ'][i]}</div>
@@ -296,10 +296,10 @@ export default function Pricing() {
             <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
               <span className="eyebrow">Not sure which plan fits?</span>
               <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                Book a free 30-minute<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>strategy call.</span>
+                Ask us which one<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>to pick.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 520, lineHeight: 1.5 }}>
-                Tell us where you are and we'll say which plan fits. No commitment.
+                Tell us what you're running. We'll say which plan fits, in a free 30-minute call.
               </p>
             </div>
             <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>

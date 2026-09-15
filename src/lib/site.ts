@@ -56,7 +56,7 @@ export const ROUTES: RouteMeta[] = [
     path: '/',
     title: 'Bytes Monks | Software, AI & Tech Talent Sourcing',
     description:
-      'We build scalable software and intelligent AI systems — and source the vetted engineers who run them. Development, AI/ML, data, DevOps and talent sourcing.',
+      'We build software and AI systems, and find the engineers who run them. Development, AI, data, DevOps and talent sourcing from Tunis.',
     keywords:
       'software development agency, AI development company, custom software, machine learning, data engineering, DevOps, tech talent sourcing, hire software engineers',
     ogType: 'website',
@@ -69,7 +69,7 @@ export const ROUTES: RouteMeta[] = [
     hand: true,
     title: 'Tech Talent Sourcing | Hire Vetted Engineers · Bytes Monks',
     description:
-      'We find and vet the engineers other agencies cannot — AI, software, data and DevOps talent, shortlisted by engineers. Permanent, contract or squad.',
+      'AI, software, data and DevOps engineers, found and vetted by engineers who do the work. Hire permanent, on contract, or as a squad.',
     keywords:
       'tech talent sourcing, IT recruitment agency, hire AI engineers, hire software developers, staff augmentation, dedicated development team, vetted engineers, technical recruiting, nearshore engineering talent',
     image: `${SITE_URL}/og-talent-sourcing.png`,
@@ -106,7 +106,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/Pricing.tsx',
     title: 'Pricing & Retainers | Bytes Monks',
     description:
-      'Transparent pricing for managed platform plans, engineering retainers and our products. No hidden line items — read the tariff before you commission.',
+      'Prices for managed hosting, monthly engineering retainers and our own products. Every number on one page.',
     keywords:
       'software development pricing, engineering retainer, managed platform plans, SaaS pricing, development agency rates',
     ogType: 'website',
@@ -122,7 +122,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/Hiring.tsx',
     title: 'Careers at Bytes Monks | Open Remote Roles',
     description:
-      'Join a small remote-first order shipping real products. Open internships in marketing, growth and engineering, with mentorship from the founders.',
+      'Remote internships at a small software company in Tunis. Marketing and business development roles, working directly with the founders.',
     keywords:
       'Bytes Monks careers, remote internships, tech startup jobs, social media manager intern, business developer intern',
     ogType: 'website',
@@ -138,7 +138,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/TermsOfService.tsx',
     title: 'Terms of Service | Bytes Monks',
     description:
-      'The compact between Bytes Monks and its clients — scope, payment, intellectual property, warranties and liability, in language you can actually read.',
+      'Scope, payment, intellectual property, warranties and liability for work with Bytes Monks.',
     ogType: 'website',
     breadcrumb: [
       { name: 'Home', path: '/' },
@@ -152,7 +152,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/PrivacyPolicy.tsx',
     title: 'Privacy Policy | Bytes Monks',
     description:
-      'What data Bytes Monks collects, why we collect it, how long we keep it, and the rights you hold over it. GDPR-aligned and plainly stated.',
+      'What Bytes Monks collects, why, how long we keep it, and how to ask us to delete it.',
     ogType: 'website',
     breadcrumb: [
       { name: 'Home', path: '/' },
@@ -166,7 +166,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/RefundPolicy.tsx',
     title: 'Refund Policy | Bytes Monks',
     description:
-      'How and when Bytes Monks returns payment when work does not serve — refund windows, eligibility, and the process for raising a claim.',
+      'When Bytes Monks refunds a payment, when it does not, and how to ask.',
     ogType: 'website',
     breadcrumb: [
       { name: 'Home', path: '/' },
@@ -180,7 +180,7 @@ export const ROUTES: RouteMeta[] = [
     entry: 'src/pages/CosmoEatStarsPrivacy.tsx',
     title: 'Cosmo Eat Stars — Privacy Policy | Bytes Monks',
     description:
-      'Privacy policy for the Cosmo Eat Stars mobile game: what the app collects, how it is used, and how to contact us about your data.',
+      'What the Cosmo Eats Stars game collects, how ads work for children, and how to reach us about your data.',
     ogType: 'website',
     breadcrumb: [
       { name: 'Home', path: '/' },

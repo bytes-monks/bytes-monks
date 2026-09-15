@@ -27,11 +27,11 @@ function jobDescription(job: (typeof jobs)[number]): string {
 const HOME_SERVICES = [
   {
     name: 'AI & Machine Learning',
-    description: 'Intelligent AI systems, LLM agents, and machine learning models built for production.',
+    description: 'LLM agents, chatbots, matching pipelines and ML models, run in production.',
   },
   {
     name: 'Custom Software Development',
-    description: 'Scalable, high-performance web, SaaS, and mobile applications built with modern technologies.',
+    description: 'Web apps, SaaS platforms, APIs and mobile apps.',
   },
   {
     name: 'Data Engineering',
@@ -43,7 +43,7 @@ const HOME_SERVICES = [
   },
   {
     name: 'Tech Talent Sourcing',
-    description: 'Sourcing, technical vetting, and placement of engineers — permanent, contract, or an embedded squad.',
+    description: 'Finding, vetting and placing engineers. Permanent, contract, or an embedded squad.',
   },
   {
     name: 'Product Sourcing & Trade',
@@ -59,7 +59,7 @@ export function pageJsonLd(path: string): JsonLd[] {
           id: 'service',
           name: 'Bytes Monks — Software, AI & Talent',
           description:
-            'Custom software development, AI/ML systems, data engineering, DevOps, and tech talent sourcing for ambitious companies.',
+            'Custom software development, AI systems, data engineering, DevOps, and tech talent sourcing.',
           serviceType: 'Software engineering, AI systems, and technical recruitment',
           path: '/',
           offers: HOME_SERVICES,
@@ -78,7 +78,7 @@ export function pageJsonLd(path: string): JsonLd[] {
           id: 'talent-sourcing',
           name: 'Tech Talent Sourcing & Staff Augmentation',
           description:
-            'Sourcing, technical vetting and placement of AI, software, data, DevOps, design and engineering-leadership talent — permanent, contract, or a full embedded squad.',
+            'Finding, vetting and placing AI, software, data, DevOps, design and engineering-leadership talent. Permanent, contract, or an embedded squad.',
           serviceType: 'Technical recruitment and staff augmentation',
           path: '/talent-sourcing',
           offers: engagements.map((e) => ({ name: `${e.name} — ${e.subtitle}`, description: e.line })),
@@ -114,7 +114,7 @@ export function pageJsonLd(path: string): JsonLd[] {
         servicePriceBand({
           id: 'engineering-retainer',
           name: 'Engineering Retainers',
-          description: 'Ongoing engineering capacity with a contracted monthly hour allocation and response SLA.',
+          description: 'Monthly engineering hours with a response SLA.',
           path: '/pricing',
           currency: 'USD',
           unitText: 'MON',

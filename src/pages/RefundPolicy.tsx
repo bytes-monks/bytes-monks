@@ -4,61 +4,67 @@ const sections = [
   {
     title: 'Overview',
     content:
-      'We take pride in our work. Our services are custom and time-based, so this policy aims to be fair to both sides.',
+      'Our work is custom and billed for time, so most of it cannot be undone. This policy says what we refund and what we don\'t.',
   },
   {
-    title: 'Deposits & Upfront Payments',
+    title: 'Deposits',
     content:
-      'Deposits paid to initiate a project are non-refundable. The deposit covers initial discovery, planning, resource allocation, and kickoff work performed before the main engagement begins.',
+      'Project deposits are not refunded. They pay for discovery, planning and the people we set aside before the main work starts.',
   },
   {
-    title: 'Milestone-Based Projects',
+    title: 'Milestone Projects',
     content: [
-      'Payments made for a completed and approved milestone are non-refundable.',
-      'If you cancel before a milestone is complete, you will be invoiced for the proportional work completed up to the cancellation date.',
-      'Any unused portion of a prepaid milestone payment will be refunded within 14 business days, minus the value of work already delivered.',
+      'A milestone you have approved is not refunded.',
+      'Cancel mid-milestone and we invoice the work done up to that date.',
+      'Anything prepaid beyond that is refunded within 14 business days.',
     ],
   },
   {
-    title: 'Retainer & Subscription Services',
+    title: 'Retainers',
     content: [
-      'Monthly retainers are billed in advance and are non-refundable once the billing cycle has started.',
-      'You may cancel a retainer with 14 days written notice before the next billing cycle to avoid being charged for the following period.',
-      'No partial-month refunds are issued for early cancellation within an active billing cycle.',
+      'Retainers are billed in advance and not refunded once the month has started.',
+      'Give 14 days\' written notice before the next billing date and you won\'t be charged for the following month.',
+      'There are no partial-month refunds.',
     ],
   },
   {
-    title: 'Eligibility for Refund',
+    title: 'Platform Plans',
     content: [
-      'Bytes Monks has materially failed to deliver the agreed scope of work after a reasonable cure period.',
-      'The project was cancelled by Bytes Monks without cause.',
-      'A duplicate payment was made — the duplicate amount will be refunded in full within 5 business days.',
+      'Cancel within 48 hours of a new billing cycle and we refund that cycle in full.',
+      'After that, the plan runs to the end of the paid period with no partial refund.',
     ],
   },
   {
-    title: 'Dispute Resolution',
-    content:
-      'Before requesting a refund, email us at contact@bytesmonks.com and tell us what went wrong. A conversation usually sorts it out. If a resolution cannot be reached, both parties agree to attempt mediation before pursuing formal legal action.',
+    title: 'When We Refund',
+    content: [
+      'We failed to deliver the agreed scope and did not fix it within a reasonable time.',
+      'We cancelled the project without cause.',
+      'You paid twice by mistake. The duplicate is refunded in full within 5 business days.',
+    ],
   },
   {
-    title: 'How to Request a Refund',
+    title: 'Disputes',
     content:
-      'Send a written refund request to contact@bytesmonks.com with your project name, invoice number, and reason for the request. We will acknowledge your request within 2 business days and aim to resolve it within 10 business days.',
+      'Email contact@bytesmonks.com and tell us what went wrong. A conversation usually sorts it out. If it doesn\'t, both sides try mediation before going to court.',
   },
   {
-    title: 'Refund Method',
+    title: 'How to Ask',
     content:
-      'Approved refunds will be returned via the original payment method. Processing time may vary depending on your bank or payment provider (typically 5–10 business days after approval).',
+      'Email contact@bytesmonks.com with the project name, invoice number and reason. We acknowledge within 2 business days and aim to settle within 10.',
+  },
+  {
+    title: 'How You Get It Back',
+    content:
+      'Refunds go back to the original payment method, usually within 5 to 10 business days of approval depending on your bank.',
   },
   {
     title: 'Changes to This Policy',
     content:
-      'Bytes Monks reserves the right to update this Refund Policy at any time. Changes take effect for new projects signed after the updated policy date. Active projects remain governed by the policy in place at the time the contract was signed.',
+      'We may change this policy. Changes apply to projects signed after the change. Running projects keep the policy they signed under.',
   },
   {
     title: 'Contact',
-    content:
-      'For refund enquiries or billing questions, reach us at contact@bytesmonks.com.',
+    content: 'Billing questions: contact@bytesmonks.com.',
   },
 ];
 

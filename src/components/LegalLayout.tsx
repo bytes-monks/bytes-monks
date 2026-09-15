@@ -72,7 +72,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
           ))}
         </h1>
         <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 760, lineHeight: 1.5, marginBottom: 24 }}>
-          Written in plain hand by the Brothers, in language you can actually read.
+          Short, and in plain English.
         </p>
         <span className="mono" style={{ fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>Last revised · {lastUpdated}</span>
       </section>
@@ -133,7 +133,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
               <div>
                 <span className="eyebrow">Colophon</span>
                 <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 14, maxWidth: 420, lineHeight: 1.5 }}>
-                  Written in plain hand by the Brothers. Send questions to contact@bytesmonks.com — we read every letter.
+                  Questions? Write to contact@bytesmonks.com.
                 </p>
               </div>
               <div style={{ textAlign: 'center' }}>

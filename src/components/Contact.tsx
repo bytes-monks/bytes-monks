@@ -113,7 +113,7 @@ export default function Contact() {
                 )}
 
                 <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>
-                  No spam. No commitment. Just a conversation.
+                  No spam. No commitment.
                 </p>
               </form>
             )}

@@ -4,56 +4,55 @@ const sections = [
   {
     title: 'Acceptance of Terms',
     content:
-      'By accessing or using any services provided by Bytes Monks ("we", "us", "our"), you agree to be bound by these Terms of Service. If you don\'t agree with them, don\'t use our services.',
+      'Using any Bytes Monks ("we", "us") service means you accept these terms. If you don\'t, don\'t use the service.',
   },
   {
     title: 'Services',
     content:
-      'Bytes Monks provides custom software development, AI/ML systems, data engineering, DevOps, and related digital services. The exact scope, timeline, and deliverables for each engagement are defined in a separate Statement of Work (SOW) or service agreement signed by both parties.',
+      'We build software, AI systems, data pipelines and infrastructure. Scope, timeline and deliverables for each engagement live in a Statement of Work signed by both sides.',
   },
   {
     title: 'Client Responsibilities',
     content: [
-      'Provide accurate, timely information and feedback required to deliver the agreed services.',
-      'Ensure you hold the rights to any materials, assets, or data you supply to us.',
-      'Designate a point of contact who has authority to approve decisions on your behalf.',
-      'Pay invoices within the agreed payment terms.',
+      'Give us the information and feedback we need, on time.',
+      'Make sure you own the rights to anything you hand us.',
+      'Name one person who can approve decisions for you.',
+      'Pay invoices on the agreed terms.',
     ],
   },
   {
     title: 'Intellectual Property',
     content:
-      'Upon receipt of full payment, all custom deliverables created specifically for you become your property. Bytes Monks keeps ownership of pre-existing tools, frameworks, libraries, and methodologies we use to deliver services. We reserve the right to reference your project in our portfolio unless you request otherwise in writing.',
+      'Once the final invoice is paid, everything we built for you is yours. We keep our own tools, libraries and methods. We may list your project in our portfolio unless you ask us in writing not to.',
   },
   {
     title: 'Confidentiality',
     content:
-      'Both parties agree to keep confidential any proprietary or sensitive information shared during the engagement. This obligation survives the termination of the service agreement for a period of three (3) years.',
+      'Both sides keep the other\'s confidential information confidential, during the work and for three years after it ends.',
   },
   {
     title: 'Warranties & Liability',
     content:
-      'We warrant that services will be performed with reasonable skill and care. Our total liability for any claim arising from the services shall not exceed the fees paid for the specific service giving rise to the claim. We are not liable for indirect, incidental, or consequential damages.',
+      'We do the work with reasonable skill and care. Our total liability on any claim is capped at what you paid for the service the claim concerns. We are not liable for indirect or consequential losses.',
   },
   {
     title: 'Termination',
     content:
-      'Either party may terminate a service agreement with 14 days written notice. You remain liable for payment of all work completed up to the termination date. Bytes Monks reserves the right to suspend services immediately for non-payment or material breach.',
+      'Either side can end an agreement with 14 days\' written notice. You pay for work done up to that date. We can suspend work immediately for non-payment or a serious breach.',
   },
   {
     title: 'Governing Law',
     content:
-      'These terms are governed by the laws of the jurisdiction in which Bytes Monks is registered. Any disputes shall be resolved through good-faith negotiation before pursuing formal legal remedies.',
+      'These terms follow the law where Bytes Monks is registered. We try to settle disputes by talking before either side goes to court.',
   },
   {
     title: 'Changes to Terms',
     content:
-      'We may update these Terms of Service. Continued use of our services after changes are posted constitutes acceptance of the updated terms. We will notify active clients of material changes via email.',
+      'We may change these terms. We email active clients about material changes. Continuing to use the service after a change means you accept it.',
   },
   {
     title: 'Contact',
-    content:
-      'For questions about these Terms of Service, contact us at contact@bytesmonks.com.',
+    content: 'Questions about these terms: contact@bytesmonks.com.',
   },
 ];
 

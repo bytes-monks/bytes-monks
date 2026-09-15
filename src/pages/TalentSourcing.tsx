@@ -176,7 +176,7 @@ function SourcingForms({ side, setSide }: { side: Side; setSide: (s: Side) => vo
             </p>
           )}
           <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>
-            {side === 'brief' ? 'No spam. No obligation. Just a conversation.' : 'No fee, ever · ask us to delete it any time'}
+            {side === 'brief' ? 'No spam. No obligation.' : 'No fee, ever · ask us to delete it any time'}
           </p>
         </div>
       </form>

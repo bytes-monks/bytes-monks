@@ -57,8 +57,7 @@ export default function CookieConsent() {
               <div style={{ flex: 1 }}>
                 <p className="serif italic" style={{ fontSize: 18, color: 'var(--vermillion)', marginBottom: 6 }}>A note on cookies</p>
                 <p className="sans" style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
-                  We keep a small ledger of analytics cookies to understand how you read our pages and
-                  improve the scriptorium. No personal data is sold or shared.
+                  Analytics cookies only, to see which pages get read. We don't sell your data.
                 </p>
               </div>
               <button onClick={decline} aria-label="Dismiss" style={{ background: 'transparent', border: 'none', color: 'var(--ink-faint)', cursor: 'pointer', flexShrink: 0 }}>

@@ -11,9 +11,9 @@ import { jobs } from '../data/jobs';
 import type { JobOffer } from '../data/jobs';
 
 const cultureItems = [
-  { glyph: 'α', title: 'Move Fast', body: 'We ship weekly. You own your work and decide how it gets done.' },
+  { glyph: 'α', title: 'Ship weekly', body: 'You own your work and decide how it gets done.' },
   { glyph: 'β', title: 'Remote-first', body: 'Work from anywhere. Async by default, plus a weekly check-in.' },
-  { glyph: 'γ', title: 'Grow With Us', body: "We're small, so your work shows. What you build here, people use." },
+  { glyph: 'γ', title: 'Your work shows', body: "We're small. What you make here, people use." },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -151,7 +151,7 @@ function JobDetails({ job, open, id }: { job: JobOffer; open: boolean; id: strin
             tabIndex={open ? undefined : -1}
             style={{ width: '100%', justifyContent: 'center' }}
           >
-            Apply Now — Send Your Application →
+            Apply by Email →
           </a>
           <p className="mono" style={{ textAlign: 'center', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 14 }}>
             Send your CV and a short intro to contact@bytesmonks.com
@@ -188,11 +188,11 @@ export default function Hiring() {
         <div className="hiring-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 48, alignItems: 'center' }}>
           <div>
             <h1 className="serif" style={{ fontSize: 'clamp(44px, 7vw, 100px)', lineHeight: 0.9, fontWeight: 500, letterSpacing: '-0.025em' }}>
-              Build the future <span className="italic" style={{ color: 'var(--vermillion)' }}>with us</span>.
+              Join a small team <span className="italic" style={{ color: 'var(--vermillion)' }}>that ships</span>.
             </h1>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, margin: '24px 0 32px' }}>
-              We're a small order shipping real products. If you're self-driven and like
-              tech and business, you'll fit here.
+              We're a few people in Tunis building software for clients and two products
+              of our own. You'd work directly with the founders.
             </p>
             <a href="#positions" className="btn">See Open Roles →</a>
           </div>
@@ -201,7 +201,7 @@ export default function Hiring() {
             {[
               { icon: Globe, label: 'Location', value: 'Remote-first' },
               { icon: Users, label: 'Open roles', value: `${jobs.length} positions` },
-              { icon: Clock, label: 'Culture', value: 'Move fast, ship often' },
+              { icon: Clock, label: 'Cadence', value: 'We ship weekly' },
             ].map(({ icon: Icon, label, value }, i) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: i < 2 ? '1px solid var(--rule-soft)' : 'none' }}>
                 <div style={{ width: 36, height: 36, border: '1px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -226,7 +226,7 @@ export default function Hiring() {
               {jobs.length} roles <span className="italic" style={{ color: 'var(--vermillion)' }}>available</span>.
             </h2>
           </div>
-          <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 280 }}>Open any folio to read the full role and apply.</p>
+          <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 280 }}>Open a role to read it in full and apply.</p>
         </div>
 
         <div className="jobs-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
@@ -254,10 +254,10 @@ export default function Hiring() {
             <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
               <span className="eyebrow">Don't see the right role?</span>
               <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                We're always open to<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>exceptional people.</span>
+                Write to us<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>anyway.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 460, lineHeight: 1.5 }}>
-                Drop us a line and tell us how you'd contribute. We read every letter.
+                Tell us what you'd do here and why.
               </p>
             </div>
             <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>
@@ -268,7 +268,7 @@ export default function Hiring() {
               >
                 Get in Touch →
               </a>
-              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>We respond to every letter</p>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>We reply to every letter</p>
             </div>
           </div>
         </div>

@@ -8,159 +8,160 @@ const sections = [
   {
     title: 'Introduction',
     content:
-      'Bytes Monks ("we", "us", "our") wrote this policy to explain what we collect, how we use it, who we share it with, and what rights you have. It applies to all Bytes Monks digital properties, including our website (bytesmonks.com), our web applications, and our mobile applications published on the Google Play Store.',
+      'This policy explains what Bytes Monks ("we", "us") collects, why, who sees it, and what you can ask us to do with it. It covers bytesmonks.com, our web apps, and our Android apps on Google Play.',
   },
   {
-    title: 'Scope — Products Covered',
+    title: 'What This Covers',
     content: [
-      <><P>bytesmonks.com</P> — our corporate website and contact portal.</>,
-      <><P>Genify</P> (genify.bytesmonks.com) — a file conversion and AI content generation web app.</>,
-      <><P>Form Temple</P> (formtemple.bytesmonks.com) — a serverless form backend and spam-protection web app.</>,
-      <><P>Cosmo Eats Stars</P> (available on Google Play, package: com.bytesmonks.CosmoEatStar) — a one-touch arcade mobile game for Android.</>,
-      'Any future Bytes Monks products or services will be governed by this policy unless a separate policy is published for them.',
+      <><P>bytesmonks.com</P> — our website and contact form.</>,
+      <><P>Genify</P> (genify.bytesmonks.com) — file conversion and AI content generation.</>,
+      <><P>Form Temple</P> (formtemple.bytesmonks.com) — a form backend with spam protection.</>,
+      <><P>Cosmo Eats Stars</P> (Google Play, com.bytesmonks.CosmoEatStar) — an arcade game for Android.</>,
+      'New products fall under this policy unless we publish a separate one.',
     ],
   },
   {
-    title: 'Information We Collect',
+    title: 'What We Collect',
     content: [
-      'Contact & account data: name, email address, and project details you submit via our contact form or when registering for a web app account.',
-      <>Usage & analytics data (<P>web</P>): pages visited, session duration, general geographic location, device type, and referral source — collected via Google Analytics only with your explicit consent.</>,
-      <>Usage & analytics data (<P>mobile — Cosmo Eats Stars</P>): gameplay session duration, scores, level progress, crash reports, and device model/OS version, collected to improve game stability and experience.</>,
-      <>Advertising Identifier (<P>mobile</P>): the Android Advertising ID (GAID) may be collected by our advertising partner (Google AdMob) to serve contextually relevant ads within <P>Cosmo Eats Stars</P>. You can reset or opt out of personalised advertising at any time in your Android device settings under Privacy → Ads.</>,
-      <>Form submission content (<P>Form Temple</P>): data submitted through forms you create or that end-users submit to forms powered by <P>Form Temple</P>. We process this data on your behalf as a data processor.</>,
-      <>File content (<P>Genify</P>): files you upload for conversion are processed in memory to perform the requested conversion and are not stored beyond the duration of the operation unless you explicitly save them to your account.</>,
-      'Payment data: we do not store payment card details. Transactions are handled by a PCI-DSS Level 1 certified payment provider. We receive only a transaction confirmation and invoice metadata.',
-      'Business communications: emails, messages, and documents exchanged during a client engagement.',
+      'Contact and account data: your name, email, and whatever you write in the contact form or when you open a web app account.',
+      'Web analytics: pages visited, time on site, rough location, device type and referrer, through Google Analytics and only after you accept cookies.',
+      <>Game analytics (<P>Cosmo Eats Stars</P>): session length, scores, level progress, crash reports, device model and OS version.</>,
+      <>Advertising ID (<P>Cosmo Eats Stars</P>): Google AdMob may read the Android Advertising ID to serve ads. You can reset it or opt out under Settings → Privacy → Ads on your device.</>,
+      <>Form submissions (<P>Form Temple</P>): whatever people submit to forms you build. We process it on your behalf as a data processor.</>,
+      <>Uploaded files (<P>Genify</P>): processed in memory for the conversion and discarded afterwards, unless you save them to your account.</>,
+      'Payment data: we never see your card number. A PCI-DSS Level 1 payment provider handles it and sends us a confirmation and invoice details.',
+      'Emails and documents exchanged during a client project.',
     ],
   },
   {
     title: 'Mobile App Permissions (Cosmo Eats Stars)',
     content: [
-      <><P>INTERNET</P> — required to display ads served by Google AdMob and to submit crash reports.</>,
-      <><P>ACCESS_NETWORK_STATE</P> — used to detect connectivity before making network requests.</>,
-      'No other sensitive permissions (camera, microphone, location, contacts, storage) are requested by this application.',
-      'The app does not require account registration and does not collect names, email addresses, or any directly identifying information from players.',
+      <><P>INTERNET</P> — to load ads and send crash reports.</>,
+      <><P>ACCESS_NETWORK_STATE</P> — to check for a connection before trying.</>,
+      'Nothing else. No camera, microphone, location, contacts or storage.',
+      'The game has no accounts and asks players for no names, emails or other identifying details.',
     ],
   },
   {
-    title: 'How We Use Your Information',
+    title: 'How We Use It',
     content: [
-      'To respond to your enquiries and deliver the services you request.',
-      'To operate and improve our web and mobile applications, including fixing bugs and optimising performance.',
-      <>To display non-personalised or personalised advertisements within <P>Cosmo Eats Stars</P> via Google AdMob, subject to your ad-personalisation preference on your Android device.</>,
-      'To send transactional communications: project updates, invoices, service notifications, and account-related emails.',
-      'To analyse aggregate website and app performance metrics (with consent where required).',
-      'To comply with applicable legal and regulatory obligations.',
+      'To answer you and do the work you asked for.',
+      'To run and fix our apps.',
+      <>To show ads in <P>Cosmo Eats Stars</P> through Google AdMob, within your device's ad settings.</>,
+      'To send invoices, project updates and account emails.',
+      'To see how the site and apps perform overall, with consent where the law requires it.',
+      'To meet legal obligations.',
     ],
   },
   {
-    title: 'Advertising & Third-Party SDKs',
+    title: 'Advertising',
     content: (
       <>
-        <P>Cosmo Eats Stars</P> uses Google AdMob (operated by Google LLC) to serve in-app advertisements. AdMob may collect and use the Android Advertising ID and certain device information to deliver ads. You can opt out of personalised ads by going to{' '}
-        <span className="text-gray-300">Settings → Privacy → Ads</span> on your Android device and enabling "Opt out of Ads Personalisation". For more information on how Google uses data from apps that use AdMob, see google.com/policies/privacy/partners. Our AdMob publisher ID is <P>pub-3898970011871442</P>.
+        <P>Cosmo Eats Stars</P> shows ads from Google AdMob (Google LLC), publisher ID <P>pub-3898970011871442</P>.
+        AdMob may use the Android Advertising ID and device details to serve them. To opt out of personalised
+        ads, open <P>Settings → Privacy → Ads</P> on your device. Google explains its side at
+        google.com/policies/privacy/partners.
       </>
     ),
   },
   {
-    title: 'Cookies & Web Analytics',
+    title: 'Cookies',
     content:
-      'Our websites use Google Analytics to understand how visitors interact with our pages. This service uses cookies to collect anonymised usage data. Analytics cookies are only set after you have given explicit consent via our cookie consent banner. You may withdraw consent at any time by clearing your browser\'s localStorage or adjusting your browser settings. We do not use tracking cookies for advertising purposes on our websites.',
+      'Our sites use Google Analytics, which sets cookies to measure anonymised usage. They are only set after you click accept on the cookie banner. To withdraw, clear your browser\'s site data for bytesmonks.com. We set no advertising cookies on our sites.',
   },
   {
-    title: 'Data Sharing',
+    title: 'Who We Share It With',
     content: [
-      'We do not sell, rent, or trade your personal data to third parties.',
-      <>Google Analytics (Google LLC) — aggregated website usage analytics, used only with your consent.</>,
-      <>Google AdMob (Google LLC) — in-app advertising within <P>Cosmo Eats Stars</P>; subject to Google's own Privacy Policy.</>,
-      'Payment processors — transaction processing only; they receive no more data than is necessary to complete a payment.',
-      'Cloud infrastructure providers — hosting and storage of application data under strict data-processing agreements.',
-      'Legal authorities — where required by law, court order, or to protect the rights and safety of our users or the public.',
-      'All third-party processors are contractually bound to handle your data securely and only as directed by us.',
+      'We don\'t sell, rent or trade your personal data.',
+      'Google Analytics — aggregated site usage, only with your consent.',
+      <>Google AdMob — ads in <P>Cosmo Eats Stars</P>, under Google's privacy policy.</>,
+      'Payment processors — only what is needed to take the payment.',
+      'Cloud hosting providers — under data-processing agreements.',
+      'Authorities — when the law, a court order, or someone\'s safety requires it.',
+      'Every processor is bound by contract to handle your data securely and only on our instructions.',
     ],
   },
   {
-    title: 'Data Retention',
+    title: 'How Long We Keep It',
     content: [
-      'Contact form submissions: retained for up to 2 years.',
-      'Client project data: retained for 5 years after project completion for legal and accounting purposes.',
-      <>Web app account data (<P>Genify</P>, <P>Form Temple</P>): retained for the duration of your account and for up to 1 year after account deletion, unless a legal obligation requires longer retention.</>,
-      <><P>Cosmo Eats Stars</P>: aggregate and anonymised crash/analytics data is retained for up to 12 months. No personal player profile is stored on our servers.</>,
-      <>Uploaded files (<P>Genify</P>): processed in-memory and not persisted beyond the session unless saved by the user.</>,
-      'You may request deletion of your personal data at any time (see "Your Rights" below).',
+      'Contact form submissions: up to 2 years.',
+      'Client project data: 5 years after the project ends, for accounting and legal reasons.',
+      <>Web app accounts (<P>Genify</P>, <P>Form Temple</P>): while the account is open and up to 1 year after deletion, unless the law requires longer.</>,
+      <><P>Cosmo Eats Stars</P>: anonymised crash and analytics data for up to 12 months. We keep no player profiles.</>,
+      <>Uploaded files (<P>Genify</P>): not kept after the conversion unless you save them.</>,
+      'You can ask us to delete your data at any time. See "Your Rights".',
     ],
   },
   {
     title: 'Your Rights',
     content: [
-      'Access — request a copy of the personal data we hold about you.',
-      'Rectification — ask us to correct inaccurate or incomplete data.',
-      'Erasure — request deletion of your data where no legal obligation requires us to retain it.',
-      'Restriction — ask us to limit the processing of your data.',
-      'Portability — receive your data in a structured, commonly used, machine-readable format.',
-      'Objection — object to processing based on our legitimate interests.',
-      'Withdraw consent — withdraw any consent you have given at any time without affecting the lawfulness of processing carried out before withdrawal.',
-      'To exercise any of these rights, email contact@bytesmonks.com. We will respond within 30 days.',
+      'Access — a copy of what we hold about you.',
+      'Correction — fix anything wrong or incomplete.',
+      'Deletion — unless the law requires us to keep it.',
+      'Restriction — limit how we process it.',
+      'Portability — your data in a common machine-readable format.',
+      'Objection — to processing based on our legitimate interests.',
+      'Withdraw consent — at any time, without affecting what was lawfully done before.',
+      'Email contact@bytesmonks.com. We answer within 30 days.',
     ],
   },
   {
-    title: 'Account & Data Deletion',
+    title: 'Deleting Your Account',
     content: (
       <>
-        If you have an account with any of our web apps (<P>Genify</P> or <P>Form Temple</P>), you may request deletion of your account and all associated personal data. Email contact@bytesmonks.com with the subject line "Account Deletion Request". We will process it within 14 business days and confirm deletion by email. <P>Cosmo Eats Stars</P> creates no account and stores no personal data on our servers. There is nothing to delete, beyond opting out of ad personalisation on your device.
+        To delete a <P>Genify</P> or <P>Form Temple</P> account and its data, email contact@bytesmonks.com with the
+        subject "Account Deletion Request". We do it within 14 business days and confirm by email.{' '}
+        <P>Cosmo Eats Stars</P> has no accounts and stores no personal data on our servers, so there is nothing to
+        delete beyond opting out of ad personalisation on your device.
       </>
     ),
   },
   {
     title: "Children's Privacy",
     content: [
-      'Our corporate website and web applications (bytesmonks.com, Genify, Form Temple) are not directed at children under the age of 13, or under 16 in the European Economic Area. We do not knowingly collect personal data from children through those services.',
+      'bytesmonks.com, Genify and Form Temple are not for children under 13 (under 16 in the EEA). We do not knowingly collect their data.',
       <>
-        <P>Cosmo Eats Stars</P> is a mixed-audience mobile game accessible to players of all ages.
-        For that app we apply the strongest available protections to all users: child-directed
-        treatment is enabled app-wide (preventing any persistent identifier or Advertising ID from
-        being used for profiling), all advertisements are non-personalised and family-safe, and no
-        personal data is collected from any player — child or adult. Full details are in the{' '}
-        <P>Cosmo Eats Stars Privacy Policy</P> at bytesmonks.com/cosmo-eat-stars/privacy.
+        <P>Cosmo Eats Stars</P> is open to all ages, so we treat every player as if they might be a child.
+        Child-directed treatment is on for the whole app, no Advertising ID or persistent identifier is used
+        for profiling, all ads are non-personalised and family-safe, and no personal data is collected from
+        anyone. Full details are in the <P>Cosmo Eats Stars Privacy Policy</P> at
+        bytesmonks.com/cosmo-eat-stars/privacy.
       </>,
       <>
-        <P>COPPA (US):</P> We comply with the Children's Online Privacy Protection Act. We do not
-        knowingly collect, use, or disclose personal information from children under 13 without
-        verifiable parental consent. Because Cosmo Eats Stars collects no personal player data, no
-        such consent mechanism is required for that app.
+        <P>COPPA (US):</P> we do not knowingly collect personal information from children under 13 without
+        verifiable parental consent. Cosmo Eats Stars collects none, so no consent flow is needed.
       </>,
       <>
-        <P>GDPR-K (EEA):</P> We comply with Article 8 GDPR and applicable Member State legislation
-        on children's data. For EEA users of Cosmo Eats Stars, the app also sets AdMob's
-        tagForUnderAgeOfConsent flag, applying maximum data restrictions regardless of declared age.
+        <P>GDPR Article 8 (EEA):</P> for EEA players the game also sets AdMob's tagForUnderAgeOfConsent flag,
+        applying the strictest data rules regardless of age.
       </>,
-      'If you are a parent or guardian and believe your child has provided us with personal data through any Bytes Monks service, please contact us at contact@bytesmonks.com with the subject line "Child Data Deletion". We will investigate and, where data exists, delete it within 14 business days.',
+      'If you think your child has given us personal data, email contact@bytesmonks.com with the subject "Child Data Deletion". We investigate and delete anything we find within 14 business days.',
     ],
   },
   {
-    title: 'Data Security',
+    title: 'Security',
     content:
-      'We implement appropriate technical and organisational security measures to protect your personal data against unauthorised access, alteration, disclosure, or destruction. All data transmissions to our websites and web apps are encrypted via HTTPS/TLS. Our mobile app communicates exclusively over encrypted connections. Access to stored personal data is restricted to authorised personnel on a need-to-know basis.',
+      'Everything between you and our sites and apps travels over HTTPS/TLS. Stored personal data is only reachable by the people who need it for their work.',
   },
   {
-    title: 'International Data Transfers',
+    title: 'International Transfers',
     content:
-      'Your data may be processed in countries outside your own, including the United States, where our infrastructure and third-party service providers operate. Where we transfer data from the European Economic Area, we rely on appropriate safeguards such as Standard Contractual Clauses to ensure your data remains protected.',
+      'Your data may be processed outside your country, including in the United States where some of our providers run. For transfers out of the EEA we rely on Standard Contractual Clauses.',
   },
   {
-    title: 'Third-Party Links',
+    title: 'Links to Other Sites',
     content:
-      'Our website and applications may contain links to third-party websites or services (including the Google Play Store). We are not responsible for the privacy practices of those third parties and encourage you to review their privacy policies independently.',
+      'Our sites link to other services, including Google Play. Their privacy practices are their own.',
   },
   {
     title: 'Changes to This Policy',
     content:
-      'We may update this Privacy Policy from time to time. When we do, we will revise the "Last updated" date at the top of the page and, where changes are material, notify you via email or an in-app notice. Continued use of our services after the effective date of the revised policy constitutes your acceptance of the changes.',
+      'When we change this policy we update the date at the top. For material changes we also email you or show a notice in the app. Using our services after that date means you accept the change.',
   },
   {
     title: 'Contact',
     content:
-      'For any questions about this Privacy Policy, to exercise your rights, or to raise a privacy concern, please contact us at contact@bytesmonks.com. You also have the right to lodge a complaint with the data protection authority in your jurisdiction.',
+      'Privacy questions or requests: contact@bytesmonks.com. You can also complain to your local data protection authority.',
   },
 ];
 

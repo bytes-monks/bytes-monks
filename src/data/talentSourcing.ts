@@ -227,7 +227,7 @@ export interface Faq {
 export const faqs: Faq[] = [
   {
     q: 'What does a tech talent sourcing agency do?',
-    a: 'A tech talent sourcing agency finds and screens candidates for technical roles you have no time to fill yourself. We do the search, the vetting, and the shortlist; you make the hire.',
+    a: 'It finds and screens candidates for technical roles. We do the search, the vetting and the shortlist. You make the hire.',
   },
   {
     q: 'How long does it take to get a shortlist?',
@@ -235,7 +235,7 @@ export const faqs: Faq[] = [
   },
   {
     q: 'How much does tech recruitment cost?',
-    a: 'Direct placements cost a percentage of first-year gross, invoiced when the person starts. Contract hands bill monthly per person, squads as one monthly rate, and we quote exact figures against your brief first.',
+    a: 'Direct placements cost a percentage of first-year gross, invoiced when the person starts. Contract hands bill monthly per person, and squads as one monthly rate. We quote exact figures against your brief.',
   },
   {
     q: 'What is staff augmentation?',

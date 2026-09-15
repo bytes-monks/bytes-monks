@@ -4,9 +4,9 @@ const vows = [
   { t: 'Senior hands only', d: 'No juniors learning on your budget. Everyone who touches your code has been burned before.' },
   { t: 'AI as first principle', d: 'We plan for AI from the first meeting. Bolting it on afterwards never works well.' },
   { t: 'Architecture that ages well', d: 'We build for your company three years from now. A rewrite usually means someone guessed wrong early.' },
-  { t: 'Rapid, not rushed', d: 'Fast iteration cycles with honest feedback. Urgency without panic.' },
-  { t: 'Clear speech at all times', d: 'No black boxes, no weasel words. You always know where the work stands.' },
-  { t: 'We stay', d: 'Partnerships outlast contracts. If your product grows, so does our involvement.' },
+  { t: 'Rapid, not rushed', d: 'We ship in short cycles and tell you the moment something slips.' },
+  { t: 'Clear speech at all times', d: 'No black boxes. You always know where the work stands.' },
+  { t: 'We stay', d: 'If your product grows, we stay and grow with it.' },
   { t: 'Code read as prose', d: "If the next engineer can't read it, we rewrite it. Docs are a kindness, not a chore." },
   { t: 'Vigil through the night', d: "Production doesn't care what time it is. Neither do we when something is burning." },
 ];

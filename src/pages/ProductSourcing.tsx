@@ -123,7 +123,7 @@ function BriefForms({ door, setDoor }: { door: Door; setDoor: (d: Door) => void 
             </p>
           )}
           <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>
-            {door === 'quote' ? 'No spam. No obligation. Just a conversation.' : 'Inspection only · no sourcing fee'}
+            {door === 'quote' ? 'No spam. No obligation.' : 'Inspection only · no sourcing fee'}
           </p>
         </div>
       </form>
