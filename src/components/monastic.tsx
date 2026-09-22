@@ -9,7 +9,7 @@ export function Sigil({ size = 260 }: { size?: number }) {
     { r: S * 0.38, n: 16, glyph: '◆', fs: 10, dur: 90, dir: -1, col: 'var(--vermillion)', op: 0.7 },
   ];
   return (
-    <div className="sigil-astro" style={{ width: S, height: S, position: 'relative' }}>
+    <div className="sigil-astro" aria-hidden style={{ width: S, height: S, position: 'relative' }}>
       <div className="sigil-halo" style={{
         position: 'absolute', inset: 0, borderRadius: '50%',
         boxShadow: 'inset 0 0 0 1px color-mix(in oklch, var(--vermillion) 28%, transparent)',
@@ -39,7 +39,6 @@ export function Sigil({ size = 260 }: { size?: number }) {
                 <text key={i} x={x} y={y} textAnchor="middle" dominantBaseline="central"
                   fill={ring.col} fillOpacity={ring.op} fontSize={ring.fs}
                   fontFamily="'JetBrains Mono', monospace"
-                  style={{ animation: `sigil-pulse 3.2s ease-in-out ${(i * 0.13).toFixed(2)}s infinite` }}
                 >{ring.glyph}</text>
               );
             })}
@@ -62,7 +61,7 @@ export function Ornament({ muted = false }: { muted?: boolean }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, color: c }}>
       <span style={{ flex: 1, maxWidth: 90, height: 1, background: 'var(--rule)' }} />
-      <span aria-hidden style={{ fontFamily: "'EB Garamond', serif", fontSize: 22, fontStyle: 'italic' }}>⁂</span>
+      <span aria-hidden style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontStyle: 'italic' }}>⁂</span>
       <span style={{ flex: 1, maxWidth: 90, height: 1, background: 'var(--rule)' }} />
     </div>
   );

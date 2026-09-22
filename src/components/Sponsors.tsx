@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Reveal } from './monastic';
 
 const sponsors = [
@@ -10,8 +9,6 @@ const sponsors = [
   { name: 'elBaladiya.tn', logo: 'EB', image: null, url: 'https://elbaladiya.tn/home' },
   { name: 'AI Xperts', logo: 'AX', image: '/logos/ai_xperts.avif', url: 'https://www.ai-xperts.io/' },
 ];
-
-const sponsorsReversed = [...sponsors].reverse();
 
 function SponsorCard({ sponsor }: { sponsor: (typeof sponsors)[0] }) {
   return (
@@ -29,64 +26,41 @@ function SponsorCard({ sponsor }: { sponsor: (typeof sponsors)[0] }) {
     >
       <div style={{ width: 36, height: 36, border: '1px solid var(--rule)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0, background: 'var(--bg-deep)' }}>
         {sponsor.image ? (
-          <img src={sponsor.image} alt={`${sponsor.name} logo`} width={108} height={108} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 3 }} />
+          <img src={sponsor.image} alt="" width={108} height={108} loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: 3 }} />
         ) : (
-          <span className="serif italic" style={{ fontSize: 13, fontWeight: 600, color: 'var(--vermillion)' }}>{sponsor.logo}</span>
+          <span aria-hidden className="serif italic" style={{ fontSize: 13, fontWeight: 600, color: 'var(--vermillion)' }}>{sponsor.logo}</span>
         )}
       </div>
       <span className="serif" style={{ fontSize: 17, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{sponsor.name}</span>
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );
 }
 
 export default function Sponsors() {
-  const [isPaused, setIsPaused] = useState(false);
-
+  // A static row: the old two-track marquee moved forever with no pause for
+  // keyboard or touch users (WCAG 2.2.2), made every house a Tab stop four
+  // times and slid focused links out of view.
   return (
-    <section className="section" style={{ paddingTop: 80, paddingBottom: 80, overflow: 'hidden' }}>
+    <section className="section" style={{ paddingTop: 80, paddingBottom: 80 }}>
       <Reveal>
-        <div style={{ marginBottom: 48, display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
-          <div>
-            <span className="eyebrow">Patrons of the Order</span>
-            <h2 className="serif" style={{ fontSize: 'clamp(30px, 4vw, 52px)', lineHeight: 1, marginTop: 16, fontWeight: 500, letterSpacing: '-0.01em' }}>
-              Houses that <span className="italic" style={{ color: 'var(--vermillion)' }}>trust the order</span>.
-            </h2>
-          </div>
-          <p className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>Hover to pause</p>
+        <div style={{ marginBottom: 40 }}>
+          <span className="eyebrow">Patrons of the Order</span>
+          <h2 className="serif" style={{ fontSize: 'clamp(30px, 4vw, 52px)', lineHeight: 1, marginTop: 16, fontWeight: 500, letterSpacing: '-0.01em' }}>
+            Houses that <span className="italic" style={{ color: 'var(--vermillion)' }}>trust the order</span>.
+          </h2>
         </div>
       </Reveal>
 
-      <div
-        style={{ position: 'relative' }}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 96, background: 'linear-gradient(to right, var(--bg), transparent)', zIndex: 10, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 96, background: 'linear-gradient(to left, var(--bg), transparent)', zIndex: 10, pointerEvents: 'none' }} />
-
-        <div style={{ overflow: 'hidden', padding: '6px 0' }}>
-          <div className="sp-scroll" style={{ display: 'flex', gap: 16, width: 'max-content', animationPlayState: isPaused ? 'paused' : 'running' }}>
-            {[...sponsors, ...sponsors].map((sponsor, index) => (
-              <SponsorCard key={index} sponsor={sponsor} />
-            ))}
-          </div>
-        </div>
-
-        <div style={{ overflow: 'hidden', padding: '6px 0', marginTop: 12 }}>
-          <div className="sp-scroll-rev" style={{ display: 'flex', gap: 16, width: 'max-content', animationPlayState: isPaused ? 'paused' : 'running' }}>
-            {[...sponsorsReversed, ...sponsorsReversed].map((sponsor, index) => (
-              <SponsorCard key={index} sponsor={sponsor} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <style>{`
-        @keyframes sp-scroll      { 0% { transform: translateX(0); }    100% { transform: translateX(-50%); } }
-        @keyframes sp-scroll-rev  { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        .sp-scroll     { animation: sp-scroll 28s linear infinite; }
-        .sp-scroll-rev { animation: sp-scroll-rev 28s linear infinite; }
-      `}</style>
+      <Reveal delay={100}>
+        <ul style={{ display: 'flex', flexWrap: 'wrap', gap: 16, listStyle: 'none', padding: 0, margin: 0 }}>
+          {sponsors.map((sponsor) => (
+            <li key={sponsor.name}>
+              <SponsorCard sponsor={sponsor} />
+            </li>
+          ))}
+        </ul>
+      </Reveal>
     </section>
   );
 }
