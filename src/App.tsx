@@ -10,7 +10,6 @@ import Sponsors from './components/Sponsors';
 import CTA from './components/CTA';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import CookieConsent from './components/CookieConsent';
 import ServiceLines from './components/ServiceLines';
 import Seo from './components/Seo';
 
@@ -33,7 +32,6 @@ function App() {
         <Contact />
       </main>
       <Footer />
-      <CookieConsent />
     </div>
   );
 }
