@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MapPin, Clock, Briefcase, Users, Globe } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 import Seo from '../components/Seo';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -11,9 +12,9 @@ import { jobs } from '../data/jobs';
 import type { JobOffer } from '../data/jobs';
 
 const cultureItems = [
-  { glyph: 'α', title: 'Ship weekly', body: 'You own your work and decide how it gets done.' },
-  { glyph: 'β', title: 'Remote-first', body: 'Work from anywhere. Async by default, plus a weekly check-in.' },
-  { glyph: 'γ', title: 'Your work shows', body: "We're small. What you make here, people use." },
+  { glyph: 'i.', title: 'Ship weekly', body: 'You own your work and decide how it gets done.' },
+  { glyph: 'ii.', title: 'Remote-first', body: 'Work from anywhere. Async by default, plus a weekly check-in.' },
+  { glyph: 'iii.', title: 'Your work shows', body: "We're small. What you make here, people use." },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -38,8 +39,8 @@ function JobCard({ job, index, open, onToggle }: { job: JobOffer; index: number;
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '10px 10px 0 var(--vermillion)')}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = '6px 6px 0 var(--rule)')}
     >
-      <div style={{ padding: '32px 34px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 18 }}>
+      <div style={{ padding: 'clamp(20px, 6vw, 32px) clamp(18px, 6vw, 34px)' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 18, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
             <span className="serif italic" style={{ fontSize: 40, color: 'var(--vermillion)', lineHeight: 0.9 }}>{job.numeral}</span>
             <div>
@@ -254,7 +255,7 @@ export default function Hiring() {
             <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
               <span className="eyebrow">Don't see the right role?</span>
               <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                Write to us<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>anyway.</span>
+                Write to us{' '}<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>anyway.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 460, lineHeight: 1.5 }}>
                 Tell us what you'd do here and why.
@@ -276,15 +277,7 @@ export default function Hiring() {
 
       </main>
 
-      {/* Footer strip */}
-      <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
-          <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
-          <Link to="/pricing" className="link-ink serif" style={{ fontSize: 14 }}>Tariff</Link>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   );

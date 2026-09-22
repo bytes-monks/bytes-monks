@@ -2,6 +2,7 @@ import { Mail, Linkedin, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Mark, Wordmark } from './Logo';
 import { prefetchRoute } from '../routes';
+import { CONSENT_OPEN_EVENT } from '../lib/track';
 
 const socialLinks = [
   { href: 'mailto:contact@bytesmonks.com', Icon: Mail, label: 'Email', external: false },
@@ -11,18 +12,20 @@ const socialLinks = [
 
 interface Col {
   h: string;
-  l: { t: string; to?: string; href?: string }[];
+  /** `to` goes through the router, so '/#x' works from every page (a bare
+   *  '#x' only worked on the home page). `action` renders a button. */
+  l: { t: string; to?: string; action?: 'cookies' }[];
 }
 
 const columns: Col[] = [
   {
     h: 'Disciplines',
     l: [
-      { t: 'AI & Machine Learning', href: '#services' },
-      { t: 'Custom Software', href: '#services' },
-      { t: 'Data Engineering', href: '#services' },
-      { t: 'DevOps & Scaling', href: '#services' },
-      { t: 'Tariff of the Order', to: '/pricing' },
+      { t: 'AI & Machine Learning', to: '/#services' },
+      { t: 'Custom Software', to: '/#services' },
+      { t: 'Data Engineering', to: '/#services' },
+      { t: 'DevOps & Scaling', to: '/#services' },
+      { t: 'Pricing', to: '/pricing' },
     ],
   },
   {
@@ -38,20 +41,21 @@ const columns: Col[] = [
   {
     h: 'The House',
     l: [
-      { t: 'About the Order', href: '#about' },
-      { t: 'The Rule', href: '#process' },
-      { t: 'Chronicles', href: '#portfolio' },
-      { t: 'Epistles', href: '#epistles' },
-      { t: 'Take Vows · Careers', to: '/hiring' },
+      { t: 'About the Order', to: '/#about' },
+      { t: 'How we work', to: '/#process' },
+      { t: 'Case studies', to: '/#portfolio' },
+      { t: 'Client letters', to: '/#epistles' },
+      { t: 'Careers', to: '/hiring' },
+      { t: 'Commission work', to: '/#contact' },
     ],
   },
   {
     h: 'Covenants',
     l: [
-      { t: 'Privacy Covenant', to: '/privacy' },
-      { t: 'Rule of Service', to: '/terms' },
-      { t: 'Refund Covenant', to: '/refund' },
-      { t: 'Commission work', href: '#contact' },
+      { t: 'Privacy Policy', to: '/privacy' },
+      { t: 'Terms of Service', to: '/terms' },
+      { t: 'Refund Policy', to: '/refund' },
+      { t: 'Cookie settings', action: 'cookies' },
     ],
   },
 ];
@@ -62,10 +66,10 @@ export default function Footer() {
   const currentYear = __BUILD_YEAR__;
 
   return (
-    <footer style={{ borderTop: '1px solid var(--rule)', padding: '48px 48px 40px', maxWidth: 1320, margin: '80px auto 0', position: 'relative', zIndex: 3 }}>
+    <footer aria-label="Site" style={{ borderTop: '1px solid var(--rule)', padding: '48px 48px 40px', maxWidth: 1320, margin: '80px auto 0', position: 'relative', zIndex: 3 }}>
       <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.3fr repeat(4, 1fr)', gap: 40 }}>
         <div>
-          <span style={{ color: 'var(--ink)', display: 'inline-block' }}>
+          <span aria-hidden style={{ color: 'var(--ink)', display: 'inline-block' }}>
             <Mark size={64} />
           </span>
           <div className="serif" style={{ fontSize: 22, marginTop: 14, fontWeight: 500 }}>
@@ -75,7 +79,7 @@ export default function Footer() {
             Ordo Bytorum · Tunis · MMXXI—
           </div>
           <p className="serif italic" style={{ fontSize: 14, color: 'var(--ink-faint)', marginTop: 16, maxWidth: 280 }}>
-            We build software and AI systems. Sometimes a miracle.
+            We build and run software, AI and cloud systems from Tunis. We also source engineers and goods.
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
             {socialLinks.map(({ href, Icon, label, external }) => (
@@ -89,7 +93,7 @@ export default function Footer() {
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--vermillion)'; e.currentTarget.style.color = 'var(--vermillion)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--rule)'; e.currentTarget.style.color = 'var(--ink-soft)'; }}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4" aria-hidden />
               </a>
             ))}
           </div>
@@ -115,7 +119,15 @@ export default function Footer() {
                   {item.t}
                 </Link>
               ) : (
-                <a key={item.t} href={item.href} className="serif" style={sty} onMouseEnter={onEnter} onMouseLeave={onLeave}>{item.t}</a>
+                <button
+                  key={item.t}
+                  type="button"
+                  className="serif"
+                  style={{ ...sty, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', font: 'inherit', fontSize: 15 }}
+                  onClick={() => window.dispatchEvent(new Event(CONSENT_OPEN_EVENT))}
+                >
+                  {item.t}
+                </button>
               );
             })}
           </div>
@@ -124,7 +136,7 @@ export default function Footer() {
 
       <div style={{ marginTop: 56, paddingTop: 24, borderTop: '1px solid var(--rule-soft)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--ink-faint)', textTransform: 'uppercase' }}>
-          © {currentYear} Ordo Bytorum · All rights, left aligned.
+          © {currentYear} Bytes Monks · Ordo Bytorum
         </div>
         <div className="serif italic" style={{ fontSize: 15, color: 'var(--ink-soft)' }}>Ora et codica.</div>
       </div>

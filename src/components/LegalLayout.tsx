@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { Mark } from './Logo';
 import Navigation from './Navigation';
+import Footer from './Footer';
 import Seo from './Seo';
 
 interface Section {
@@ -106,7 +107,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
           {/* Main manuscript column */}
           <div style={{ maxWidth: 720 }}>
             {numbered.map((s, i) => (
-              <article key={s.num} id={'sec-' + s.num} style={{ marginBottom: 56, paddingTop: i === 0 ? 0 : 8, scrollMarginTop: 120 }}>
+              <article key={s.num} id={'sec-' + s.num} style={{ marginBottom: 56, paddingTop: i === 0 ? 0 : 8 }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 20, marginBottom: 16 }}>
                   <span className="serif italic" style={{ fontSize: 48, color: 'var(--vermillion)', lineHeight: 0.85, fontWeight: 500 }}>{s.num}</span>
                   <h2 className="serif" style={{ fontSize: 30, fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.1 }}>{s.title}</h2>
@@ -170,16 +171,7 @@ export default function LegalLayout({ title, subtitle, lastUpdated, sections }: 
 
       </main>
 
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
-          <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
-          <Link to="/refund" className="link-ink serif" style={{ fontSize: 14 }}>Refund</Link>
-          <Link to="/pricing" className="link-ink serif" style={{ fontSize: 14 }}>Tariff</Link>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

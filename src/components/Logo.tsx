@@ -21,7 +21,7 @@ export function Mark({ size = 44, strokeWidth = 1.5, variant = 'full', className
   const ringText = variant === 'full';
 
   return (
-    <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} xmlns="http://www.w3.org/2000/svg" className={className} style={{ display: 'block' }}>
+    <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} xmlns="http://www.w3.org/2000/svg" className={className} style={{ display: 'block' }} aria-hidden="true" focusable="false">
       <defs>
         <path id={pathId} d={`M ${cx} ${cy} m -${ringR * 0.92} 0 a ${ringR * 0.92} ${ringR * 0.92} 0 1 1 ${ringR * 1.84} 0 a ${ringR * 0.92} ${ringR * 0.92} 0 1 1 -${ringR * 1.84} 0`} />
       </defs>
