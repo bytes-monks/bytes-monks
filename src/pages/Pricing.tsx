@@ -1,13 +1,23 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Check, Minus, ChevronDown, ExternalLink } from 'lucide-react';
+import { Check, Minus, ExternalLink } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 import Seo from '../components/Seo';
+import { FaqRow } from '../components/sourcingUi';
 
 import { platformPlans, retainerPlans, saasProducts } from '../data/pricing';
 import { faqs } from '../data/pricingFaqs';
-import type { FaqItem } from '../data/pricingFaqs';
+
+// Pinned locale: toLocaleString() with the visitor's locale printed '1 999' on
+// fr/de browsers against the prerendered '1,999' and broke hydration (#418).
+const fmt = new Intl.NumberFormat('en-US');
+
+/** Plan CTAs carry the plan into the home form, which preselects the topic. */
+function planHref(name: string): string {
+  return `/?plan=${encodeURIComponent(name.toLowerCase())}#contact`;
+}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -25,25 +35,6 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
       </div>
       {subtitle && <p className="serif italic" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 360 }}>{subtitle}</p>}
     </motion.div>
-  );
-}
-
-function FaqRow({ item }: { item: FaqItem }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{ borderBottom: '1px solid var(--rule-soft)' }}>
-      <button onClick={() => setOpen(!open)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '22px 0', textAlign: 'left', background: 'transparent', border: 'none', cursor: 'pointer', color: 'inherit' }}>
-        <span className="serif" style={{ fontSize: 21, color: 'var(--ink)' }}>{item.q}</span>
-        <ChevronDown className="w-4 h-4" style={{ color: open ? 'var(--vermillion)' : 'var(--ink-faint)', flexShrink: 0, transition: 'transform 0.3s', transform: open ? 'rotate(180deg)' : 'none' }} />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden' }}>
-            <p className="serif" style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--ink-soft)', paddingBottom: 22, paddingLeft: 4 }}>{item.a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }
 
@@ -81,20 +72,23 @@ export default function Pricing() {
         <div className="cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 40, alignItems: 'end' }}>
           <div>
             <h1 className="serif" style={{ fontSize: 'clamp(44px, 7vw, 100px)', lineHeight: 0.9, fontWeight: 500, letterSpacing: '-0.025em' }}>
-              Every price, <span className="italic" style={{ color: 'var(--vermillion)' }}>on one page</span>.
+              Hosting and engineering, <span className="italic" style={{ color: 'var(--vermillion)' }}>priced</span>.
             </h1>
             <p className="serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, marginTop: 24 }}>
               Two things you can buy: we host and run your product, or you buy our
               engineering hours by the month. Cancel either.
+            </p>
+            <p className="serif" style={{ fontSize: 17, color: 'var(--ink-soft)', maxWidth: 600, lineHeight: 1.5, marginTop: 14 }}>
+              Sourcing is quoted per brief: see <Link to="/talent-sourcing" className="link-ink">talent sourcing</Link> and <Link to="/product-sourcing" className="link-ink">product sourcing</Link>.
             </p>
           </div>
 
           {/* Billing toggle */}
           <div style={{ flexShrink: 0 }}>
             <p className="mono" style={{ fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginBottom: 10, textAlign: 'center' }}>Billing cycle</p>
-            <div style={{ display: 'inline-flex', border: '1px solid var(--ink)' }}>
-              <button onClick={() => setAnnual(false)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: !annual ? 'var(--ink)' : 'transparent', color: !annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', cursor: 'pointer' }}>Monthly</button>
-              <button onClick={() => setAnnual(true)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: annual ? 'var(--ink)' : 'transparent', color: annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', borderLeft: '1px solid var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div role="group" aria-label="Billing cycle" style={{ display: 'inline-flex', border: '1px solid var(--ink)' }}>
+              <button type="button" aria-pressed={!annual} onClick={() => setAnnual(false)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: !annual ? 'var(--ink)' : 'transparent', color: !annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', cursor: 'pointer' }}>Monthly</button>
+              <button type="button" aria-pressed={annual} onClick={() => setAnnual(true)} className="mono" style={{ padding: '12px 20px', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', background: annual ? 'var(--ink)' : 'transparent', color: annual ? 'var(--bg)' : 'var(--ink-soft)', border: 'none', borderLeft: '1px solid var(--ink)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
                 Annual <span style={{ color: annual ? 'var(--gilt)' : 'var(--sage)' }}>−17%</span>
               </button>
             </div>
@@ -121,27 +115,30 @@ export default function Pricing() {
                   <span className="serif italic" style={{ fontSize: 30, color: 'var(--vermillion)', lineHeight: 1 }}>{plan.numeral}</span>
                   <p className="serif" style={{ fontSize: 26, fontWeight: 500, color: 'var(--ink)' }}>{plan.name}</p>
                 </div>
-                <p className="sans" style={{ fontSize: 13, color: 'var(--ink-faint)', lineHeight: 1.5, marginBottom: 24 }}>{plan.description}</p>
+                <p className="sans" style={{ fontSize: 13, color: 'var(--ink-faint)', lineHeight: 1.5, marginBottom: 24, minHeight: '3em' }}>{plan.description}</p>
 
                 <div style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid var(--rule-soft)' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
                     <span className="serif" style={{ fontSize: 22, color: 'var(--ink-faint)' }}>$</span>
-                    <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{annual ? plan.annualPrice : plan.monthlyPrice}</span>
+                    <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{fmt.format(annual ? plan.annualPrice : plan.monthlyPrice)}</span>
                     <span className="mono" style={{ fontSize: 11, color: 'var(--ink-faint)', marginBottom: 8 }}>/ mo</span>
                   </div>
-                  {annual && <p className="mono" style={{ fontSize: 10, color: 'var(--sage)', marginTop: 6, letterSpacing: '0.06em' }}>Billed annually — ${plan.annualPrice * 12} / yr</p>}
+                  {annual && <p className="mono" style={{ fontSize: 10, color: 'var(--sage)', marginTop: 6, letterSpacing: '0.06em' }}>Billed annually — ${fmt.format(plan.annualPrice * 12)} / yr</p>}
                 </div>
 
                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
                   {plan.features.map((f, j) => (
                     <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14 }}>
-                      {f.included ? <Check className="w-4 h-4" style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} /> : <Minus className="w-4 h-4" style={{ color: 'var(--ink-trace)', flexShrink: 0, marginTop: 2 }} />}
-                      <span className="sans" style={{ color: f.included ? 'var(--ink)' : 'var(--ink-trace)' }}>{f.text}</span>
+                      {f.included ? <Check className="w-4 h-4" aria-hidden style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} /> : <Minus className="w-4 h-4" aria-hidden style={{ color: 'var(--ink-faint)', flexShrink: 0, marginTop: 2 }} />}
+                      <span className="sans" style={{ color: f.included ? 'var(--ink)' : 'var(--ink-faint)', textDecoration: f.included ? 'none' : 'line-through' }}>
+                        {!f.included && <span className="sr-only">Not included: </span>}
+                        {f.text}
+                      </span>
                     </li>
                   ))}
                 </ul>
 
-                <Link to="/#contact" className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>{plan.cta}</Link>
+                <Link to={planHref(plan.name)} className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>{plan.cta}</Link>
               </div>
             </motion.div>
           ))}
@@ -174,12 +171,12 @@ export default function Pricing() {
                       <p className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 4 }}>{plan.hours}</p>
                     </div>
                   </div>
-                  <p className="sans" style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '14px 0 20px' }}>{plan.description}</p>
+                  <p className="sans" style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '14px 0 20px', minHeight: '3.1em' }}>{plan.description}</p>
 
                   <div style={{ marginBottom: 24, paddingBottom: 20, borderBottom: '1px solid var(--rule-soft)' }}>
                     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
                       <span className="serif" style={{ fontSize: 22, color: 'var(--ink-faint)' }}>$</span>
-                      <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{plan.price.toLocaleString()}</span>
+                      <span className="serif italic" style={{ fontSize: 56, fontWeight: 500, lineHeight: 0.9, color: 'var(--ink)' }}>{fmt.format(plan.price)}</span>
                       <span className="mono" style={{ fontSize: 11, color: 'var(--ink-faint)', marginBottom: 8 }}>/ mo</span>
                     </div>
                     <p className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', marginTop: 6, letterSpacing: '0.04em' }}>Billed monthly · cancel with 14 days' notice</p>
@@ -188,7 +185,7 @@ export default function Pricing() {
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
                     {plan.services.map((s, j) => (
                       <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14 }}>
-                        <Check className="w-4 h-4" style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} />
+                        <Check className="w-4 h-4" aria-hidden style={{ color: 'var(--sage)', flexShrink: 0, marginTop: 2 }} />
                         <span className="sans" style={{ color: 'var(--ink)' }}>{s}</span>
                       </li>
                     ))}
@@ -198,14 +195,14 @@ export default function Pricing() {
                     <span className="mono" style={{ fontSize: 11, color: 'var(--ink-soft)', letterSpacing: '0.04em' }}>Response SLA: <span style={{ color: 'var(--ink)', fontWeight: 600 }}>{plan.sla}</span></span>
                   </div>
 
-                  <Link to="/#contact" className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>Get Started</Link>
+                  <Link to={planHref(plan.name)} className={plan.highlight ? 'btn' : 'btn btn-ghost'} style={{ justifyContent: 'center' }}>Get Started</Link>
                 </div>
               </motion.div>
             ))}
           </div>
 
           <p className="serif italic" style={{ marginTop: 28, fontSize: 17, color: 'var(--ink-soft)' }}>
-            Odd scope, or a one-off project? <Link to="/#contact" className="link-ink">Talk to us</Link> and we'll write you a proposal.
+            Odd scope, or a one-off project? <Link to="/?plan=project#contact" className="link-ink">Talk to us</Link> and we'll write you a proposal.
           </p>
         </div>
       </section>
@@ -232,11 +229,14 @@ export default function Pricing() {
                       <p className="mono" style={{ fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 4 }}>{product.tagline}</p>
                     </div>
                   </div>
-                  <span className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--vermillion)', border: '1px solid var(--vermillion)', padding: '4px 8px', flexShrink: 0 }}>{product.model}</span>
+                  <span className="mono" style={{ fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: product.status === 'paused' ? 'var(--ink-faint)' : 'var(--vermillion)', border: `1px solid ${product.status === 'paused' ? 'var(--rule)' : 'var(--vermillion)'}`, padding: '4px 8px', flexShrink: 0 }}>{product.status === 'paused' ? 'Paused' : product.model}</span>
                 </div>
 
                 <p className="sans" style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--ink-soft)', marginBottom: 24 }}>{product.description}</p>
 
+                {product.status === 'paused' ? (
+                  <p className="serif italic" style={{ fontSize: 15, color: 'var(--ink-faint)', marginTop: 'auto' }}>Not taking sign-ups right now.</p>
+                ) : (<>
                 <div style={{ display: 'grid', gridTemplateColumns: `repeat(${product.tiers.length}, 1fr)`, gap: 10, marginBottom: 20 }}>
                   {product.tiers.map((tier) => (
                     <div key={tier.name} style={{ border: `1px solid ${tier.highlight ? 'var(--vermillion)' : 'var(--rule)'}`, background: tier.highlight ? 'color-mix(in oklch, var(--vermillion) 5%, var(--bg))' : 'var(--bg)', padding: '12px', textAlign: 'center' }}>
@@ -250,9 +250,11 @@ export default function Pricing() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginTop: 'auto', paddingTop: 8 }}>
                   {product.freeTrial ? <span className="mono" style={{ fontSize: 10, letterSpacing: '0.04em', color: 'var(--sage)' }}>⁜ {product.freeTrial}</span> : <span />}
                   <a href={product.url} target="_blank" rel="noopener noreferrer" className="link-ink serif italic" style={{ fontSize: 15, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                    {product.cta ?? 'Visit'} <ExternalLink className="w-3.5 h-3.5" />
+                    {product.cta ?? 'Visit'} <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+                    <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </div>
+                </>)}
               </div>
             </motion.div>
           ))}
@@ -268,7 +270,7 @@ export default function Pricing() {
             { title: 'Cancellation', body: 'Cancel from the billing dashboard. Access runs to the end of the paid period.' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '32px', borderRight: i < 2 ? '1px solid var(--rule)' : 'none' }}>
-              <div className="serif italic" style={{ fontSize: 22, color: 'var(--vermillion)', marginBottom: 10 }}>{['α', 'β', 'γ'][i]}</div>
+              <div className="serif italic" aria-hidden style={{ fontSize: 22, color: 'var(--vermillion)', marginBottom: 10 }}>{['i.', 'ii.', 'iii.'][i]}</div>
               <p className="serif" style={{ fontSize: 20, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{item.title}</p>
               <p className="sans" style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.6 }}>{item.body}</p>
             </div>
@@ -285,7 +287,7 @@ export default function Pricing() {
           </h2>
         </div>
         <div style={{ maxWidth: 820 }}>
-          {faqs.map((item, i) => <FaqRow key={i} item={item} />)}
+          {faqs.map((item, i) => <FaqRow key={i} item={item} id={`pricing-faq-${i}`} />)}
         </div>
       </section>
 
@@ -296,15 +298,15 @@ export default function Pricing() {
             <div style={{ padding: 'clamp(32px, 5vw, 56px)' }}>
               <span className="eyebrow">Not sure which plan fits?</span>
               <h2 className="serif" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                Ask us which one<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>to pick.</span>
+                Ask us which one{' '}<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>to pick.</span>
               </h2>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 20, maxWidth: 520, lineHeight: 1.5 }}>
-                Tell us what you're running. We'll say which plan fits, in a free 30-minute call.
+                Tell us what you're running. We'll reply with the plan that fits.
               </p>
             </div>
             <div className="cta-side" style={{ borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14, minWidth: 280 }}>
-              <Link to="/#contact" className="btn" style={{ justifyContent: 'center' }}>Book a Free Call →</Link>
-              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>XXIV-hour response · no obligation</p>
+              <Link to="/?plan=unsure#contact" className="btn" style={{ justifyContent: 'center' }}>Ask Which Plan Fits →</Link>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', textAlign: 'center' }}>24-hour reply · no obligation</p>
             </div>
           </div>
         </div>
@@ -312,15 +314,7 @@ export default function Pricing() {
 
       </main>
 
-      {/* Footer strip */}
-      <footer style={{ borderTop: '1px solid var(--rule)', padding: '32px 48px', maxWidth: 1320, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <span className="mono" style={{ fontSize: 10, color: 'var(--ink-faint)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>© {__BUILD_YEAR__} Ordo Bytorum</span>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-          <Link to="/privacy" className="link-ink serif" style={{ fontSize: 14 }}>Privacy</Link>
-          <Link to="/terms" className="link-ink serif" style={{ fontSize: 14 }}>Terms</Link>
-          <Link to="/refund" className="link-ink serif" style={{ fontSize: 14 }}>Refund</Link>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
