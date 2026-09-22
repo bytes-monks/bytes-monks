@@ -20,13 +20,13 @@
   --gilt: oklch(0.68 0.12 82);
   --paper-speck: oklch(0.88 0.03 70);
 
-  /* Scribe's hand. The fallback is EB Garamond, never the generic `cursive`
-     keyword — that resolves to Comic Sans on Windows and would flash on every
-     cold load. Caveat's x-height matches Garamond's exactly (0.400 em) but its
-     advance widths are only 85.8% as wide (measured across the display strings
-     on /sourcing), so the raw swap reflows by ~16%. 'Caveat Metric Fallback'
-     below corrects for that. */
-  --font-hand: 'Caveat', 'Caveat Metric Fallback', 'EB Garamond', Georgia, serif;
+  /* Both display faces fall back to a metric-matched local serif (see the
+     @font-face rules below), never the generic `cursive` keyword — that
+     resolves to Comic Sans on Windows. Without the matched fallback the swap
+     re-wraps the big headings on every cold load (CLS 0.30–0.34 measured on
+     /pricing and /talent-sourcing). */
+  --font-serif: 'EB Garamond', 'EB Garamond Fallback', 'Times New Roman', serif;
+  --font-hand: 'Caveat', 'Caveat Metric Fallback', serif;
 }
 
 [data-theme="candlelight"] {
@@ -61,7 +61,12 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+/* scroll-padding keeps anchor targets, focused fields and invalid form
+   fields clear of the fixed nav. */
+html { scroll-padding-top: 120px; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 html, body {
   background: var(--bg);
@@ -70,6 +75,7 @@ html, body {
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
   transition: background 0.6s ease, color 0.6s ease;
 }
 
@@ -106,21 +112,38 @@ body::after {
 ::-webkit-scrollbar-thumb { background: var(--vermillion); }
 ::-webkit-scrollbar-thumb:hover { background: var(--vermillion-deep); }
 
-.serif  { font-family: 'EB Garamond', 'Cormorant Garamond', 'Times New Roman', serif; }
+.serif  { font-family: var(--font-serif); }
 .mono   { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 .sans   { font-family: 'Inter', system-ui, sans-serif; }
 .italic { font-style: italic; }
 
-/* Metric-matched stand-in used while Caveat is in flight. size-adjust is the
-   measured Caveat/EB-Garamond advance ratio; the overrides are Caveat's own
-   ascent and descent re-expressed against that adjusted em. Together they make
-   the swap invisible instead of a 16% reflow. */
+/* Metric-matched stand-ins used while the web fonts are in flight. The
+   ratios are measured against Times New Roman / Liberation Serif, the local
+   serif on Windows, macOS, iOS and most Linux installs, so the swap no longer
+   re-wraps the display headings. */
+@font-face {
+  font-family: 'EB Garamond Fallback';
+  src: local('Times New Roman'), local('TimesNewRomanPSMT'), local('Liberation Serif'), local('LiberationSerif');
+  size-adjust: 98%;
+  ascent-override: 102.7%;
+  descent-override: 30.4%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'EB Garamond Fallback';
+  font-style: italic;
+  src: local('Times New Roman Italic'), local('TimesNewRomanPS-ItalicMT'), local('Liberation Serif Italic'), local('LiberationSerif-Italic');
+  size-adjust: 96.8%;
+  ascent-override: 104%;
+  descent-override: 30.8%;
+  line-gap-override: 0%;
+}
 @font-face {
   font-family: 'Caveat Metric Fallback';
-  src: local('EB Garamond'), local('Georgia'), local('Times New Roman');
-  size-adjust: 85.8%;
-  ascent-override: 112%;
-  descent-override: 35%;
+  src: local('Times New Roman'), local('TimesNewRomanPSMT'), local('Liberation Serif'), local('LiberationSerif');
+  size-adjust: 83.7%;
+  ascent-override: 114.7%;
+  descent-override: 35.8%;
   line-gap-override: 0%;
 }
 
@@ -173,36 +196,41 @@ body::after {
 .rule-h { height: 1px; background: var(--rule); }
 .rule-h-soft { height: 1px; background: var(--rule-soft); }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 14px 22px;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--bg);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  position: relative;
+/* Buttons — in the components layer so Tailwind utilities such as `hidden`
+   still win over `display: inline-flex`. */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    position: relative;
+  }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
 }
-.btn:hover { background: var(--vermillion); border-color: var(--vermillion); color: var(--bg); transform: translateY(-1px); }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-.btn-ghost {
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--ink);
+@media (hover: hover) {
+  .btn:hover { background: var(--vermillion); border-color: var(--vermillion); color: var(--bg); transform: translateY(-1px); }
+  .btn-ghost:hover { background: color-mix(in oklch, var(--ink) 8%, transparent); color: var(--ink); transform: translateY(-1px); }
 }
-.btn-ghost:hover { background: var(--ink); color: var(--bg); transform: translateY(-1px); }
 
 /* Drop cap */
 .dropcap::first-letter {
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-weight: 700;
   float: left;
   font-size: 5.2em;
@@ -220,7 +248,7 @@ body::after {
   padding-bottom: 1px;
   transition: border-color 0.2s, color 0.2s;
 }
-.link-ink:hover { color: var(--vermillion); border-color: var(--vermillion); }
+@media (hover: hover) { .link-ink:hover { color: var(--vermillion); border-color: var(--vermillion); } }
 
 /* Illuminated hover: reveals a red leader line */
 .reveal-row { position: relative; }
@@ -232,7 +260,7 @@ body::after {
   background: var(--vermillion);
   transition: width 0.45s cubic-bezier(.2,.8,.2,1);
 }
-.reveal-row:hover::before { width: 24px; }
+@media (hover: hover) { .reveal-row:hover::before { width: 24px; } }
 
 /* Blinking cursor */
 .cursor {
@@ -258,8 +286,8 @@ body::after {
 
 /* ink bleed in */
 @keyframes inkbleed {
-  from { opacity: 0; filter: blur(6px); letter-spacing: 0.08em; }
-  to   { opacity: 1; filter: blur(0);   letter-spacing: 0; }
+  from { opacity: 0; filter: blur(6px); transform: translateY(6px); }
+  to   { opacity: 1; filter: blur(0);   transform: none; }
 }
 .inkbleed { animation: inkbleed 1.4s cubic-bezier(.2,.8,.2,1) both; }
 
@@ -274,7 +302,6 @@ body::after {
   50%     { transform: scale(1.04); opacity: 1; }
 }
 .sigil-astro { animation: sigil-breathe 6s ease-in-out infinite; }
-.sigil-astro svg text { transform-box: fill-box; transform-origin: center; }
 .sigil-halo { animation: sigil-breathe 4s ease-in-out infinite; }
 
 /* Seal wax */
@@ -285,7 +312,7 @@ body::after {
     radial-gradient(circle at 35% 30%, color-mix(in oklch, var(--vermillion) 60%, #fff) 0%, var(--vermillion) 40%, var(--vermillion-deep) 100%);
   display: flex; align-items: center; justify-content: center;
   color: var(--bg);
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 700;
   font-size: 26px;
@@ -307,13 +334,19 @@ body::after {
 /* Marginalia ticker */
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .ticker-track { display: inline-flex; gap: 60px; animation: ticker 80s linear infinite; white-space: nowrap; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+/* Decorative loops stop while their section is off-screen (data-offscreen is
+   set by an IntersectionObserver) — the hero sigil otherwise kept the main
+   thread busy for the whole visit. */
+[data-offscreen] *, [data-offscreen] *::before, [data-offscreen] *::after { animation-play-state: paused !important; }
 
 /* Folio hover */
 .folio { transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease; }
-.folio:hover { transform: translateY(-4px) rotate(-0.3deg); }
+@media (hover: hover) { .folio:hover { transform: translateY(-4px) rotate(-0.3deg); } }
 
 /* Numeric accent */
-.roman { font-family: 'EB Garamond', serif; font-style: italic; color: var(--vermillion); }
+.roman { font-family: var(--font-serif); font-style: italic; color: var(--vermillion); }
 
 /* Scribe hand list marker */
 .hand-bullet::before {
@@ -333,11 +366,17 @@ body::after {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule-soft);
 }
-.nav a { color: var(--ink-soft); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
-.nav a:hover { color: var(--vermillion); }
+.nav-links a { color: var(--ink-soft); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 0; border-bottom: 1px solid transparent; }
+.nav-links a:hover { color: var(--vermillion); }
+.nav-links a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--vermillion); }
+.nav-cta { white-space: nowrap; }
+@media (max-width: 1099px) {
+  .nav { padding: 12px 16px; }
+  .nav-cta { padding: 10px 12px !important; }
+}
 
 /* Nav CTA — override the generic .nav a color so the filled button stays legible */
-.nav a.btn { color: var(--bg); font-weight: 600; }
+.nav a.btn { color: var(--bg); font-weight: 600; text-decoration: none; }
 .nav a.btn:hover { background: var(--vermillion-deep); border-color: var(--vermillion-deep); color: #fff; }
 
 /* Terminal window */
@@ -364,8 +403,9 @@ body::after {
 .dot { width: 8px; height: 8px; border-radius: 50%; }
 
 .prompt { color: var(--vermillion); }
+.scriptorium .prompt { color: oklch(0.70 0.16 32); }
 [data-theme="ink"] .prompt { color: oklch(0.75 0.18 32); }
-.term-comment { color: oklch(0.55 0.04 140); }
+.term-comment { color: oklch(0.70 0.05 140); }
 .term-key { color: oklch(0.75 0.1 75); }
 
 /* Cross ornament */
@@ -382,7 +422,7 @@ body::after {
   border: none;
   border-bottom: 1px solid var(--ink);
   padding: 10px 0 14px;
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-size: 22px;
   font-style: italic;
   color: var(--ink);
@@ -401,7 +441,7 @@ select.ms-input option { background: var(--bg); color: var(--ink); }
 /* <main> is focused programmatically on route change purely to move the
    reading position — that should not paint a ring. Tabbing to it still does,
    via :focus-visible above. */
-main:focus { outline: none; }
+main:focus, h1[tabindex="-1"]:focus { outline: none; }
 
 /* Visually hidden but still announced — for text that exists only for AT,
    such as the arabic reading of a Roman numeral. */
@@ -432,6 +472,7 @@ main:focus { outline: none; }
   transition: top 0.18s ease;
 }
 .skip-link:focus { top: 8px; }
+.skip-link:hover { color: var(--bg); }
 
 /* Small util */
 .u-max-6 { max-width: 640px; }
@@ -458,13 +499,14 @@ main:focus { outline: none; }
   .footer-grid,
   .folio-body,
   .psi-grid,
-  .epistles-grid { grid-template-columns: 1fr !important; }
+  .epistles-grid { grid-template-columns: minmax(0, 1fr) !important; }
 
   .rule-row { grid-template-columns: 60px 1fr !important; gap: 16px 24px !important; }
   .rule-row > :nth-child(3),
   .rule-row > :nth-child(4) { grid-column: 1 / -1; }
 
   .cta-side { border-left: none !important; border-top: 1px solid var(--rule) !important; }
+  .disc-btn { border-right: none !important; }
   .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 32px !important; }
   .psi-grid { gap: 24px !important; }
 }
@@ -492,7 +534,7 @@ main:focus { outline: none; }
 @media (max-width: 920px) {
   .sourcing-hero-grid,
   .lines-grid,
-  .dual-grid { grid-template-columns: 1fr !important; }
+  .dual-grid { grid-template-columns: minmax(0, 1fr) !important; }
   .lines-cell { border-right: none !important; }
   .lines-grid > *:first-child { border-bottom: 1px solid var(--rule); }
   .dual-side { border-left: none !important; border-top: 1px solid var(--rule) !important; }
@@ -502,7 +544,7 @@ main:focus { outline: none; }
   .sourcing-3,
   .terms-grid,
   .handled-grid,
-  .form-grid { grid-template-columns: 1fr !important; }
+  .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
 
   .sourcing-4 > *,
   .sourcing-3 > *,
@@ -516,16 +558,47 @@ main:focus { outline: none; }
    section; its 920px collapse is defined with the other monastic grids above. */
 
 @media (max-width: 1024px) {
-  .legal-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .legal-grid { grid-template-columns: minmax(0, 1fr) !important; gap: 48px !important; }
 }
 @media (max-width: 760px) {
   .covenant-grid { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 920px) {
-  .pricing-3, .pricing-2 { grid-template-columns: 1fr !important; }
-  .jobs-grid { grid-template-columns: 1fr !important; }
-  .hiring-hero-grid { grid-template-columns: 1fr !important; }
+  .pricing-3, .pricing-2 { grid-template-columns: minmax(0, 1fr) !important; }
+  .jobs-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .hiring-hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
+}
+
+/* Legal text carries long unbroken tokens (package ids, URLs) that pushed the
+   Cosmo policy to 423px on a 390px phone. */
+.legal-grid p, .legal-grid li, .legal-grid li > span { overflow-wrap: anywhere; min-width: 0; }
+
+/* Process rail: at one column the line and dots cut through the body text. */
+@media (max-width: 920px) {
+  .rule-rail, .rule-dot { display: none; }
+}
+
+/* Services: every panel stays in the DOM (for crawlers and screen readers);
+   only the active one is shown. On desktop the panels share column 2; at one
+   column each panel sits directly under its own button. */
+.disc-panel[hidden] { display: none; }
+@media (min-width: 921px) {
+  .disciplines-grid > .disc-btn { grid-column: 1; }
+  .disciplines-grid > .disc-panel { grid-column: 2; grid-row: 1 / span 4; }
+}
+
+@media (max-width: 640px) {
+  .cookie-notice { bottom: 8px !important; left: 8px !important; right: 8px !important; }
+  .cookie-notice .cookie-body { padding: 12px 14px !important; }
+  .cookie-notice .cookie-seal, .cookie-notice .cookie-title { display: none; }
+  .cookie-notice .cookie-body > div:first-child { margin-bottom: 10px !important; }
+}
+
+@media print {
+  .nav, .skip-link, .cookie-notice { display: none !important; }
+  body::before, body::after { display: none !important; }
+  .ticker-track, .sigil-astro { animation: none !important; }
 }
 
 /* Reduced motion */
