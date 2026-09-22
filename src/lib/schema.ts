@@ -94,39 +94,6 @@ export function service(opts: {
   return node;
 }
 
-export function employmentAgency(opts: {
-  name: string;
-  description: string;
-  path: string;
-}): JsonLd {
-  return {
-    '@type': 'EmploymentAgency',
-    '@id': `${SITE_URL}/#employmentagency`,
-    name: opts.name,
-    description: opts.description,
-    url: absoluteUrl(opts.path),
-    parentOrganization: { '@id': ORG_ID },
-    email: 'contact@bytesmonks.com',
-    knowsAbout: [
-      'Artificial intelligence engineering',
-      'Machine learning engineering',
-      'Software engineering',
-      'Data engineering',
-      'DevOps and site reliability engineering',
-      'Technical recruiting',
-    ],
-    areaServed: [
-      { '@type': 'Country', name: 'Tunisia' },
-      { '@type': 'Place', name: 'European Union' },
-      { '@type': 'Place', name: 'Worldwide (remote)' },
-    ],
-  };
-}
-
-/**
- * Google Jobs-eligible JobPosting. `datePosted` and `validThrough` must be real
- * ISO dates — a posting with a stale validThrough is dropped from the index.
- */
 export function jobPosting(opts: {
   id: string;
   title: string;

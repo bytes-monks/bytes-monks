@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Reveal } from './monastic';
+import { track } from '../lib/track';
 
 /** Section header used by both sourcing pages: numbered eyebrow, a handwritten
  *  display line with one accented phrase, and an optional single-line sub. */
@@ -67,8 +68,19 @@ export function FaqRow({ item, id }: { item: { q: string; a: string }; id: strin
 }
 
 const labelStyle: React.CSSProperties = {
-  fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase',
-  color: 'var(--ink-faint)', display: 'block', marginBottom: 8,
+  fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase',
+  color: 'var(--ink-soft)', display: 'block', marginBottom: 8,
+};
+
+/** Autofill and keyboard hints by field id, so phones offer the right keyboard. */
+const FIELD_HINTS: Record<string, { autoComplete?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'] }> = {
+  name: { autoComplete: 'name' },
+  email: { autoComplete: 'email', inputMode: 'email' },
+  company: { autoComplete: 'organization' },
+  link: { autoComplete: 'url', inputMode: 'url' },
+  spec: { inputMode: 'url' },
+  count: { inputMode: 'numeric' },
+  years: { inputMode: 'numeric' },
 };
 
 export function Field({
@@ -79,7 +91,10 @@ export function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mono" style={labelStyle}>{label}</label>
+      <label htmlFor={id} className="mono" style={labelStyle}>
+        {label}
+        {required && <span aria-hidden style={{ color: 'var(--vermillion)' }}> *</span>}
+      </label>
       {options ? (
         <select id={id} name={id} required={required} disabled={disabled} defaultValue="" className="ms-input">
           <option value="" disabled>Select one</option>
@@ -88,7 +103,7 @@ export function Field({
       ) : textarea ? (
         <textarea id={id} name={id} rows={3} required={required} disabled={disabled} placeholder={placeholder} className="ms-input" style={{ resize: 'vertical', fontStyle: 'normal', fontSize: 18, lineHeight: 1.6 }} />
       ) : (
-        <input id={id} name={id} type={type} required={required} disabled={disabled} placeholder={placeholder} className="ms-input" />
+        <input id={id} name={id} type={type} required={required} disabled={disabled} placeholder={placeholder} className="ms-input" {...FIELD_HINTS[id]} />
       )}
     </div>
   );
@@ -116,16 +131,24 @@ export function useFormSubmit(formType: string) {
     e.preventDefault();
     setStatus('loading');
     const payload = Object.fromEntries(new FormData(e.currentTarget).entries());
+    // A form collector on a sleeping host can hang for good; give up after 15 s
+    // so the error state (with the email fallback) shows.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, formType }),
+        body: JSON.stringify({ ...payload, formType, page: window.location.pathname }),
+        signal: controller.signal,
       });
       if (!res.ok) throw new Error('Request failed');
       setStatus('success');
+      track('generate_lead', { form_type: formType });
     } catch {
       setStatus('error');
+    } finally {
+      clearTimeout(timeout);
     }
   };
 

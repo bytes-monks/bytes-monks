@@ -8,7 +8,7 @@ const vows = [
   { t: 'Clear speech at all times', d: 'No black boxes. You always know where the work stands.' },
   { t: 'We stay', d: 'If your product grows, we stay and grow with it.' },
   { t: 'Code read as prose', d: "If the next engineer can't read it, we rewrite it. Docs are a kindness, not a chore." },
-  { t: 'Vigil through the night', d: "Production doesn't care what time it is. Neither do we when something is burning." },
+  { t: 'A vigil with stated hours', d: 'Every support plan names its response time. We keep to it.' },
 ];
 
 export default function WhyChooseUs() {
@@ -16,16 +16,17 @@ export default function WhyChooseUs() {
     <section className="section" style={{ paddingTop: 140, paddingBottom: 100, background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', maxWidth: 'unset' }}>
       <div style={{ maxWidth: 1320, margin: '0 auto' }}>
         <div className="vows-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
-          <Reveal>
-            <div style={{ position: 'sticky', top: 120 }}>
-              <span className="eyebrow">IV. Our Vows</span>
+          {/* The sticky sits on the grid item itself, so it has the whole row to travel. */}
+          <Reveal style={{ position: 'sticky', top: 120 }}>
+            <div>
+              <span className="eyebrow">V. Why Us · Our Vows</span>
               <h2 className="serif" style={{ fontSize: 'clamp(40px, 5vw, 74px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
-                Eight vows <br /><span className="italic" style={{ color: 'var(--vermillion)' }}>we keep</span>.
+                Eight vows{' '}<br /><span className="italic" style={{ color: 'var(--vermillion)' }}>we keep</span>.
               </h2>
               <p className="serif italic" style={{ fontSize: 18, color: 'var(--ink-soft)', marginTop: 24, maxWidth: 340 }}>
                 We say these when you hire us. We re-read them before every release.
               </p>
-              <a href="#contact" className="btn" style={{ marginTop: 28 }}>Start Your Project →</a>
+              <a href="#contact" className="btn" data-cta="vows" style={{ marginTop: 28 }}>Start a Project →</a>
             </div>
           </Reveal>
 

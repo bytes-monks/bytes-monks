@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mark } from './Logo';
 import { Sigil, Reveal } from './monastic';
 
@@ -9,7 +10,7 @@ function renderLine(text: string, kind: LineKind) {
   if (kind === 'prompt') {
     return (
       <>
-        <span className="prompt">monk@scriptorium</span>:<span style={{ color: 'oklch(0.7 0.06 220)' }}>~/vow</span>${' '}
+        <span className="prompt">monk@scriptorium</span>:<span style={{ color: 'oklch(0.7 0.06 220)' }}>~/order</span>${' '}
         <span>{text}</span>
       </>
     );
@@ -21,8 +22,16 @@ function renderLine(text: string, kind: LineKind) {
 }
 
 function TypedLines({ lines, speed = 22 }: { lines: TermLine[]; speed?: number }) {
+  // Starts empty to match the prerender; reduced-motion visitors get the
+  // finished text on mount instead of a 12-second typing loop.
   const [state, setState] = useState({ li: 0, ci: 0, done: false });
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setState({ li: lines.length, ci: 0, done: true });
+    }
+  }, [lines.length]);
 
   useEffect(() => {
     if (state.done) return;
@@ -52,15 +61,22 @@ function TypedLines({ lines, speed = 22 }: { lines: TermLine[]; speed?: number }
   );
 }
 
+// The terminal types the offer index, so the decoration also answers
+// "what do you do". It is aria-hidden: the same facts are in the links below.
 const lines: TermLine[] = [
-  { text: 'cat /etc/monks/vows.txt', kind: 'prompt', pause: 380, break: true },
-  { text: 'reading manuscript...', kind: 'comment', pause: 260, break: true },
-  { text: 'I. Build only what will outlast its builder.', kind: 'out', pause: 180 },
-  { text: 'II. Let every function have a single intention.', kind: 'out', pause: 180 },
-  { text: 'III. Comment as scripture — sparingly, truthfully.', kind: 'out', pause: 180 },
-  { text: 'IV. Optimize for the reader, not the author.', kind: 'out', pause: 340, break: true },
-  { text: '→ 4 vows loaded. ready.', kind: 'key', pause: 1200, break: true },
-  { text: 'deploy --blessing', kind: 'prompt', pause: 600, break: true },
+  { text: 'ls ./disciplines', kind: 'prompt', pause: 300 },
+  { text: 'ai/   software/   data/   devops/', kind: 'out', pause: 380, break: true },
+  { text: 'ls ./also', kind: 'prompt', pause: 300 },
+  { text: 'talent-sourcing/   product-sourcing/', kind: 'out', pause: 380, break: true },
+  { text: 'head -1 vows.txt', kind: 'prompt', pause: 300 },
+  { text: 'I. Build only what will outlast its builder.', kind: 'out', pause: 340, break: true },
+  { text: '→ 6 crafts loaded. ready.', kind: 'key', pause: 1200 },
+];
+
+const doors = [
+  { latin: 'Ars Fabricandi', title: 'Software & AI', line: 'We build it, then run it.', to: '/#services' },
+  { latin: 'Ars Vocandi', title: 'Talent sourcing', line: 'Engineers, vetted by engineers.', to: '/talent-sourcing' },
+  { latin: 'Ars Mercatoria', title: 'China sourcing', line: 'Goods inspected before you pay.', to: '/product-sourcing' },
 ];
 
 const marginalia = [
@@ -72,11 +88,27 @@ const marginalia = [
   '⚜ Verba volant, scripta manent — words fly, code remains.',
 ];
 
+/** Sets data-offscreen while the element is out of view; CSS pauses its loops. */
+function useOffscreenPause<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) el.removeAttribute('data-offscreen');
+      else el.setAttribute('data-offscreen', '');
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return ref;
+}
+
 export default function Hero() {
-  const [restart, setRestart] = useState(0);
+  const sectionRef = useOffscreenPause<HTMLElement>();
 
   return (
-    <section id="top" style={{ minHeight: '100vh', position: 'relative', paddingTop: 110, zIndex: 3 }}>
+    <section ref={sectionRef} id="top" style={{ minHeight: '100vh', position: 'relative', paddingTop: 110, zIndex: 3 }}>
       {/* Floating manuscript year */}
       <div
         className="serif italic"
@@ -93,8 +125,8 @@ export default function Hero() {
       <div className="section" style={{ paddingTop: 40, paddingBottom: 40, position: 'relative', zIndex: 2 }}>
         {/* Eyebrow */}
         <Reveal>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 48, flexWrap: 'wrap' }}>
-            <span className="eyebrow">Anno Codicis · Vol. IX</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+            <span className="eyebrow">Tunis · Anno MMXXI</span>
             <span style={{ flex: 1, minWidth: 40, height: 1, background: 'var(--rule-soft)' }} />
             <span className="eyebrow" style={{ color: 'var(--sage)' }}>
               <span style={{ width: 6, height: 6, background: 'var(--sage)', borderRadius: '50%', display: 'inline-block', marginRight: 6 }} />
@@ -107,51 +139,42 @@ export default function Hero() {
           {/* Left */}
           <div>
             <Reveal delay={80}>
-              <h1 className="serif inkbleed" style={{ fontSize: 'clamp(52px, 9vw, 140px)', lineHeight: 0.88, fontWeight: 500, letterSpacing: '-0.02em', marginBottom: 36 }}>
-                We are the
-                <br />
-                <span className="italic" style={{ color: 'var(--vermillion)', fontWeight: 500 }}>quiet craftsmen</span>
-                <br />
-                of your
-                <br />
-                software.
+              <h1 className="serif inkbleed" style={{ fontSize: 'clamp(46px, 6.7vw, 96px)', lineHeight: 0.92, fontWeight: 500, letterSpacing: '-0.02em', marginBottom: 24 }}>
+                We build your software, then <span className="italic" style={{ color: 'var(--vermillion)', fontWeight: 500 }}>keep it running</span>.
               </h1>
             </Reveal>
 
             <Reveal delay={220}>
-              <p className="serif italic" style={{ fontSize: 22, lineHeight: 1.55, maxWidth: 560, color: 'var(--ink-soft)', marginBottom: 40 }}>
-                We're engineers in the old tradition — patient, and a little obsessive.
-                We build software that's still standing years later.
+              <p className="serif italic" style={{ fontSize: 'clamp(19px, 1.6vw, 22px)', lineHeight: 1.5, maxWidth: 560, color: 'var(--ink-soft)', marginBottom: 28 }}>
+                AI agents, web apps, data pipelines and managed cloud, from engineers in Tunis.
+                We also find engineers, and source goods from China.
               </p>
             </Reveal>
 
             <Reveal delay={320}>
-              <div style={{ display: 'flex', gap: 12, marginBottom: 56, flexWrap: 'wrap' }}>
-                <a href="#contact" className="btn">Book Free Consultation →</a>
-                <a href="#portfolio" className="btn btn-ghost">View Our Work</a>
+              <div style={{ display: 'flex', gap: 12, marginBottom: 48, flexWrap: 'wrap' }}>
+                <a href="#contact" className="btn" data-cta="hero">Start a Project →</a>
+                <a href="#portfolio" className="btn btn-ghost">See Our Work</a>
               </div>
             </Reveal>
 
             <Reveal delay={420}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, paddingTop: 28, borderTop: '1px solid var(--rule-soft)' }}>
-                {[
-                  { roman: 'L+', label: 'Projects delivered' },
-                  { roman: 'V+', label: 'Years in the order' },
-                  { roman: 'C%', label: 'Client satisfaction' },
-                ].map((s, i) => (
-                  <div key={i} style={{ padding: '0 20px', borderRight: i < 2 ? '1px solid var(--rule-soft)' : 'none', paddingLeft: i === 0 ? 0 : 20 }}>
-                    <div className="serif italic" style={{ fontSize: 48, lineHeight: 1, color: 'var(--vermillion)', fontWeight: 500 }}>{s.roman}</div>
-                    <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', color: 'var(--ink-faint)', textTransform: 'uppercase', marginTop: 10 }}>{s.label}</div>
-                  </div>
+              <nav aria-label="What we do" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(160px, 100%), 1fr))', gap: 0, paddingTop: 24, borderTop: '1px solid var(--rule-soft)' }}>
+                {doors.map((d, i) => (
+                  <Link key={d.to} to={d.to} data-cta={`hero-door-${i + 1}`} style={{ padding: '4px 20px 12px', paddingLeft: i === 0 ? 0 : 20, borderRight: i < doors.length - 1 ? '1px solid var(--rule-soft)' : 'none', textDecoration: 'none', color: 'inherit' }}>
+                    <span lang="la" className="mono" style={{ display: 'block', fontSize: 10, letterSpacing: '0.18em', color: 'var(--vermillion)', textTransform: 'uppercase' }}>{d.latin}</span>
+                    <span className="serif" style={{ display: 'block', fontSize: 22, color: 'var(--ink)', marginTop: 6 }}>{d.title} →</span>
+                    <span className="sans" style={{ display: 'block', fontSize: 13, color: 'var(--ink-soft)', marginTop: 4 }}>{d.line}</span>
+                  </Link>
                 ))}
-              </div>
+              </nav>
             </Reveal>
           </div>
 
           {/* Right: sigil + scriptorium terminal */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28, position: 'relative' }}>
             <Reveal delay={280}>
-              <div className="flicker" style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
+              <div className="flicker" aria-hidden style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
                 <Sigil size={280} />
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'var(--vermillion)', pointerEvents: 'none', lineHeight: 0 }}>
                   <Mark size={72} variant="mark" />
@@ -163,14 +186,16 @@ export default function Hero() {
             </Reveal>
 
             <Reveal delay={380}>
-              <div className="scriptorium" onClick={() => setRestart((r) => r + 1)} style={{ cursor: 'pointer' }} title="click to re-read">
+              <div className="scriptorium" aria-hidden>
                 <div className="scriptorium-head">
                   <span className="dot" style={{ background: 'var(--vermillion)' }} />
                   <span className="dot" style={{ background: 'var(--gilt)' }} />
                   <span className="dot" style={{ background: 'var(--sage)' }} />
                   <span style={{ marginLeft: 'auto' }}>scriptorium.sh — /codex</span>
                 </div>
-                <TypedLines key={restart} lines={lines} />
+                <div style={{ minHeight: 190 }}>
+                  <TypedLines lines={lines} />
+                </div>
               </div>
             </Reveal>
           </div>
@@ -178,10 +203,11 @@ export default function Hero() {
       </div>
 
       {/* Scrolling marginalia */}
-      <div style={{ position: 'relative', borderTop: '1px solid var(--rule-soft)', borderBottom: '1px solid var(--rule-soft)', padding: '18px 0', marginTop: 40, overflow: 'hidden', background: 'color-mix(in oklch, var(--bg-deep) 40%, transparent)' }}>
+      <div className="ticker" style={{ position: 'relative', borderTop: '1px solid var(--rule-soft)', borderBottom: '1px solid var(--rule-soft)', padding: '18px 0', marginTop: 40, overflow: 'hidden', background: 'color-mix(in oklch, var(--bg-deep) 40%, transparent)' }}>
         <div className="ticker-track serif italic" style={{ fontSize: 22, color: 'var(--ink-soft)' }}>
+          {/* The second copy exists only to make the loop seamless. */}
           {[...marginalia, ...marginalia].map((m, i) => (
-            <span key={i}>{m}</span>
+            <span key={i} aria-hidden={i >= marginalia.length || undefined}>{m}</span>
           ))}
         </div>
       </div>

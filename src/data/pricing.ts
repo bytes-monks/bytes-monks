@@ -50,6 +50,10 @@ export interface SaasProduct {
   freeTrial: string | null;
   url: string;
   cta?: string;
+  /** 'paused' hides the outbound link and the price tiers. Set it whenever the
+   *  product's host stops answering — a dead link next to plans that sell
+   *  uptime monitoring costs more trust than the listing earns. */
+  status?: 'live' | 'paused';
 }
 
 export const platformPlans: Plan[] = [
@@ -75,13 +79,13 @@ export const platformPlans: Plan[] = [
   },
   {
     name: 'Growth',
-    badge: 'Most Popular',
+    badge: 'Recommended',
     monthlyPrice: 799,
     annualPrice: 665,
     description: 'For products in production. Real monitoring, faster answers.',
     numeral: 'II',
     highlight: true,
-    cta: 'Start Free Trial',
+    cta: 'Request the Trial',
     features: [
       { text: 'Up to 10 deployed services', included: true },
       { text: '500 GB managed storage', included: true },
@@ -179,6 +183,8 @@ export const saasProducts: SaasProduct[] = [
     model: 'Subscription + Usage',
     freeTrial: '10 free AI credits on signup',
     url: 'https://genify.bytesmonks.com',
+    // Host returned Cloudflare 523 on 2026-09-22. Flip back to 'live' once it answers.
+    status: 'paused',
     tiers: [
       { name: 'Free', price: '$0', unit: 'unlimited file conversions', highlight: false },
       { name: 'Starter', price: '$4.99', unit: '/ mo — 100 AI credits', highlight: false },
@@ -205,6 +211,8 @@ export const saasProducts: SaasProduct[] = [
     model: 'Subscription',
     freeTrial: 'Free forever for your first form',
     url: 'https://formtemple.bytesmonks.com',
+    // Host refused connections on 2026-09-22. Flip back to 'live' once it answers.
+    status: 'paused',
     tiers: [
       { name: 'Free', price: '$0', unit: '1 form, 100 submissions / mo', highlight: false },
       { name: 'Pro', price: '$12', unit: '/ mo — 10 forms, unlimited', highlight: true },

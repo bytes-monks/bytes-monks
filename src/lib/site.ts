@@ -54,11 +54,11 @@ export interface RouteMeta {
 export const ROUTES: RouteMeta[] = [
   {
     path: '/',
-    title: 'Bytes Monks | Software, AI & Tech Talent Sourcing',
+    title: 'Software & AI Development Company in Tunis | Bytes Monks',
     description:
-      'We build software and AI systems, and find the engineers who run them. Development, AI, data, DevOps and talent sourcing from Tunis.',
+      'Software and AI development from Tunis: web apps, AI agents, data pipelines and managed cloud. We also source engineers, and goods from China.',
     keywords:
-      'software development agency, AI development company, custom software, machine learning, data engineering, DevOps, tech talent sourcing, hire software engineers',
+      'software development company Tunis, AI development company, custom software, machine learning, data engineering, DevOps, managed hosting',
     ogType: 'website',
     changefreq: 'weekly',
     priority: 1.0,
@@ -104,9 +104,9 @@ export const ROUTES: RouteMeta[] = [
   {
     path: '/pricing',
     entry: 'src/pages/Pricing.tsx',
-    title: 'Pricing & Retainers | Bytes Monks',
+    title: 'Managed Hosting & Engineering Retainer Pricing | Bytes Monks',
     description:
-      'Prices for managed hosting, monthly engineering retainers and our own products. Every number on one page.',
+      'Prices for managed hosting plans and monthly engineering retainers, plus our own products. Talent and product sourcing are quoted per brief.',
     keywords:
       'software development pricing, engineering retainer, managed platform plans, SaaS pricing, development agency rates',
     ogType: 'website',
@@ -120,7 +120,7 @@ export const ROUTES: RouteMeta[] = [
   {
     path: '/hiring',
     entry: 'src/pages/Hiring.tsx',
-    title: 'Careers at Bytes Monks | Open Remote Roles',
+    title: 'Remote Marketing & Business Internships | Bytes Monks',
     description:
       'Remote internships at a small software company in Tunis. Marketing and business development roles, working directly with the founders.',
     keywords:

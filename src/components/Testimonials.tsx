@@ -22,7 +22,7 @@ const epistles = [
       'The quality of code and architecture they produced set a new standard for our engineering team. Highly recommended.',
     author: 'Mootaz Zemmel',
     role: 'Software Engineer',
-    house: 'Elbaladya.tn',
+    house: 'elBaladiya.tn',
     photo: '/clients/mootaz_zemmel.webp',
   },
 ];
@@ -32,7 +32,7 @@ export default function Testimonials() {
     <section id="epistles" className="section" style={{ paddingTop: 140 }}>
       <Reveal>
         <div style={{ marginBottom: 72 }}>
-          <span className="eyebrow">VI. Epistles</span>
+          <span className="eyebrow">VI. Client Letters · Epistles</span>
           <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
             Letters kept under <span className="italic" style={{ color: 'var(--vermillion)' }}>seal</span>.
           </h2>
@@ -50,13 +50,13 @@ export default function Testimonials() {
                 Epistola {['I', 'II', 'III'][i]} · to the Brothers
               </div>
 
-              <div className="serif italic" style={{ fontSize: 80, color: 'var(--vermillion)', lineHeight: 0.6, marginBottom: -10, fontWeight: 700 }}>&ldquo;</div>
+              <div className="serif italic" aria-hidden style={{ fontSize: 80, color: 'var(--vermillion)', lineHeight: 0.6, marginBottom: -10, fontWeight: 700 }}>&ldquo;</div>
 
               <p className="serif" style={{ fontSize: 20, lineHeight: 1.5, color: 'var(--ink)', flex: 1 }}>{e.quote}</p>
 
               <div style={{ marginTop: 32, paddingTop: 24, borderTop: '1px solid var(--rule-soft)', display: 'flex', alignItems: 'center', gap: 14 }}>
                 {e.photo ? (
-                  <img src={e.photo} alt={`${e.author}, ${e.role}`} width={176} height={176} loading="lazy" decoding="async" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                  <img src={e.photo} alt="" width={176} height={176} loading="lazy" decoding="async" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                 ) : (
                   <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--ink)', color: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'EB Garamond', serif", fontStyle: 'italic', fontSize: 18, fontWeight: 600, flexShrink: 0 }}>
                     {e.author.split(' ').map((n) => n[0]).join('')}
@@ -66,7 +66,7 @@ export default function Testimonials() {
                   <div className="serif" style={{ fontSize: 18, fontWeight: 500, color: 'var(--ink)' }}>{e.author}</div>
                   <div className="mono" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 3 }}>{e.role} · {e.house}</div>
                 </div>
-                <div className="seal" style={{ width: 40, height: 40, fontSize: 14 }}>⁂</div>
+                <div className="seal" aria-hidden style={{ width: 40, height: 40, fontSize: 14 }}>⁂</div>
               </div>
             </article>
           </Reveal>

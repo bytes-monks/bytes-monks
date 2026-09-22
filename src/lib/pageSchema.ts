@@ -3,7 +3,7 @@
 // the static HTML and the hydrated DOM always declare the same graph.
 // index.html carries Organization + WebSite; keep these disjoint from those.
 
-import { employmentAgency, faqPage, jobPosting, service, servicePriceBand } from './schema';
+import { faqPage, jobPosting, service, servicePriceBand } from './schema';
 import type { JsonLd } from './schema';
 import { engagements, faqs as talentFaqs } from '../data/talentSourcing';
 import { faqs as productFaqs, tradeModels } from '../data/productSourcing';
@@ -68,12 +68,6 @@ export function pageJsonLd(path: string): JsonLd[] {
 
     case '/talent-sourcing':
       return [
-        employmentAgency({
-          name: 'Bytes Monks · Ars Vocandi',
-          description:
-            'Tech talent sourcing for AI, software, data and cloud teams. Every candidate is screened by a working engineer before shortlisting.',
-          path: '/talent-sourcing',
-        }),
         service({
           id: 'talent-sourcing',
           name: 'Tech Talent Sourcing & Staff Augmentation',

@@ -46,9 +46,9 @@ export default function ServiceLines() {
     <section id="service-lines" className="section" style={{ paddingTop: 110, paddingBottom: 20 }}>
       <Reveal>
         <div style={{ marginBottom: 36 }}>
-          <span className="eyebrow">Also of the Order · The Two Errands</span>
+          <span className="eyebrow">Also of the Order · Sourcing</span>
           <h2 className="serif" style={{ fontSize: 'clamp(34px, 4.4vw, 62px)', lineHeight: 1.02, marginTop: 16, fontWeight: 500, letterSpacing: '-0.02em' }}>
-            We also go and <span className="italic" style={{ color: 'var(--vermillion)' }}>fetch things</span>.
+            We also find <span className="italic" style={{ color: 'var(--vermillion)' }}>people and products</span>.
           </h2>
         </div>
       </Reveal>
@@ -61,7 +61,7 @@ export default function ServiceLines() {
               className="lines-cell"
               style={{ padding: 'clamp(28px, 3.4vw, 44px)', borderRight: i === 0 ? '1px solid var(--rule)' : 'none', display: 'flex', flexDirection: 'column' }}
             >
-              <div className="mono" style={{ fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--vermillion)' }}>{l.latin}</div>
+              <div lang="la" className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--vermillion)' }}>{l.latin}</div>
               <h3 className="serif" style={{ fontSize: 32, fontWeight: 500, color: 'var(--ink)', marginTop: 10, lineHeight: 1.1 }}>{l.title}</h3>
               <p className="serif italic" style={{ fontSize: 19, color: 'var(--ink-soft)', marginTop: 14, lineHeight: 1.5, maxWidth: 440 }}>{l.line}</p>
 

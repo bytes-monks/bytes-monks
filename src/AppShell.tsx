@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import AppRoutes from './routes';
+import CookieConsent from './components/CookieConsent';
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined'
@@ -10,7 +11,13 @@ function prefersReducedMotion(): boolean {
 
 function RouteChange() {
   const { pathname, hash } = useLocation();
+  const firstRun = useRef(true);
   useEffect(() => {
+    // A full page load already starts at the top with focus on the document,
+    // so the skip link is the first Tab stop. Moving focus into <main> here
+    // made keyboard users skip the skip link and the whole nav.
+    const initial = firstRun.current;
+    firstRun.current = false;
     const behavior: ScrollBehavior = prefersReducedMotion() ? 'auto' : 'smooth';
 
     if (hash) {
@@ -23,6 +30,7 @@ function RouteChange() {
       return () => clearTimeout(t);
     }
 
+    if (initial) return;
     window.scrollTo(0, 0);
     // A client-side route change replaces the whole page with no announcement
     // and leaves focus where it was. Moving it to <main> restores the reading
@@ -46,6 +54,7 @@ export default function AppShell() {
     <MotionConfig reducedMotion="user">
       <RouteChange />
       <AppRoutes />
+      <CookieConsent />
     </MotionConfig>
   );
 }

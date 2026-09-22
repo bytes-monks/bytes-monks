@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Seo from '../components/Seo';
 import { Reveal, Ornament } from '../components/monastic';
-import { Field, FaqRow, SectionHead, SuccessPanel, useFormSubmit } from '../components/sourcingUi';
+import { Field, FaqRow, SectionHead, SuccessPanel, useFormSubmit, FORM_ENDPOINT } from '../components/sourcingUi';
 import {
   bench, disciplines, engagements, faqs, proof, rite, vetting,
 } from '../data/talentSourcing';
@@ -129,32 +129,32 @@ function SourcingForms({ side, setSide }: { side: Side; setSide: (s: Side) => vo
         {tab('bench', 'I am looking')}
       </div>
 
-      <form onSubmit={submit} key={side} style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }} className="form-grid">
+      <form method="post" action={FORM_ENDPOINT} onSubmit={submit} key={side} style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }} className="form-grid">
         {side === 'brief' ? (
           <>
-            <Field id="name" label="Your name" placeholder="Brother or Sister…" required disabled={disabled} />
-            <Field id="email" label="Your sending address" type="email" placeholder="you@house.io" required disabled={disabled} />
-            <Field id="company" label="Your house" placeholder="Company or project" disabled={disabled} />
-            <Field id="role" label="The hand you seek" placeholder="Senior backend engineer" required disabled={disabled} />
+            <Field id="name" label="Your name" placeholder="First and last name" required disabled={disabled} />
+            <Field id="email" label="Your email" type="email" placeholder="you@company.com" required disabled={disabled} />
+            <Field id="company" label="Company" placeholder="Company or project" disabled={disabled} />
+            <Field id="role" label="Role you are hiring for" placeholder="Senior backend engineer" required disabled={disabled} />
             <Field id="discipline" label="Discipline" disabled={disabled} options={[...disciplines.map((d) => `${d.name} — ${d.subtitle}`), 'Not sure yet']} />
-            <Field id="seniority" label="Seniority sought" disabled={disabled} options={['Mid', 'Senior', 'Staff or Lead', 'Head or Director', 'Not sure yet']} />
-            <Field id="engagement" label="Manner of engagement" disabled={disabled} options={['Direct placement', 'Contract hands', 'Embedded squad', 'Undecided']} />
-            <Field id="count" label="Hands required" placeholder="1" disabled={disabled} />
-            <Field id="start" label="When the work begins" placeholder="Immediately, or a date" disabled={disabled} />
-            <Field id="band" label="What the seat pays" placeholder="Band, or “tell us the market”" disabled={disabled} />
+            <Field id="seniority" label="Seniority" disabled={disabled} options={['Mid', 'Senior', 'Staff or Lead', 'Head or Director', 'Not sure yet']} />
+            <Field id="engagement" label="Engagement type" disabled={disabled} options={['Direct placement', 'Contract hands', 'Embedded squad', 'Undecided']} />
+            <Field id="count" label="How many people" placeholder="1" disabled={disabled} />
+            <Field id="start" label="Start date" placeholder="Immediately, or a date" disabled={disabled} />
+            <Field id="band" label="Salary or rate band" placeholder="Band, or “tell us the market”" disabled={disabled} />
             <div style={{ gridColumn: '1 / -1' }}>
-              <Field id="message" label="Your petition" placeholder="Anything else we should know before we start looking…" textarea disabled={disabled} />
+              <Field id="message" label="Anything else" placeholder="Anything else we should know before we start looking…" textarea disabled={disabled} />
             </div>
           </>
         ) : (
           <>
             <Field id="name" label="Your name" placeholder="As you'd like it written" required disabled={disabled} />
-            <Field id="email" label="Your sending address" type="email" placeholder="you@house.io" required disabled={disabled} />
-            <Field id="craft" label="Your craft" placeholder="Backend engineer, designer…" required disabled={disabled} />
+            <Field id="email" label="Your email" type="email" placeholder="you@company.com" required disabled={disabled} />
+            <Field id="craft" label="Your role" placeholder="Backend engineer, designer…" required disabled={disabled} />
             <Field id="discipline" label="Discipline" disabled={disabled} options={disciplines.map((d) => `${d.name} — ${d.subtitle}`)} />
-            <Field id="years" label="Years at the desk" placeholder="7" disabled={disabled} />
+            <Field id="years" label="Years of experience" placeholder="7" disabled={disabled} />
             <Field id="stack" label="Your stack" placeholder="Go, Postgres, Kubernetes…" disabled={disabled} />
-            <Field id="location" label="Where you sit" placeholder="City and time zone" disabled={disabled} />
+            <Field id="location" label="Location" placeholder="City and time zone" disabled={disabled} />
             <Field id="availability" label="Availability" disabled={disabled} options={['Available now', 'Available in weeks', 'Open to the right seat', 'Just watching']} />
             <div style={{ gridColumn: '1 / -1' }}>
               <Field id="link" label="Link to your work" placeholder="GitHub, portfolio, or LinkedIn" disabled={disabled} />
@@ -235,7 +235,7 @@ export default function TalentSourcing() {
                 <a href="#join" className="btn btn-ghost" onClick={() => setSide('bench')}>Join the Bench</a>
               </div>
               <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 18 }}>
-                Reply within XXIV hours · no fee to candidates
+                Reply within 24 hours · no fee to candidates
               </p>
             </div>
 
@@ -391,8 +391,9 @@ export default function TalentSourcing() {
         <section id="vetting" className="section" style={{ paddingTop: 130, paddingBottom: 100, background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', maxWidth: 'unset' }}>
           <div style={{ maxWidth: 1320, margin: '0 auto' }}>
             <div className="vows-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
-              <Reveal>
-                <div style={{ position: 'sticky', top: 120 }}>
+              {/* Sticky on the grid item itself, so it has the whole row to travel. */}
+              <Reveal style={{ position: 'sticky', top: 120 }}>
+                <div>
                   <span className="eyebrow">IV. The Vetting</span>
                   <h2 className="hand" style={{ fontSize: 'clamp(38px, 4.6vw, 68px)', lineHeight: 1.14, marginTop: 16, fontWeight: 600 }}>
                     Nobody reaches you <span style={{ color: 'var(--vermillion)' }}>unread</span>.
@@ -534,7 +535,7 @@ export default function TalentSourcing() {
                 One page is enough. Role, stack, band, and when.
               </p>
               <button className="btn" style={{ marginTop: 24 }} onClick={() => setSide('brief')}>Send a Sourcing Brief →</button>
-              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 14 }}>Reply within XXIV hours · no obligation</p>
+              <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 14 }}>Reply within 24 hours · no obligation</p>
             </div>
             <div className="dual-side" style={{ padding: 'clamp(28px, 4vw, 48px)', borderLeft: '1px solid var(--rule)', background: 'color-mix(in oklch, var(--bg-deep) 40%, var(--bg))' }}>
               <span className="mono" style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>For those seeking work</span>
