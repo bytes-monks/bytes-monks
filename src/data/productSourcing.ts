@@ -197,9 +197,11 @@ export const tradeModels: TradeModel[] = [
 
 export const theBalance = {
   eyebrow: 'The Balance',
-  plain: 'We inspect while the money is',
-  accent: 'still ours to hold.',
-  body: 'Payment is staged. The last stage is released after inspection, not before.',
+  // Worded so it cannot read as the house holding client funds — no escrow
+  // role has been confirmed. The leverage is the supplier's unpaid balance.
+  plain: 'We inspect while the supplier',
+  accent: 'still waits for the balance.',
+  body: 'Supplier payment is staged. You pay the last stage after inspection, not before.',
   micro: 'Written into the engagement letter. Not a handshake.',
 };
 

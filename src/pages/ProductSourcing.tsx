@@ -5,7 +5,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Seo from '../components/Seo';
 import { Ornament, Reveal } from '../components/monastic';
-import { Field, FaqRow, SectionHead, SuccessPanel, useFormSubmit } from '../components/sourcingUi';
+import { Field, FaqRow, SectionHead, SuccessPanel, useFormSubmit, FORM_ENDPOINT } from '../components/sourcingUi';
 import {
   assay, categories, faqs, handled, passage, proof, refusals, theBalance, tradeModels,
 } from '../data/productSourcing';
@@ -81,20 +81,20 @@ function BriefForms({ door, setDoor }: { door: Door; setDoor: (d: Door) => void 
         {tab('inspection', 'I need inspection')}
       </div>
 
-      <form onSubmit={submit} key={door} className="form-grid" style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-        <Field id="name" label="Your name" placeholder="Brother or Sister…" required disabled={disabled} />
-        <Field id="email" label="Your sending address" type="email" placeholder="you@house.io" required disabled={disabled} />
-        <Field id="company" label="Your house" placeholder="Company or shop" disabled={disabled} />
+      <form method="post" action={FORM_ENDPOINT} onSubmit={submit} key={door} className="form-grid" style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <Field id="name" label="Your name" placeholder="First and last name" required disabled={disabled} />
+        <Field id="email" label="Your email" type="email" placeholder="you@company.com" required disabled={disabled} />
+        <Field id="company" label="Company" placeholder="Company or shop" disabled={disabled} />
 
         {door === 'quote' ? (
           <>
-            <Field id="product" label="What you want sourced" placeholder="A photo, a link, or a description" required disabled={disabled} />
-            <Field id="family" label="Family of goods" disabled={disabled} options={[...categories.map((c) => `${c.name} — ${c.subtitle}`), 'Not sure yet']} />
-            <Field id="quantity" label="Quantity sought" placeholder="500 pieces, or your best guess" disabled={disabled} />
-            <Field id="targetPrice" label="Target landed price" placeholder="Per piece, or “tell us the market”" disabled={disabled} />
-            <Field id="branding" label="Your mark on it" disabled={disabled} options={['Plain, unbranded', 'Our logo on the product', 'Our own packaging', 'Full private label']} />
-            <Field id="destination" label="Where it must land" placeholder="City and country" disabled={disabled} />
-            <Field id="incoterm" label="Terms you prefer" disabled={disabled} options={['EXW', 'FOB', 'CIF', 'DDP', 'Tell me which to use']} />
+            <Field id="product" label="Product you want sourced" placeholder="A link or a description. Email us photos after." required disabled={disabled} />
+            <Field id="family" label="Product category" disabled={disabled} options={[...categories.map((c) => `${c.name} — ${c.subtitle}`), 'Not sure yet']} />
+            <Field id="quantity" label="Quantity" placeholder="500 pieces, or your best guess" disabled={disabled} />
+            <Field id="targetPrice" label="Target price per piece, delivered" placeholder="Per piece, or “tell us the market”" disabled={disabled} />
+            <Field id="branding" label="Branding" disabled={disabled} options={['Plain, unbranded', 'Our logo on the product', 'Our own packaging', 'Full private label']} />
+            <Field id="destination" label="Delivery city and country" placeholder="City and country" disabled={disabled} />
+            <Field id="incoterm" label="Shipping terms (Incoterm)" disabled={disabled} options={['EXW', 'FOB', 'CIF', 'DDP', 'Tell me which to use']} />
             <Field id="timing" label="When you need it" placeholder="A date, or “as soon as it’s right”" disabled={disabled} />
             <Field id="spec" label="Spec or drawings" placeholder="Link to a file, if you have one" disabled={disabled} />
           </>
@@ -109,7 +109,7 @@ function BriefForms({ door, setDoor }: { door: Door; setDoor: (d: Door) => void 
         )}
 
         <div style={{ gridColumn: '1 / -1' }}>
-          <Field id="message" label="Your petition" placeholder="Anything else we should know before we start looking…" textarea disabled={disabled} />
+          <Field id="message" label="Anything else" placeholder="Anything else we should know before we start looking…" textarea disabled={disabled} />
         </div>
 
         <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -169,7 +169,7 @@ export default function ProductSourcing() {
                 <a href="#brief" className="btn btn-ghost" onClick={() => setDoor('inspection')}>Inspect a supplier I found</a>
               </div>
               <p className="mono" style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 18 }}>
-                Reply within XXIV hours · no obligation
+                Reply within 24 hours · no obligation
               </p>
             </div>
 
@@ -271,8 +271,9 @@ export default function ProductSourcing() {
         <section id="assay" className="section" style={{ paddingTop: 130, paddingBottom: 100, background: 'color-mix(in oklch, var(--bg-deep) 50%, var(--bg))', maxWidth: 'unset' }}>
           <div style={{ maxWidth: 1320, margin: '0 auto' }}>
             <div className="vows-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
-              <Reveal>
-                <div style={{ position: 'sticky', top: 120 }}>
+              {/* Sticky on the grid item itself, so it has the whole row to travel. */}
+              <Reveal style={{ position: 'sticky', top: 120 }}>
+                <div>
                   <span className="eyebrow">III. The Assay</span>
                   <h2 className="hand" style={{ fontSize: 'clamp(38px, 4.6vw, 68px)', lineHeight: 1.14, marginTop: 16, fontWeight: 600 }}>
                     Nothing ships <span style={{ color: 'var(--vermillion)' }}>unseen</span>.
