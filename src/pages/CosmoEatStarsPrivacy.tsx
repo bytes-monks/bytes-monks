@@ -145,7 +145,7 @@ export default function CosmoEatStarsPrivacy() {
     <LegalLayout
       title="Cosmo Eats Stars — Privacy Policy"
       subtitle="Mobile App"
-      lastUpdated="April 13, 2026"
+      lastUpdated="September 15, 2026"
       sections={sections}
     />
   );
