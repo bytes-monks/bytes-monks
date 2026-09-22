@@ -13,8 +13,8 @@ const chronicles = [
       'We moved everything to Azure, with backups and GitHub Actions pipelines per environment. The database went to PostgreSQL and we tuned the slow queries.',
     impact:
       'Queries run up to 80% faster. Deploys happen with no downtime, in every environment.',
-    measure: 'LXXX',
-    measureUnit: '% faster queries',
+    measure: '80%',
+    measureUnit: 'faster queries, at best',
   },
   {
     anno: 'MMXXIII',
@@ -27,8 +27,8 @@ const chronicles = [
       "We built and still run the cloud infrastructure, with automated backups. We also built the admin panel and the game's backend.",
     impact:
       'The platform keeps up as the user base grows. The team can see what is happening and fix it from the admin panel.',
-    measure: 'C',
-    measureUnit: '% uptime',
+    measure: 'MMXXIII',
+    measureUnit: 'built by us, still run by us',
   },
   {
     anno: 'MMXXV',
@@ -52,13 +52,13 @@ export default function Portfolio() {
       <Reveal>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap', marginBottom: 72 }}>
           <div>
-            <span className="eyebrow">V. The Chronicles</span>
+            <span className="eyebrow">IV. Case Studies · The Chronicles</span>
             <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
               Works already <span className="italic" style={{ color: 'var(--vermillion)' }}>entered into the book</span>.
             </h2>
           </div>
           <p className="serif italic" style={{ fontSize: 18, color: 'var(--ink-soft)', maxWidth: 280 }}>
-            Three entries from a longer volume. Real work, real numbers.
+            Three entries from a longer volume. The problem, the work, and what changed.
           </p>
         </div>
       </Reveal>
@@ -94,7 +94,7 @@ export default function Portfolio() {
                       <div className="serif italic" style={{ fontSize: 72, color: 'var(--vermillion)', lineHeight: 0.9, fontWeight: 500 }}>{c.measure}</div>
                       <div className="mono" style={{ fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-faint)', marginTop: 4 }}>{c.measureUnit}</div>
                     </div>
-                    <div style={{ width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--vermillion)', border: '1px solid var(--vermillion)', borderRadius: '50%' }}>
+                    <div aria-hidden style={{ width: 54, height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--vermillion)', border: '1px solid var(--vermillion)', borderRadius: '50%' }}>
                       <Mark size={38} variant="mark" />
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export default function Portfolio() {
                   ].map((col, j) => (
                     <div key={col.k}>
                       <div className="mono" style={{ fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'var(--vermillion)', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span className="serif italic">{['α', 'β', 'γ'][j]}</span>
+                        <span className="serif italic" aria-hidden>{['i.', 'ii.', 'iii.'][j]}</span>
                         {col.k}
                       </div>
                       <p className="serif" style={{ fontSize: 15, lineHeight: 1.55, color: col.c }}>{col.v}</p>

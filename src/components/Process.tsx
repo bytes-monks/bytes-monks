@@ -19,14 +19,14 @@ const rule = [
     num: 'III',
     title: 'Scribamus',
     en: 'We build',
-    body: 'We write the code slowly, on purpose. Tests before conclusions, reviews before merges — and you see every piece as it ships.',
+    body: 'We write the code with care. Tests before conclusions, reviews before merges — and you see every piece as it ships.',
     practice: 'Iterative builds · rigorous tests · clean code',
   },
   {
     num: 'IV',
     title: 'Custodiamus',
     en: 'We keep vigil',
-    body: "Launch isn't the end. We keep watching, and we pick up the phone at 3am when production is on fire.",
+    body: "Launch isn't the end. We keep watching, and your support plan says how fast we answer.",
     practice: 'Observability · performance · long-term partnership',
   },
 ];
@@ -36,7 +36,7 @@ export default function Process() {
     <section id="process" className="section" style={{ paddingTop: 140 }}>
       <Reveal>
         <div style={{ marginBottom: 64 }}>
-          <span className="eyebrow">III. The Rule of the Order</span>
+          <span className="eyebrow">III. How We Work · The Rule</span>
           <h2 className="serif" style={{ fontSize: 'clamp(44px, 6vw, 92px)', lineHeight: 0.95, marginTop: 18, fontWeight: 500, letterSpacing: '-0.02em' }}>
             Four precepts, <span className="italic" style={{ color: 'var(--vermillion)' }}>kept in order</span>.
           </h2>
@@ -48,20 +48,20 @@ export default function Process() {
       </Reveal>
 
       <div style={{ position: 'relative' }}>
-        <div style={{ position: 'absolute', left: 78, top: 0, bottom: 0, width: 1, background: 'var(--rule)' }} aria-hidden />
+        <div className="rule-rail" style={{ position: 'absolute', left: 78, top: 0, bottom: 0, width: 1, background: 'var(--rule)' }} aria-hidden />
 
         {rule.map((r, i) => (
           <Reveal key={r.num} delay={i * 100}>
             <div className="rule-row" style={{ display: 'grid', gridTemplateColumns: '80px minmax(0, 1fr) minmax(0, 1.4fr) 240px', gap: 40, alignItems: 'start', padding: '48px 0', borderBottom: i < rule.length - 1 ? '1px solid var(--rule-soft)' : 'none', position: 'relative' }}>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--bg)', border: '2px solid var(--vermillion)', position: 'absolute', left: 67, top: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="rule-dot" aria-hidden style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--bg)', border: '2px solid var(--vermillion)', position: 'absolute', left: 67, top: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--vermillion)' }} />
                 </div>
                 <div className="serif italic" style={{ fontSize: 56, color: 'var(--vermillion)', lineHeight: 1, fontWeight: 500 }}>{r.num}</div>
               </div>
 
               <div>
-                <h3 className="serif" style={{ fontSize: 40, lineHeight: 1, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{r.title}</h3>
+                <h3 lang="la" className="serif" style={{ fontSize: 40, lineHeight: 1, fontWeight: 500, color: 'var(--ink)', marginBottom: 8 }}>{r.title}</h3>
                 <div className="mono" style={{ fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--ink-faint)' }}>— {r.en}</div>
               </div>
 
